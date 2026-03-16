@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "841754419487",
+    "project_id": "duanthuctap-c4aff",
+    "storage_bucket": "duanthuctap-c4aff.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841754419487:android:ae92372f7996bf2329102a",
+        "android_client_info": {
+          "package_name": "com.example.customercareproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841754419487-s821a9gj56378b90t5n0j8qlv4d2setl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.customercareproject",
+            "certificate_hash": "efc50a694ac86c4a017138dd3d5d72fdd610638c"
+          }
+        },
+        {
+          "client_id": "841754419487-djcg6cknsllog6kk9gb33kceon2c7ca1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsf7_2Y_oUiL8LY-S3wOn8CdYAGP5e0p4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841754419487-djcg6cknsllog6kk9gb33kceon2c7ca1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

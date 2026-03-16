@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,15 +14,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomerCareProject">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Auth -->
+        <activity android:name=".ui.RegisterActivity" android:exported="false" />
+        <activity android:name=".ui.ForgotPasswordActivity" android:exported="false" />
+
+        <!-- Router -->
+        <activity android:name=".MainActivity" android:exported="false" />
+
+        <!-- Khách hàng -->
+        <activity android:name=".ui.home.HomeActivity" android:exported="false" />
+        <activity android:name=".ui.danhgia.DanhGiaActivity" android:exported="false" />
+        <activity android:name=".ui.loi.ChiTietLoiActivity" android:exported="false" />
+        <activity android:name=".ui.loi.YeuCauHoTroActivity" android:exported="false" />
+        <activity android:name=".ui.loi.ChatKhachHangActivity" android:exported="false" />
+
+        <!-- KTV -->
+        <activity android:name=".ui.ktv.KtvDashboardActivity" android:exported="false" />
+        <activity android:name=".ui.ktv.KtvTicketDetailActivity" android:exported="false" />
+
+        <!-- Admin -->
+        <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" />
+
     </application>
 
 </manifest>

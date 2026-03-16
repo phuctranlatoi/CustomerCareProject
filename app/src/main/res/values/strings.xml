@@ -1,3 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CustomerCareProject</string>
+    <string name="app_name">Chăm Sóc Khách Hàng</string>
+    <string name="default_web_client_id">841754419487-djcg6cknsllog6kk9gb33kceon2c7ca1.apps.googleusercontent.com</string>
+
+    <!-- Sản phẩm -->
+    <string-array name="danh_sach_san_pham">
+        <item>ECUS5 VNACCS</item>
+        <item>E-INVOICE</item>
+        <item>ETAX</item>
+        <item>EBH (Bảo Hiểm)</item>
+        <item>CLOUDOFFICE</item>
+        <item>TRUEPOS</item>
+    </string-array>
+
+    <!-- Loại đánh giá -->
+    <string name="tab_giao_dien">Giao Diện</string>
+    <string name="tab_chuc_nang">Chức Năng</string>
+    <string name="tab_loi_phat_sinh">Lỗi Phát Sinh</string>
 </resources>

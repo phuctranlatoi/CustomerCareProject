@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Chọn bước/tính năng -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bước / Tính năng đánh giá *"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerBuoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Đánh giá sao -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mức độ hài lòng *"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/layoutSao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <ImageButton android:id="@+id/star1" android:layout_width="44dp" android:layout_height="44dp"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="1 sao" />
+                    <ImageButton android:id="@+id/star2" android:layout_width="44dp" android:layout_height="44dp"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="2 sao" />
+                    <ImageButton android:id="@+id/star3" android:layout_width="44dp" android:layout_height="44dp"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="3 sao" />
+                    <ImageButton android:id="@+id/star4" android:layout_width="44dp" android:layout_height="44dp"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="4 sao" />
+                    <ImageButton android:id="@+id/star5" android:layout_width="44dp" android:layout_height="44dp"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="5 sao" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvMucDoHaiLong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="Chưa đánh giá"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nội dung góp ý -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nội dung góp ý"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNoiDung"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nhập góp ý của bạn..."
+                        android:minLines="4"
+                        android:gravity="top"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nút gửi -->
+        <Button
+            android:id="@+id/btnGuiDanhGia"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Gửi Đánh Giá"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</ScrollView>
