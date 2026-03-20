@@ -50,12 +50,16 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null && currentUser.isEmailVerified()) {
+        if (currentUser != null) {
             goToMain();
             return;
         }
 
         setContentView(R.layout.activity_login);
+        setupViews();
+    }
+
+    private void setupViews() {
 
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
@@ -89,16 +93,26 @@ public class LoginActivity extends AppCompatActivity {
             edtPassword.setError("Mật khẩu phải có ít nhất 6 ký tự");
             return;
         }
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     FirebaseUser user = authResult.getUser();
-                    if (user != null && !user.isEmailVerified()) {
-                        mAuth.signOut();
-                        Toast.makeText(this, "Vui lòng xác thực email trước khi đăng nhập!", Toast.LENGTH_LONG).show();
-                    } else {
-                        goToMain();
-                    }
+                    if (user == null) return;
+
+                    // Kiem tra role truoc khi enforce email verification
+                    com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                            .collection("NguoiDung").document(user.getUid()).get()
+                            .addOnSuccessListener(doc -> {
+                                // String vaiTro = doc.getString("vaiTro");
+                                // boolean isAdminOrKtv = "Admin".equals(vaiTro) || "KTV".equals(vaiTro);
+                                // if (!isAdminOrKtv && !user.isEmailVerified()) {
+                                //     mAuth.signOut();
+                                //     Toast.makeText(this, "Vui lòng xác thực email trước khi đăng nhập!", Toast.LENGTH_LONG).show();
+                                // } else {
+                                //     goToMain();
+                                // }
+                                goToMain();
+                            })
+                            .addOnFailureListener(e -> goToMain());
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Đăng nhập thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());

@@ -73,10 +73,12 @@ public class LoiPhatSinhFragment extends Fragment {
         rvLoi.setLayoutManager(new LinearLayoutManager(getContext()));
         rvLoi.setAdapter(adapter);
 
+        // Nut gui yeu cau moi luon hien thi
         view.findViewById(R.id.btnGuiYeuCauMoi).setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ChiTietLoiActivity.class);
+            Intent intent = new Intent(getContext(), com.example.customercareproject.ui.loi.YeuCauHoTroActivity.class);
             intent.putExtra("sanPham", sanPham);
             intent.putExtra("loiId", "");
+            intent.putExtra("tieuDeLoi", "Van de khac");
             startActivity(intent);
         });
 

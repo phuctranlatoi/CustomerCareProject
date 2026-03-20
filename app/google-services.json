@@ -2,7 +2,8 @@
   "project_info": {
     "project_number": "841754419487",
     "project_id": "duanthuctap-c4aff",
-    "storage_bucket": "duanthuctap-c4aff.firebasestorage.app"
+    "storage_bucket": "duanthuctap-c4aff.firebasestorage.app",
+    "firebase_url": "https://duanthuctap-c4aff-default-rtdb.asia-southeast1.firebasedatabase.app"
   },
   "client": [
     {

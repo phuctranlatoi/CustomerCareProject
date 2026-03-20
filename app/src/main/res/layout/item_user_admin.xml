@@ -36,15 +36,44 @@
                 android:textColor="@color/text_secondary"
                 android:layout_marginTop="2dp" />
 
-            <TextView
-                android:id="@+id/tvVaiTro"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tvVaiTro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:background="@drawable/bg_rounded"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/tvTrangThaiKtv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_rounded"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvChuyenMon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
                 android:layout_marginTop="4dp"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:background="@drawable/bg_rounded" />
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:visibility="gone" />
         </LinearLayout>
 
         <Spinner

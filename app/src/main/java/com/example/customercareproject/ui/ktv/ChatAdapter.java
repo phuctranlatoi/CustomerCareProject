@@ -10,25 +10,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.customercareproject.R;
-import com.example.customercareproject.model.TinNhan;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
-    private List<TinNhan> danhSach;
+    private List<Map<String, Object>> danhSach = new ArrayList<>();
     private final String myUid;
 
-    public ChatAdapter(List<TinNhan> danhSach, String myUid) {
-        this.danhSach = danhSach;
+    public ChatAdapter(List<Map<String, Object>> danhSach, String myUid) {
+        this.danhSach = new ArrayList<>(danhSach);
         this.myUid = myUid;
     }
 
-    public void capNhat(List<TinNhan> list) {
-        this.danhSach = list;
+    /** Cập nhật toàn bộ danh sách từ RTDB */
+    public void capNhatRaw(List<Map<String, Object>> newList) {
+        this.danhSach = new ArrayList<>(newList);
         notifyDataSetChanged();
     }
 
@@ -41,22 +43,31 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TinNhan tin = danhSach.get(position);
-        String time = new SimpleDateFormat("HH:mm", Locale.getDefault())
-                .format(new Date(tin.getThoiGian()));
+        Map<String, Object> msg = danhSach.get(position);
 
-        boolean isMe = myUid.equals(tin.getNguoiGuiUid());
+        String nguoiGuiUid = (String) msg.get("nguoiGuiUid");
+        String nguoiGuiTen = (String) msg.get("nguoiGuiTen");
+        String noiDung = (String) msg.get("noiDung");
+        Object thoiGianObj = msg.get("thoiGian");
+
+        String time = "";
+        if (thoiGianObj != null) {
+            long ts = thoiGianObj instanceof Long ? (Long) thoiGianObj : ((Number) thoiGianObj).longValue();
+            time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date(ts));
+        }
+
+        boolean isMe = myUid.equals(nguoiGuiUid);
 
         if (isMe) {
             holder.layoutKtv.setVisibility(View.VISIBLE);
             holder.layoutKh.setVisibility(View.GONE);
-            holder.tvNoiDungKtv.setText(tin.getNoiDung());
+            holder.tvNoiDungKtv.setText(noiDung);
             holder.tvThoiGianKtv.setText(time);
         } else {
             holder.layoutKh.setVisibility(View.VISIBLE);
             holder.layoutKtv.setVisibility(View.GONE);
-            holder.tvTenNguoiGui.setText(tin.getNguoiGuiTen());
-            holder.tvNoiDungKh.setText(tin.getNoiDung());
+            holder.tvTenNguoiGui.setText(nguoiGuiTen != null ? nguoiGuiTen : "");
+            holder.tvNoiDungKh.setText(noiDung);
             holder.tvThoiGianKh.setText(time);
         }
     }

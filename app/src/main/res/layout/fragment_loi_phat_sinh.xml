@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
     android:background="@color/background">
 
-    <!-- Thanh tìm kiếm -->
+    <!-- Thanh tim kiem -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,13 +16,13 @@
             android:id="@+id/edtTimKiem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tìm kiếm lỗi..."
+            android:hint="Tim kiem loi..."
             android:inputType="text"
             android:drawableStart="@android:drawable/ic_menu_search"
             android:drawablePadding="8dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Danh sách lỗi -->
+    <!-- Danh sach loi -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLoiPhatSinh"
         android:layout_width="match_parent"
@@ -32,7 +31,7 @@
         android:padding="8dp"
         android:clipToPadding="false" />
 
-    <!-- Trạng thái rỗng -->
+    <!-- Trang thai rong -->
     <LinearLayout
         android:id="@+id/layoutRong"
         android:layout_width="match_parent"
@@ -45,17 +44,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Không tìm thấy lỗi phù hợp"
+            android:text="Khong tim thay loi phu hop"
             android:textSize="16sp"
             android:textColor="@color/text_secondary" />
-
-        <Button
-            android:id="@+id/btnGuiYeuCauMoi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Gửi yêu cầu hỗ trợ"
-            android:backgroundTint="@color/primary" />
     </LinearLayout>
+
+    <!-- Nut gui yeu cau moi - luon hien thi -->
+    <Button
+        android:id="@+id/btnGuiYeuCauMoi"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_margin="12dp"
+        android:text="Gui yeu cau ho tro moi"
+        android:backgroundTint="@color/accent"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
 </LinearLayout>

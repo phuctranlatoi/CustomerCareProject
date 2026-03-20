@@ -12,12 +12,14 @@ public class YeuCauHoTro {
     private String loiId;           // ID lỗi liên quan (nếu có)
     private String tieuDeLoi;
     private String moTaVanDe;       // Mô tả thêm của khách hàng
-    private String trangThai;       // "ChoXuLy" | "DangXuLy" | "DaXuLy"
+    private String trangThai;       // "ChoXuLy" | "DangXuLy" | "DaXuLy" | "HangCho"
     private String ktvUid;          // UID của KTV được phân công
     private String ktvTen;          // Tên KTV
     private String phanHoiKyThuat;  // Phản hồi từ kỹ thuật viên
+    private String uuTien;          // "Cao" | "TrungBinh" | "Thap"
     private Timestamp taoLuc;
     private Timestamp capNhatLuc;
+    private Timestamp thoiGianChoXuLy; // Thoi diem het 30s chuyen hang cho
 
     public YeuCauHoTro() {}
 
@@ -32,6 +34,7 @@ public class YeuCauHoTro {
         this.tieuDeLoi = tieuDeLoi;
         this.moTaVanDe = moTaVanDe;
         this.trangThai = "ChoXuLy";
+        this.uuTien = "TrungBinh";
         this.taoLuc = Timestamp.now();
         this.capNhatLuc = Timestamp.now();
     }
@@ -62,8 +65,12 @@ public class YeuCauHoTro {
     public void setKtvTen(String ktvTen) { this.ktvTen = ktvTen; }
     public String getPhanHoiKyThuat() { return phanHoiKyThuat; }
     public void setPhanHoiKyThuat(String phanHoiKyThuat) { this.phanHoiKyThuat = phanHoiKyThuat; }
+    public String getUuTien() { return uuTien; }
+    public void setUuTien(String uuTien) { this.uuTien = uuTien; }
     public Timestamp getTaoLuc() { return taoLuc; }
     public void setTaoLuc(Timestamp taoLuc) { this.taoLuc = taoLuc; }
     public Timestamp getCapNhatLuc() { return capNhatLuc; }
     public void setCapNhatLuc(Timestamp capNhatLuc) { this.capNhatLuc = capNhatLuc; }
+    public Timestamp getThoiGianChoXuLy() { return thoiGianChoXuLy; }
+    public void setThoiGianChoXuLy(Timestamp thoiGianChoXuLy) { this.thoiGianChoXuLy = thoiGianChoXuLy; }
 }

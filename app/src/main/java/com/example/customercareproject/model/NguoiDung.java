@@ -1,6 +1,7 @@
 package com.example.customercareproject.model;
 
 import com.google.firebase.Timestamp;
+import java.util.List;
 
 public class NguoiDung {
     // vaiTro constants
@@ -18,8 +19,10 @@ public class NguoiDung {
     private String email;
     private String soDienThoai;
     private String vaiTro;
-    private String trangThai;       // HoatDong | Khoa (user) | Ran/DangBan/Offline (KTV)
-    private int soTicketDangXuLy;   // KTV: số ticket đang xử lý (load balancing)
+    private String trangThai;           // HoatDong | Khoa (user) | Ran/DangBan/Offline (KTV)
+    private int soTicketDangXuLy;       // KTV: số ticket đang xử lý (load balancing)
+    private List<String> chuyenMon;     // KTV: danh sách sản phẩm chuyên môn
+    private int tongTicketDaXuLy;       // KTV: tổng ticket đã xử lý (performance)
     private Timestamp taoLuc;
 
     public NguoiDung() {}
@@ -38,6 +41,10 @@ public class NguoiDung {
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
     public int getSoTicketDangXuLy() { return soTicketDangXuLy; }
     public void setSoTicketDangXuLy(int soTicketDangXuLy) { this.soTicketDangXuLy = soTicketDangXuLy; }
+    public List<String> getChuyenMon() { return chuyenMon; }
+    public void setChuyenMon(List<String> chuyenMon) { this.chuyenMon = chuyenMon; }
+    public int getTongTicketDaXuLy() { return tongTicketDaXuLy; }
+    public void setTongTicketDaXuLy(int tongTicketDaXuLy) { this.tongTicketDaXuLy = tongTicketDaXuLy; }
     public Timestamp getTaoLuc() { return taoLuc; }
     public void setTaoLuc(Timestamp taoLuc) { this.taoLuc = taoLuc; }
 }

@@ -44,12 +44,17 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.database)
 
     // Google Sign-In (Credential Manager)
     implementation(libs.credentials)
     implementation(libs.credentials.play.services)
     implementation(libs.googleid)
     implementation(libs.play.services.auth)
+    implementation("com.stringee.sdk.android:stringee-android-sdk:2.1.6")
+    implementation("io.github.webrtc-sdk:android:137.7151.03")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // Facebook Login - đã bỏ
 

@@ -2,18 +2,37 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#1565C0</color>
+
+    <!-- Primary blue palette -->
+    <color name="primary">#1976D2</color>
     <color name="primary_dark">#0D47A1</color>
-    <color name="primary_light">#E3F2FD</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="primary_surface">#E3F2FD</color>
+
+    <!-- Accent & status -->
     <color name="accent">#FF6F00</color>
-    <color name="success">#2E7D32</color>
-    <color name="warning">#F57F17</color>
-    <color name="error">#C62828</color>
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#757575</color>
-    <color name="divider">#BDBDBD</color>
-    <color name="background">#F5F5F5</color>
+    <color name="success">#00897B</color>
+    <color name="warning">#F9A825</color>
+    <color name="error">#E53935</color>
+
+    <!-- Text -->
+    <color name="text_primary">#0D1B2A</color>
+    <color name="text_secondary">#546E7A</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_hint">#90A4AE</color>
+
+    <!-- Backgrounds -->
+    <color name="background">#EEF4FB</color>
     <color name="card_bg">#FFFFFF</color>
-    <color name="star_active">#FFC107</color>
+    <color name="surface">#F0F7FF</color>
+
+    <!-- Misc -->
+    <color name="divider">#B0BEC5</color>
+    <color name="star_active">#FFB300</color>
     <color name="star_inactive">#E0E0E0</color>
+    <color name="chip_bg">#DCEEFB</color>
+    <color name="bubble_ktv">#1565C0</color>
+    <color name="bubble_kh">#FFFFFF</color>
+    <color name="header_gradient_start">#1565C0</color>
+    <color name="header_gradient_end">#1E88E5</color>
 </resources>

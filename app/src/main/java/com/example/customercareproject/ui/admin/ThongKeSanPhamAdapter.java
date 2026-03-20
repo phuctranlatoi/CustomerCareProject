@@ -3,6 +3,7 @@ package com.example.customercareproject.ui.admin;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,21 @@ import java.util.List;
 
 public class ThongKeSanPhamAdapter extends RecyclerView.Adapter<ThongKeSanPhamAdapter.ViewHolder> {
 
-    private final List<String[]> danhSach; // [tenSanPham, soLuong]
+    public static class Item {
+        public String ten;
+        public int soLuong;
+        public int maxSoLuong;
 
-    public ThongKeSanPhamAdapter(List<String[]> danhSach) {
+        public Item(String ten, int soLuong, int maxSoLuong) {
+            this.ten = ten;
+            this.soLuong = soLuong;
+            this.maxSoLuong = maxSoLuong;
+        }
+    }
+
+    private final List<Item> danhSach;
+
+    public ThongKeSanPhamAdapter(List<Item> danhSach) {
         this.danhSach = danhSach;
     }
 
@@ -24,15 +37,17 @@ public class ThongKeSanPhamAdapter extends RecyclerView.Adapter<ThongKeSanPhamAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_2, parent, false);
+                .inflate(R.layout.item_thong_ke_san_pham, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String[] item = danhSach.get(position);
-        holder.tvTen.setText(item[0]);
-        holder.tvSo.setText(item[1] + " đánh giá");
+        Item item = danhSach.get(position);
+        holder.tvTen.setText(item.ten);
+        holder.tvSo.setText(item.soLuong + " đánh giá");
+        int progress = item.maxSoLuong > 0 ? (item.soLuong * 100 / item.maxSoLuong) : 0;
+        holder.pb.setProgress(progress);
     }
 
     @Override
@@ -40,10 +55,13 @@ public class ThongKeSanPhamAdapter extends RecyclerView.Adapter<ThongKeSanPhamAd
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTen, tvSo;
+        ProgressBar pb;
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTen = itemView.findViewById(android.R.id.text1);
-            tvSo = itemView.findViewById(android.R.id.text2);
+            tvTen = itemView.findViewById(R.id.tvTenSanPham);
+            tvSo  = itemView.findViewById(R.id.tvSoLuong);
+            pb    = itemView.findViewById(R.id.pbSanPham);
         }
     }
 }

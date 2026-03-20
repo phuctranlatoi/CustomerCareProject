@@ -3,6 +3,7 @@ package com.example.customercareproject.ui.admin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import com.example.customercareproject.ui.LoginActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
@@ -22,6 +24,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
+
+        // Hiển thị email admin
+        TextView tvEmail = findViewById(R.id.tvAdminEmail);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && tvEmail != null) {
+            tvEmail.setText(user.getEmail());
+        }
 
         ImageButton btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
@@ -37,10 +46,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
-                case 0: tab.setText("Thống kê"); break;
-                case 1: tab.setText("Người dùng"); break;
-                case 2: tab.setText("Knowledge Base"); break;
-                case 3: tab.setText("Tất cả Ticket"); break;
+                case 0: tab.setText("📊 Thống kê"); break;
+                case 1: tab.setText("👥 Người dùng"); break;
+                case 2: tab.setText("📚 Knowledge"); break;
+                case 3: tab.setText("🎫 Tickets"); break;
             }
         }).attach();
     }

@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
+        android:background="@drawable/bg_header_gradient"
         app:title="Chi tiết lỗi"
         app:titleTextColor="@color/white"
         app:navigationIcon="@android:drawable/ic_media_previous"
@@ -28,45 +28,56 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Tiêu đề lỗi -->
+            <!-- Card tiêu đề lỗi -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <LinearLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvTieuDe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary" />
+                    <View android:layout_width="match_parent" android:layout_height="5dp"
+                        android:background="@drawable/bg_header_gradient" />
 
-                    <TextView
-                        android:id="@+id/tvSanPham"
-                        android:layout_width="wrap_content"
+                    <LinearLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:textColor="@color/primary"
-                        android:layout_marginTop="4dp" />
+                        android:orientation="vertical" android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/tvTieuDe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="19sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:id="@+id/tvSanPham"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="@color/primary"
+                            android:background="@color/primary_surface"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="3dp"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Mô tả lỗi -->
+            <!-- Card mô tả lỗi -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,30 +88,33 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mô tả lỗi"
+                        android:text="📄 Mô tả lỗi"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginBottom="8dp" />
+                        android:textColor="@color/primary"
+                        android:layout_marginBottom="10dp" />
 
                     <TextView
                         android:id="@+id/tvMoTa"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:textColor="@color/text_secondary"
-                        android:lineSpacingMultiplier="1.4" />
+                        android:lineSpacingMultiplier="1.5"
+                        android:background="@color/surface"
+                        android:padding="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Cách giải quyết (nếu có) -->
+            <!-- Card hướng dẫn giải quyết -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardHuongDan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#E8F5E9"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -112,41 +126,42 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cách giải quyết"
+                        android:text="✅ Cách giải quyết"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/success"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="10dp" />
 
                     <TextView
                         android:id="@+id/tvCachGiaiQuyet"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:textColor="@color/text_primary"
-                        android:lineSpacingMultiplier="1.4" />
+                        android:lineSpacingMultiplier="1.5" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Nút xác nhận tự xử lý -->
             <Button
                 android:id="@+id/btnDaTuXuLy"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:text="Tôi đã tự xử lý được"
+                android:text="✓ Tôi đã tự xử lý được"
                 android:backgroundTint="@color/success"
                 android:textColor="@color/white"
-                android:layout_marginBottom="12dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
                 android:visibility="gone" />
 
-            <!-- Nút gửi yêu cầu hỗ trợ -->
             <Button
                 android:id="@+id/btnYeuCauHoTro"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="Gửi yêu cầu hỗ trợ kỹ thuật"
-                android:backgroundTint="@color/accent"
-                android:textColor="@color/white" />
+                android:layout_height="54dp"
+                android:text="🚀 Gửi yêu cầu hỗ trợ kỹ thuật"
+                android:background="@drawable/bg_btn_primary"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="15sp" />
 
         </LinearLayout>
     </ScrollView>

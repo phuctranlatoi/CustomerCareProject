@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.YeuCauHoTro;
+import com.example.customercareproject.utils.NlpHelper;
 import com.example.customercareproject.utils.SmartRouter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,8 +75,12 @@ public class YeuCauHoTroActivity extends AppCompatActivity {
         YeuCauHoTro yeuCau = new YeuCauHoTro(uid, hoTen, email, sdt, sanPham,
                 loiId != null ? loiId : "", tieuDeLoi, moTa);
 
-        // Smart routing: tìm KTV rảnh có ít ticket nhất
-        SmartRouter.timKtvRanh((ktvUid, ktvTen) -> {
+        // NLP phân tích mức độ ưu tiên từ mô tả
+        String uuTien = NlpHelper.phanTichUuTien(moTa + " " + tieuDeLoi);
+        yeuCau.setUuTien(uuTien);
+
+        // Smart routing với timeout 30s
+        SmartRouter.timKtvRanh(sanPham, (ktvUid, ktvTen) -> {
             yeuCau.setKtvUid(ktvUid);
             yeuCau.setKtvTen(ktvTen);
             luuYeuCau(yeuCau, ktvUid);
@@ -86,12 +91,21 @@ public class YeuCauHoTroActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance().collection("YeuCauHoTro")
                 .add(yeuCau)
                 .addOnSuccessListener(ref -> {
-                    if (ktvUid != null) SmartRouter.tangTicketKtv(ktvUid);
+                    if (ktvUid != null) {
+                        SmartRouter.tangTicketKtv(ktvUid);
+                        // Đặt timeout 30s: nếu KTV không nhận thì chuyển HangCho
+                        SmartRouter.dispatchVoiTimeout(ref.getId(), yeuCau.getSanPham(),
+                                yeuCau.getUuTien(), null,
+                                ticketId -> Toast.makeText(this,
+                                        "Không có KTV nhận, bạn đã vào hàng chờ.", Toast.LENGTH_LONG).show());
+                    } else {
+                        // Không có KTV ngay -> vào hàng chờ luôn, thông báo khách
+                        Toast.makeText(this, "Hiện tại không có KTV rảnh. Bạn đã vào hàng chờ, chúng tôi sẽ liên hệ sớm.", Toast.LENGTH_LONG).show();
+                    }
                     String msg = ktvUid != null
                             ? "Yêu cầu đã gửi! KTV " + yeuCau.getKtvTen() + " sẽ hỗ trợ bạn."
                             : "Yêu cầu đã gửi! Chúng tôi sẽ liên hệ sớm.";
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-                    // Mở chat với KTV
                     android.content.Intent chatIntent = new android.content.Intent(this, ChatKhachHangActivity.class);
                     chatIntent.putExtra("ticketId", ref.getId());
                     chatIntent.putExtra("hoTen", yeuCau.getHoTen());

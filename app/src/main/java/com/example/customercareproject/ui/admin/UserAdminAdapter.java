@@ -42,12 +42,33 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
         holder.tvEmail.setText(nd.getEmail());
         holder.tvVaiTro.setText(nd.getVaiTro());
 
+        // Hiển thị chuyên môn nếu là KTV
+        if (NguoiDung.VAI_TRO_KTV.equals(nd.getVaiTro()) && nd.getChuyenMon() != null && !nd.getChuyenMon().isEmpty()) {
+            holder.tvChuyenMon.setVisibility(View.VISIBLE);
+            holder.tvChuyenMon.setText("CM: " + String.join(", ", nd.getChuyenMon()));
+        } else {
+            holder.tvChuyenMon.setVisibility(View.GONE);
+        }
+
+        // Hiển thị trạng thái KTV
+        if (NguoiDung.VAI_TRO_KTV.equals(nd.getVaiTro())) {
+            holder.tvTrangThai.setVisibility(View.VISIBLE);
+            String ts = nd.getTrangThai();
+            holder.tvTrangThai.setText(ts);
+            int color;
+            if (NguoiDung.TRANG_THAI_RAN.equals(ts)) color = holder.itemView.getContext().getColor(R.color.success);
+            else if (NguoiDung.TRANG_THAI_BAN.equals(ts)) color = holder.itemView.getContext().getColor(R.color.warning);
+            else color = holder.itemView.getContext().getColor(R.color.text_secondary);
+            holder.tvTrangThai.setTextColor(color);
+        } else {
+            holder.tvTrangThai.setVisibility(View.GONE);
+        }
+
         ArrayAdapter<String> spAdapter = new ArrayAdapter<>(holder.itemView.getContext(),
                 android.R.layout.simple_spinner_item, VAI_TRO_OPTIONS);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinnerVaiTro.setAdapter(spAdapter);
 
-        // Set current selection
         for (int i = 0; i < VAI_TRO_OPTIONS.length; i++) {
             if (VAI_TRO_OPTIONS[i].equals(nd.getVaiTro())) {
                 holder.spinnerVaiTro.setSelection(i);
@@ -59,13 +80,14 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
             boolean firstCall = true;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (firstCall) { firstCall = false; return; } // Bỏ qua lần đầu
+                if (firstCall) { firstCall = false; return; }
                 String newVaiTro = VAI_TRO_OPTIONS[pos];
                 FirebaseFirestore.getInstance().collection("NguoiDung")
                         .document(nd.getUid())
                         .update("vaiTro", newVaiTro);
                 nd.setVaiTro(newVaiTro);
                 holder.tvVaiTro.setText(newVaiTro);
+                notifyItemChanged(holder.getAdapterPosition());
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -75,13 +97,15 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
     public int getItemCount() { return danhSach.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvHoTen, tvEmail, tvVaiTro;
+        TextView tvHoTen, tvEmail, tvVaiTro, tvChuyenMon, tvTrangThai;
         Spinner spinnerVaiTro;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvHoTen = itemView.findViewById(R.id.tvHoTen);
             tvEmail = itemView.findViewById(R.id.tvEmail);
             tvVaiTro = itemView.findViewById(R.id.tvVaiTro);
+            tvChuyenMon = itemView.findViewById(R.id.tvChuyenMon);
+            tvTrangThai = itemView.findViewById(R.id.tvTrangThaiKtv);
             spinnerVaiTro = itemView.findViewById(R.id.spinnerVaiTro);
         }
     }

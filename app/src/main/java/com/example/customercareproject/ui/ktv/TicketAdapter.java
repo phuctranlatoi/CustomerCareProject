@@ -1,11 +1,13 @@
 package com.example.customercareproject.ui.ktv;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.customercareproject.R;
@@ -49,15 +51,37 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.tvKhachHang.setText("KH: " + t.getHoTen() + " - " + t.getSoDienThoai());
         holder.tvSanPham.setText(t.getSanPham());
 
+        // Màu trạng thái
         String trangThai = t.getTrangThai();
         holder.tvTrangThai.setText(trangThai);
-        int color;
-        switch (trangThai) {
-            case "ChoXuLy": color = holder.itemView.getContext().getColor(R.color.warning); break;
-            case "DangXuLy": color = holder.itemView.getContext().getColor(R.color.primary); break;
-            default: color = holder.itemView.getContext().getColor(R.color.success); break;
+        switch (trangThai != null ? trangThai : "") {
+            case "ChoXuLy":
+                holder.tvTrangThai.setTextColor(Color.parseColor("#FF9800")); break;
+            case "DangXuLy":
+                holder.tvTrangThai.setTextColor(Color.parseColor("#2196F3")); break;
+            case "HangCho":
+                holder.tvTrangThai.setTextColor(Color.parseColor("#9C27B0")); break;
+            default:
+                holder.tvTrangThai.setTextColor(Color.parseColor("#4CAF50")); break;
         }
-        holder.tvTrangThai.setTextColor(color);
+
+        // Màu card theo độ ưu tiên (khẩn cấp)
+        String uuTien = t.getUuTien();
+        if (holder.cardView != null) {
+            if ("Cao".equals(uuTien)) {
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFEBEE")); // đỏ nhạt
+                holder.tvUuTien.setText("🔴 Khẩn cấp");
+                holder.tvUuTien.setTextColor(Color.parseColor("#D32F2F"));
+            } else if ("Thap".equals(uuTien)) {
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#F1F8E9")); // xanh lá nhạt
+                holder.tvUuTien.setText("🟢 Thấp");
+                holder.tvUuTien.setTextColor(Color.parseColor("#388E3C"));
+            } else {
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFDE7")); // vàng nhạt
+                holder.tvUuTien.setText("🟡 Bình thường");
+                holder.tvUuTien.setTextColor(Color.parseColor("#F57F17"));
+            }
+        }
 
         if (t.getTaoLuc() != null) {
             String time = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault())
@@ -72,7 +96,9 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     public int getItemCount() { return danhSach.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTieuDe, tvKhachHang, tvSanPham, tvTrangThai, tvThoiGian;
+        TextView tvTieuDe, tvKhachHang, tvSanPham, tvTrangThai, tvThoiGian, tvUuTien;
+        CardView cardView;
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTieuDe = itemView.findViewById(R.id.tvTieuDe);
@@ -80,6 +106,9 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             tvSanPham = itemView.findViewById(R.id.tvSanPham);
             tvTrangThai = itemView.findViewById(R.id.tvTrangThai);
             tvThoiGian = itemView.findViewById(R.id.tvThoiGian);
+            tvUuTien = itemView.findViewById(R.id.tvUuTien);
+            // CardView là root của item_ticket
+            if (itemView instanceof CardView) cardView = (CardView) itemView;
         }
     }
 }

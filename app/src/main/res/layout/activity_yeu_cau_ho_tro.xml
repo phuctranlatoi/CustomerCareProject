@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
+        android:background="@drawable/bg_header_gradient"
         app:title="Yêu cầu hỗ trợ"
         app:titleTextColor="@color/white"
         app:navigationIcon="@android:drawable/ic_media_previous"
@@ -28,55 +28,68 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Thông tin lỗi -->
+            <!-- Card vấn đề -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="14dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@color/primary_light">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Vấn đề cần hỗ trợ"
-                        android:textSize="12sp"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold" />
+                    <View android:layout_width="match_parent" android:layout_height="5dp"
+                        android:background="@drawable/bg_header_gradient" />
 
-                    <TextView
-                        android:id="@+id/tvTieuDeLoi"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_primary"
-                        android:layout_marginTop="4dp" />
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/tvSanPhamLoi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginTop="2dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔧 Vấn đề cần hỗ trợ"
+                            android:textSize="12sp"
+                            android:textColor="@color/primary"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:id="@+id/tvTieuDeLoi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:id="@+id/tvSanPhamLoi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="@color/primary"
+                            android:background="@color/primary_surface"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="3dp"
+                            android:layout_marginTop="6dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Thông tin liên hệ -->
+            <!-- Card thông tin liên hệ -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="14dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,19 +100,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thông tin liên hệ"
+                        android:text="👤 Thông tin liên hệ"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary"
-                        android:layout_marginBottom="12dp" />
+                        android:layout_marginBottom="14dp" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="12dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:hint="Họ và tên *">
-
+                        android:hint="Họ và tên *"
+                        app:boxStrokeColor="@color/primary"
+                        app:hintTextColor="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtHoTen"
                             android:layout_width="match_parent"
@@ -110,10 +124,11 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="12dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:hint="Số điện thoại *">
-
+                        android:hint="Số điện thoại *"
+                        app:boxStrokeColor="@color/primary"
+                        app:hintTextColor="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtSoDienThoai"
                             android:layout_width="match_parent"
@@ -125,8 +140,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:hint="Email">
-
+                        android:hint="Email"
+                        app:boxStrokeColor="@color/primary"
+                        app:hintTextColor="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
@@ -136,13 +152,14 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Mô tả thêm -->
+            <!-- Card mô tả thêm -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -153,17 +170,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mô tả thêm về vấn đề"
+                        android:text="📝 Mô tả thêm về vấn đề"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_primary"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="10dp" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        app:boxStrokeColor="@color/primary"
+                        app:hintTextColor="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtMoTaVanDe"
                             android:layout_width="match_parent"
@@ -179,11 +197,12 @@
             <Button
                 android:id="@+id/btnGuiYeuCau"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="Gửi Yêu Cầu Hỗ Trợ"
-                android:backgroundTint="@color/accent"
+                android:layout_height="54dp"
+                android:text="🚀 Gửi Yêu Cầu Hỗ Trợ"
+                android:background="@drawable/bg_btn_primary"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

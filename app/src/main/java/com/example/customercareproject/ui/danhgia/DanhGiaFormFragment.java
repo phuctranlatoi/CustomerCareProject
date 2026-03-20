@@ -127,25 +127,68 @@ public class DanhGiaFormFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
+        // Disable nút tránh double submit
+        View btnGuiRef = getView() != null ? getView().findViewById(R.id.btnGuiDanhGia) : null;
+        if (btnGuiRef != null) btnGuiRef.setEnabled(false);
+        Toast.makeText(getContext(), "Đang phân tích...", Toast.LENGTH_SHORT).show();
+
+        final int soSaoFinal = soSaoChon;
+        final String sanPhamFinal = sanPham;
+
         FirebaseFirestore.getInstance().collection("NguoiDung")
                 .document(user.getUid()).get()
                 .addOnSuccessListener(doc -> {
                     String hoTen = doc.getString("hoTen");
                     DanhGia danhGia = new DanhGia(user.getUid(), hoTen != null ? hoTen : "",
-                            sanPham, loai, buocChon, soSaoChon, noiDung);
-                    // NLP: tự động gắn tag và phân tích cảm xúc
-                    danhGia.setTags(NlpHelper.phanTichTag(noiDung.isEmpty() ? buocChon : noiDung));
-                    danhGia.setUuTien(NlpHelper.phanTichUuTien(noiDung));
-                    danhGia.setCamXuc(NlpHelper.phanTichCamXuc(soSaoChon));
+                            sanPhamFinal, loai, buocChon, soSaoFinal, noiDung);
 
-                    FirebaseFirestore.getInstance().collection("DanhGia")
-                            .add(danhGia)
-                            .addOnSuccessListener(ref -> {
-                                Toast.makeText(getContext(), "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
-                                resetForm();
-                            })
-                            .addOnFailureListener(e ->
-                                    Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    // Dùng Gemini NLP để phân tích
+                    NlpHelper.phanTichGemini(
+                            noiDung.isEmpty() ? buocChon : noiDung,
+                            soSaoFinal,
+                            sanPhamFinal,
+                            new NlpHelper.GeminiCallback() {
+                                @Override
+                                public void onResult(java.util.List<String> tags, String camXuc,
+                                                     String uuTien, String tomTat) {
+                                    danhGia.setTags(tags);
+                                    danhGia.setCamXuc(camXuc);
+                                    danhGia.setUuTien(uuTien);
+                                    if (!tomTat.isEmpty()) danhGia.setNoiDung(
+                                            noiDung.isEmpty() ? tomTat : noiDung);
+
+                                    FirebaseFirestore.getInstance().collection("DanhGia")
+                                            .add(danhGia)
+                                            .addOnSuccessListener(ref -> {
+                                                if (getActivity() == null) return;
+                                                getActivity().runOnUiThread(() -> {
+                                                    Toast.makeText(getContext(),
+                                                            "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
+                                                    resetForm();
+                                                });
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                if (getActivity() == null) return;
+                                                getActivity().runOnUiThread(() -> {
+                                                    Toast.makeText(getContext(),
+                                                            "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    View btn = getView() != null ? getView().findViewById(R.id.btnGuiDanhGia) : null;
+                                                    if (btn != null) btn.setEnabled(true);
+                                                });
+                                            });
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    if (getActivity() == null) return;
+                                    getActivity().runOnUiThread(() -> {
+                                        Toast.makeText(getContext(), "Lỗi NLP: " + error, Toast.LENGTH_SHORT).show();
+                                        View btn = getView() != null ? getView().findViewById(R.id.btnGuiDanhGia) : null;
+                                        if (btn != null) btn.setEnabled(true);
+                                    });
+                                }
+                            }
+                    );
                 });
     }
 

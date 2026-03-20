@@ -10,6 +10,7 @@ import com.example.customercareproject.ui.LoginActivity;
 import com.example.customercareproject.ui.admin.AdminDashboardActivity;
 import com.example.customercareproject.ui.home.HomeActivity;
 import com.example.customercareproject.ui.ktv.KtvDashboardActivity;
+import com.example.customercareproject.utils.StringeeManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,7 +34,13 @@ public class MainActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(doc -> {
                     String vaiTro = doc.getString("vaiTro");
+                    android.util.Log.d("MainActivity", "UID: " + user.getUid());
+                    android.util.Log.d("MainActivity", "doc exists: " + doc.exists());
+                    android.util.Log.d("MainActivity", "vaiTro raw: '" + vaiTro + "'");
                     if (vaiTro == null) vaiTro = NguoiDung.VAI_TRO_KHACH_HANG;
+
+                    // Khởi tạo Stringee để nhận cuộc gọi đến
+                    StringeeManager.getInstance().init(this, user.getUid());
 
                     Intent intent;
                     switch (vaiTro) {

@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:installLocation="auto">
+    android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+    <uses-feature android:glEsVersion="0x00020000" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -37,13 +50,29 @@
         <activity android:name=".ui.loi.ChiTietLoiActivity" android:exported="false" />
         <activity android:name=".ui.loi.YeuCauHoTroActivity" android:exported="false" />
         <activity android:name=".ui.loi.ChatKhachHangActivity" android:exported="false" />
+        <activity android:name=".ui.loi.LichSuChatActivity" android:exported="false" />
 
         <!-- KTV -->
         <activity android:name=".ui.ktv.KtvDashboardActivity" android:exported="false" />
         <activity android:name=".ui.ktv.KtvTicketDetailActivity" android:exported="false" />
+        <activity android:name=".ui.ktv.KtvChatActivity" android:exported="false" />
+
+        <!-- Voice Call -->
+        <activity android:name=".ui.call.VoiceCallActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true" />
+        <activity android:name=".ui.call.IncomingCallActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true" />
 
         <!-- Admin -->
         <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" />
+
+        <!-- Đánh giá KTV -->
+        <activity android:name=".ui.danhgiaktv.DanhGiaKTVActivity" android:exported="false" />
 
     </application>
 
