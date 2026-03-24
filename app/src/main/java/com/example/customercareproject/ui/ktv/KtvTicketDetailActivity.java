@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.button.MaterialButton;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.YeuCauHoTro;
@@ -17,6 +17,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class KtvTicketDetailActivity extends AppCompatActivity {
 
@@ -24,6 +25,9 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private YeuCauHoTro ticketHienTai;
+    private ListenerRegistration ticketListener;
+    // Tránh update DangXuLy nhiều lần khi listener fire
+    private boolean daCapNhatTrangThai = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +38,10 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        Button btnNhanTin = findViewById(R.id.btnNhanTin);
-        Button btnDongTicket = findViewById(R.id.btnDongTicket);
+        com.google.android.material.button.MaterialButton btnNhanTin = findViewById(R.id.btnNhanTin);
+        com.google.android.material.button.MaterialButton btnDongTicket = findViewById(R.id.btnDongTicket);
 
         // Mở chat fullscreen
         btnNhanTin.setOnClickListener(v -> {
@@ -55,8 +57,9 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
     }
 
     private void taiChiTietTicket() {
-        db.collection("YeuCauHoTro").document(ticketId).get()
-                .addOnSuccessListener(doc -> {
+        ticketListener = db.collection("YeuCauHoTro").document(ticketId)
+                .addSnapshotListener((doc, e) -> {
+                    if (doc == null || !doc.exists()) return;
                     ticketHienTai = doc.toObject(YeuCauHoTro.class);
                     if (ticketHienTai == null) return;
                     ticketHienTai.setId(doc.getId());
@@ -72,19 +75,21 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
                     TextView tvUuTien = findViewById(R.id.tvUuTienDetail);
                     String uu = ticketHienTai.getUuTien();
                     if ("Cao".equals(uu)) {
-                        tvUuTien.setText("🔴 Khẩn cấp");
+                        tvUuTien.setText("Khẩn cấp");
                         tvUuTien.setTextColor(android.graphics.Color.parseColor("#D32F2F"));
                     } else if ("Thap".equals(uu)) {
-                        tvUuTien.setText("🟢 Ưu tiên thấp");
+                        tvUuTien.setText("Ưu tiên thấp");
                         tvUuTien.setTextColor(android.graphics.Color.parseColor("#388E3C"));
                     } else {
-                        tvUuTien.setText("🟡 Bình thường");
+                        tvUuTien.setText("Bình thường");
                         tvUuTien.setTextColor(android.graphics.Color.parseColor("#F57F17"));
                     }
 
                     // Chuyển sang DangXuLy khi KTV mở ticket, đồng thời lưu tên KTV
-                    if ("ChoXuLy".equals(ticketHienTai.getTrangThai()) || "HangCho".equals(ticketHienTai.getTrangThai())) {
-                        // Lấy tên KTV từ Firestore
+                    // Chỉ update 1 lần để tránh vòng lặp listener
+                    if (!daCapNhatTrangThai &&
+                            ("ChoXuLy".equals(ticketHienTai.getTrangThai()) || "HangCho".equals(ticketHienTai.getTrangThai()))) {
+                        daCapNhatTrangThai = true;
                         db.collection("NguoiDung").document(user.getUid()).get()
                                 .addOnSuccessListener(ktvDoc -> {
                                     String tenKtv = ktvDoc.getString("hoTen");
@@ -113,5 +118,11 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
                     Toast.makeText(this, "Ticket đã đóng!", Toast.LENGTH_SHORT).show();
                     finish();
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (ticketListener != null) ticketListener.remove();
     }
 }

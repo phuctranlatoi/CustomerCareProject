@@ -4,17 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#1A237E"
+    android:background="@color/primary_dark"
     android:padding="32dp">
 
-    <!-- Avatar placeholder -->
-    <ImageView
+    <!-- Avatar vòng tròn -->
+    <LinearLayout
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@android:drawable/ic_menu_call"
-        android:tint="#FFFFFF"
-        android:layout_marginBottom="24dp"
-        android:contentDescription="Avatar" />
+        android:gravity="center"
+        android:background="@drawable/bg_icon_circle"
+        android:layout_marginBottom="20dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_call"
+            android:tint="#FFFFFF"
+            android:contentDescription="Avatar" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvCalleeName"
@@ -24,32 +30,31 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/tvCallStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đang kết nối..."
-        android:textColor="#B0BEC5"
-        android:textSize="16sp"
-        android:layout_marginBottom="64dp" />
+        android:textColor="#90CAF9"
+        android:textSize="15sp"
+        android:layout_marginBottom="56dp" />
 
-    <!-- Nút điều khiển -->
+    <!-- Mic + Loa -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="32dp">
+        android:layout_marginBottom="40dp">
 
-        <!-- Mute -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginHorizontal="24dp">
+            android:layout_marginHorizontal="28dp">
 
             <ImageButton
                 android:id="@+id/btnMute"
@@ -65,18 +70,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mic"
-                android:textColor="#B0BEC5"
+                android:textColor="#90CAF9"
                 android:textSize="12sp"
-                android:layout_marginTop="6dp" />
+                android:layout_marginTop="8dp" />
         </LinearLayout>
 
-        <!-- Speaker -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginHorizontal="24dp">
+            android:layout_marginHorizontal="28dp">
 
             <ImageButton
                 android:id="@+id/btnSpeaker"
@@ -93,29 +97,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loa"
-                android:textColor="#B0BEC5"
+                android:textColor="#90CAF9"
                 android:textSize="12sp"
-                android:layout_marginTop="6dp" />
+                android:layout_marginTop="8dp" />
         </LinearLayout>
     </LinearLayout>
 
     <!-- Nút cúp máy -->
-    <ImageButton
-        android:id="@+id/btnHangup"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:background="@drawable/bg_btn_send"
-        android:src="@android:drawable/ic_menu_call"
-        android:tint="#FFFFFF"
-        android:padding="16dp"
-        android:contentDescription="Cúp máy" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cúp máy"
-        android:textColor="#EF9A9A"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp" />
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btnHangup"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="@drawable/bg_btn_send"
+            android:src="@android:drawable/ic_menu_call"
+            android:tint="#FFFFFF"
+            android:padding="16dp"
+            android:contentDescription="Cúp máy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cúp máy"
+            android:textColor="#EF9A9A"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
 
 </LinearLayout>

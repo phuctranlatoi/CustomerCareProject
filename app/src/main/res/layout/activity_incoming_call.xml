@@ -7,13 +7,20 @@
     android:background="#1B5E20"
     android:padding="32dp">
 
-    <ImageView
+    <!-- Avatar -->
+    <LinearLayout
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@android:drawable/ic_menu_call"
-        android:tint="#FFFFFF"
-        android:layout_marginBottom="24dp"
-        android:contentDescription="Avatar" />
+        android:gravity="center"
+        android:background="@drawable/bg_icon_circle"
+        android:layout_marginBottom="20dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_call"
+            android:tint="#FFFFFF"
+            android:contentDescription="Avatar" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvCallerName"
@@ -23,7 +30,7 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/tvCallStatus"
@@ -31,10 +38,10 @@
         android:layout_height="wrap_content"
         android:text="Cuộc gọi đến..."
         android:textColor="#A5D6A7"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:layout_marginBottom="64dp" />
 
-    <!-- Nút nghe và từ chối -->
+    <!-- Từ chối + Nghe máy -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +49,6 @@
         android:gravity="center"
         android:weightSum="2">
 
-        <!-- Từ chối -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,7 +75,6 @@
                 android:layout_marginTop="8dp" />
         </LinearLayout>
 
-        <!-- Nghe máy -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

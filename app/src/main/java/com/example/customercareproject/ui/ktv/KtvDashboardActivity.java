@@ -19,14 +19,15 @@ import com.example.customercareproject.model.YeuCauHoTro;
 import com.example.customercareproject.ui.LoginActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.example.customercareproject.utils.FirebaseHelper;
+import com.example.customercareproject.utils.SmartRouter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,8 @@ public class KtvDashboardActivity extends AppCompatActivity {
     private TextView tvSoTicket;
     private TextView tvTrangThaiKtv;
     private int prevChoXuLyCount = -1;
+    // Tránh set Offline khi chỉ chuyển sang màn hình khác trong app
+    private boolean dangXuatThucSu = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,14 @@ public class KtvDashboardActivity extends AppCompatActivity {
         }
 
         db.collection("NguoiDung").document(user.getUid()).get()
-                .addOnSuccessListener(doc -> tvTenKtv.setText("KTV: " + doc.getString("hoTen")));
+                .addOnSuccessListener(doc -> {
+                    tvTenKtv.setText(doc.getString("hoTen"));
+                    TextView tvTongDaXuLy = findViewById(R.id.tvTongDaXuLy);
+                    if (tvTongDaXuLy != null) {
+                        Object tong = doc.get("tongTicketDaXuLy");
+                        tvTongDaXuLy.setText(tong instanceof Number ? String.valueOf(((Number)tong).intValue()) : "0");
+                    }
+                });
 
         btnLogout.setOnClickListener(v -> dangXuat());
 
@@ -114,6 +124,11 @@ public class KtvDashboardActivity extends AppCompatActivity {
         db.collection("NguoiDung").document(user.getUid()).update("trangThai", trangThai);
         capNhatBadge(trangThai);
 
+        // Khi KTV vừa chuyển sang Rảnh → ChatKhachHangActivity của khách tự detect và assign
+        if (NguoiDung.TRANG_THAI_RAN.equals(trangThai)) {
+            // Không cần làm gì thêm — phía khách đang lắng nghe realtime
+        }
+
         if (statusRef == null) return;
         try {
             Map<String, Object> onlineData = new HashMap<>();
@@ -132,14 +147,13 @@ public class KtvDashboardActivity extends AppCompatActivity {
     }
 
     private void batAutoStatus() {
-        // Lắng nghe ticket DangXuLy -> auto set DangBan/Ran
         autoStatusListener = db.collection("YeuCauHoTro")
                 .whereEqualTo("ktvUid", user.getUid())
-                .whereEqualTo("trangThai", "DangXuLy")
+                .whereIn("trangThai", java.util.Arrays.asList("ChoXuLy", "DangXuLy"))
                 .addSnapshotListener((snapshot, e) -> {
                     if (snapshot == null) return;
-                    String ts = snapshot.size() > 0 ? NguoiDung.TRANG_THAI_BAN : NguoiDung.TRANG_THAI_RAN;
-                    batStatusRTDB(ts);
+                    String newStatus = snapshot.size() > 0 ? NguoiDung.TRANG_THAI_BAN : NguoiDung.TRANG_THAI_RAN;
+                    batStatusRTDB(newStatus);
                 });
 
         // Detect ticket mới -> notification
@@ -193,20 +207,28 @@ public class KtvDashboardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        dangXuatThucSu = false;
         if (user != null) {
             try { batStatusRTDB(NguoiDung.TRANG_THAI_RAN); } catch (Exception ignored) {}
         }
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        // Chỉ set Offline khi app thực sự vào background (không phải khi chuyển màn hình trong app)
+        // isFinishing() = true khi back ra, isChangingConfigurations() = true khi xoay màn hình
+        // Không set Offline ở đây nữa — để RTDB onDisconnect tự xử lý khi mất kết nối
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        if (user != null) {
-            try { batStatusRTDB(NguoiDung.TRANG_THAI_OFFLINE); } catch (Exception ignored) {}
-        }
+        // Không set Offline ở đây nữa - tránh set Offline khi chuyển sang màn hình chat/detail
     }
 
     private void dangXuat() {
+        dangXuatThucSu = true;
         try {
             if (statusRef != null) {
                 Map<String, Object> offlineData = new HashMap<>();
@@ -216,6 +238,7 @@ public class KtvDashboardActivity extends AppCompatActivity {
             }
         } catch (Exception ignored) {}
         db.collection("NguoiDung").document(user.getUid()).update("trangThai", NguoiDung.TRANG_THAI_OFFLINE);
+        com.example.customercareproject.utils.StringeeManager.getInstance().reset();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, LoginActivity.class));
         finish();

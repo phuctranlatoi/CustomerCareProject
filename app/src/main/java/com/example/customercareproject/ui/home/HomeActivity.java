@@ -16,6 +16,7 @@ import com.example.customercareproject.R;
 import com.example.customercareproject.model.SanPham;
 import com.example.customercareproject.ui.LoginActivity;
 import com.example.customercareproject.ui.danhgia.DanhGiaActivity;
+import com.example.customercareproject.ui.danhgiaktv.DanhGiaKTVActivity;
 import com.example.customercareproject.ui.loi.ChatKhachHangActivity;
 import com.example.customercareproject.ui.loi.LichSuChatActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button btnChatNow;
     private String activeTicketId = null;
     private String activeHoTen = null;
+    private boolean daDanhGiaPopup = false; // chỉ popup 1 lần mỗi lần mở app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         TextView tvChaoMung = findViewById(R.id.tvChaoMung);
-        TextView tvEmail = findViewById(R.id.tvEmail);
         ImageButton btnLogout = findViewById(R.id.btnLogout);
         ImageButton btnLichSuChat = findViewById(R.id.btnLichSuChat);
         RecyclerView rvSanPham = findViewById(R.id.rvSanPham);
@@ -55,17 +56,16 @@ public class HomeActivity extends AppCompatActivity {
         tvTicketActiveKtv = findViewById(R.id.tvTicketActiveKtv);
         btnChatNow = findViewById(R.id.btnChatNow);
 
-        // Lấy tên từ Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("NguoiDung").document(user.getUid()).get()
                 .addOnSuccessListener(doc -> {
                     String hoTen = doc.getString("hoTen");
-                    tvChaoMung.setText("Xin chào, " + (hoTen != null ? hoTen : "bạn") + "!");
+                    tvChaoMung.setText(hoTen != null ? hoTen : "bạn");
                     activeHoTen = hoTen;
                 });
-        tvEmail.setText(user.getEmail());
 
         btnLogout.setOnClickListener(v -> {
+            com.example.customercareproject.utils.StringeeManager.getInstance().reset();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -83,24 +83,41 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Load ticket đang active (ChoXuLy hoặc DangXuLy)
+        // Load ticket active + kiểm tra đánh giá chờ
         db.collection("YeuCauHoTro")
                 .whereEqualTo("uid", user.getUid())
                 .orderBy("taoLuc", Query.Direction.DESCENDING)
-                .limit(5)
+                .limit(10)
                 .addSnapshotListener((snap, e) -> {
                     if (snap == null) return;
                     activeTicketId = null;
                     for (QueryDocumentSnapshot doc : snap) {
                         String ts = doc.getString("trangThai");
-                        if ("ChoXuLy".equals(ts) || "DangXuLy".equals(ts) || "HangCho".equals(ts)) {
+
+                        // Ticket đang xử lý → hiện card
+                        if (activeTicketId == null &&
+                                ("ChoXuLy".equals(ts) || "DangXuLy".equals(ts) || "HangCho".equals(ts))) {
                             activeTicketId = doc.getId();
                             String tieuDe = doc.getString("tieuDeLoi");
                             String ktvTen = doc.getString("ktvTen");
                             tvTicketActiveTieuDe.setText(tieuDe != null ? tieuDe : "Đang xử lý...");
                             tvTicketActiveKtv.setText(ktvTen != null ? "KTV: " + ktvTen : "Đang tìm KTV...");
                             cardTicketActive.setVisibility(View.VISIBLE);
-                            break;
+                        }
+
+                        // Ticket DaXuLy chưa đánh giá → popup như Grab
+                        if (!daDanhGiaPopup && "DaXuLy".equals(ts)) {
+                            Boolean daDG = doc.getBoolean("daDanhGiaKtv");
+                            String ktvUid = doc.getString("ktvUid");
+                            if ((daDG == null || !daDG) && ktvUid != null && !ktvUid.isEmpty()) {
+                                daDanhGiaPopup = true;
+                                Intent intent = new Intent(this, DanhGiaKTVActivity.class);
+                                intent.putExtra(DanhGiaKTVActivity.EXTRA_TICKET_ID, doc.getId());
+                                intent.putExtra(DanhGiaKTVActivity.EXTRA_KTV_UID, ktvUid);
+                                intent.putExtra(DanhGiaKTVActivity.EXTRA_KTV_TEN, doc.getString("ktvTen"));
+                                intent.putExtra(DanhGiaKTVActivity.EXTRA_SAN_PHAM, doc.getString("sanPham"));
+                                startActivity(intent);
+                            }
                         }
                     }
                     if (activeTicketId == null) {

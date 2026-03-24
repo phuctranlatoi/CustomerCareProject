@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Ho va ten *">
+            android:hint="Họ và tên *">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtHoTenKtv"
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="So dien thoai">
+            android:hint="Số điện thoại">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtSdtKtv"
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             android:layout_marginBottom="16dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true"
-            android:hint="Mat khau * (>= 6 ky tu)">
+            android:hint="Mật khẩu * (tối thiểu 6 ký tự)">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtMatKhauKtv"
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chuyen mon (san pham phu trach):"
+            android:text="Chuyên môn (sản phẩm phụ trách):"
             android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"

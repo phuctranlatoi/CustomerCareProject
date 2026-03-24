@@ -7,13 +7,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.widget.TextView;
+
 import com.example.customercareproject.R;
 import com.example.customercareproject.ui.call.VoiceCallActivity;
-import com.example.customercareproject.utils.StringeeTokenHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +29,7 @@ import java.util.Map;
 public class KtvChatActivity extends AppCompatActivity {
 
     private String ticketId, tenKhachHang, khachHangUid = "", tenKtv = "KTV";
+    private TextView tvSubtitle;
     private FirebaseUser user;
     private ChatAdapter chatAdapter;
     private FirebaseFirestore db;
@@ -55,11 +56,14 @@ public class KtvChatActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("Chat với " + (tenKhachHang != null ? tenKhachHang : "Khách hàng"));
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
+        tvSubtitle = findViewById(R.id.tvSubtitle);
+        // Set tên khách hàng ngay nếu đã có từ intent
+        if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
+            tvSubtitle.setText("Khách: " + tenKhachHang);
+        }
 
         rvChat = findViewById(R.id.rvChat);
         LinearLayoutManager lm = new LinearLayoutManager(this);
@@ -72,7 +76,18 @@ public class KtvChatActivity extends AppCompatActivity {
         db.collection("NguoiDung").document(user.getUid()).get()
                 .addOnSuccessListener(doc -> { if (doc.getString("hoTen") != null) tenKtv = doc.getString("hoTen"); });
         db.collection("YeuCauHoTro").document(ticketId).get()
-                .addOnSuccessListener(doc -> { if (doc.exists() && doc.getString("uid") != null) khachHangUid = doc.getString("uid"); });
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        if (doc.getString("uid") != null) khachHangUid = doc.getString("uid");
+                        // Fallback: lấy tên từ Firestore nếu intent không có
+                        if (tenKhachHang == null || tenKhachHang.isEmpty()) {
+                            tenKhachHang = doc.getString("hoTen");
+                        }
+                        if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
+                            tvSubtitle.setText("Khách: " + tenKhachHang);
+                        }
+                    }
+                });
 
         TextInputEditText edtTinNhan = findViewById(R.id.edtTinNhan);
         ImageButton btnGui = findViewById(R.id.btnGui);
@@ -94,16 +109,10 @@ public class KtvChatActivity extends AppCompatActivity {
             Toast.makeText(this, "Chưa lấy được thông tin khách hàng", Toast.LENGTH_SHORT).show();
             return;
         }
-        String token = StringeeTokenHelper.generateToken(user.getUid());
-        if (token == null) {
-            Toast.makeText(this, "Không thể tạo token gọi điện", Toast.LENGTH_SHORT).show();
-            return;
-        }
         Intent intent = new Intent(this, VoiceCallActivity.class);
         intent.putExtra(VoiceCallActivity.EXTRA_CALLEE_ID, khachHangUid);
         intent.putExtra(VoiceCallActivity.EXTRA_CALLEE_NAME, tenKhachHang != null ? tenKhachHang : "Khách hàng");
-        intent.putExtra(VoiceCallActivity.EXTRA_ACCESS_TOKEN, token);
-        //intent.putExtra(VoiceCallActivity.EXTRA_IS_INCOMING, false);
+        intent.putExtra(VoiceCallActivity.EXTRA_CALLER_UID, user.getUid());
         startActivity(intent);
     }
 

@@ -5,17 +5,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="@color/background">
+    android:background="#F5F7FA">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Top bar -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bg_header_gradient"
-        app:title="Chi tiết lỗi"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@android:drawable/ic_media_previous"
-        app:navigationContentDescription="Quay lại" />
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:gravity="center_vertical"
+        android:elevation="2dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            android:tint="#0F172A"
+            android:contentDescription="Quay lại" />
+
+        <TextView
+            android:id="@+id/tvTieuDeToolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chi tiết lỗi"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#0F172A"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,39 +55,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
-                <LinearLayout android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                    <View android:layout_width="match_parent" android:layout_height="5dp"
-                        android:background="@drawable/bg_header_gradient" />
-
-                    <LinearLayout android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvTieuDe"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" android:padding="16dp">
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#0F172A" />
 
-                        <TextView
-                            android:id="@+id/tvTieuDe"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="19sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_primary" />
-
-                        <TextView
-                            android:id="@+id/tvSanPham"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="@color/primary"
-                            android:background="@color/primary_surface"
-                            android:paddingHorizontal="10dp"
-                            android:paddingVertical="3dp"
-                            android:layout_marginTop="8dp" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvSanPham"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#1976D2"
+                        android:background="@drawable/bg_rounded"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -76,22 +91,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📄 Mô tả lỗi"
-                        android:textSize="14sp"
+                        android:text="Mô tả lỗi"
+                        android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"
+                        android:textColor="#0F172A"
                         android:layout_marginBottom="10dp" />
 
                     <TextView
@@ -99,9 +114,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="@color/text_secondary"
-                        android:lineSpacingMultiplier="1.5"
-                        android:background="@color/surface"
+                        android:textColor="#475569"
+                        android:lineSpacingMultiplier="1.6"
+                        android:background="#F8FAFC"
                         android:padding="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -113,23 +128,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#E8F5E9"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F0FDF4"
                 android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="✅ Cách giải quyết"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="@color/success"
+                        android:textColor="#10B981"
                         android:layout_marginBottom="10dp" />
 
                     <TextView
@@ -137,31 +152,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:textColor="@color/text_primary"
-                        android:lineSpacingMultiplier="1.5" />
+                        android:textColor="#0F172A"
+                        android:lineSpacingMultiplier="1.6" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDaTuXuLy"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="✓ Tôi đã tự xử lý được"
-                android:backgroundTint="@color/success"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:layout_height="50dp"
+                android:text="Tôi đã tự xử lý được"
+                android:textSize="14sp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="#10B981"
+                android:textColor="#FFFFFF"
                 android:layout_marginBottom="10dp"
                 android:visibility="gone" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnYeuCauHoTro"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:text="🚀 Gửi yêu cầu hỗ trợ kỹ thuật"
-                android:background="@drawable/bg_btn_primary"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="15sp" />
+                android:layout_height="52dp"
+                android:text="Gửi yêu cầu hỗ trợ kỹ thuật"
+                android:textSize="14sp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="#1976D2"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
     </ScrollView>

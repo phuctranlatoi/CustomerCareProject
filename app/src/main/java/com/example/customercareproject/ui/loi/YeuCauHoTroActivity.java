@@ -31,9 +31,7 @@ public class YeuCauHoTroActivity extends AppCompatActivity {
         loiId = getIntent().getStringExtra("loiId");
         tieuDeLoi = getIntent().getStringExtra("tieuDeLoi");
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         ((TextView) findViewById(R.id.tvTieuDeLoi)).setText(tieuDeLoi);
         ((TextView) findViewById(R.id.tvSanPhamLoi)).setText(sanPham);
@@ -57,7 +55,7 @@ public class YeuCauHoTroActivity extends AppCompatActivity {
                     });
         }
 
-        ((Button) findViewById(R.id.btnGuiYeuCau)).setOnClickListener(v -> guiYeuCau());
+        ((com.google.android.material.button.MaterialButton) findViewById(R.id.btnGuiYeuCau)).setOnClickListener(v -> guiYeuCau());
     }
 
     private void guiYeuCau() {
@@ -75,16 +73,20 @@ public class YeuCauHoTroActivity extends AppCompatActivity {
         YeuCauHoTro yeuCau = new YeuCauHoTro(uid, hoTen, email, sdt, sanPham,
                 loiId != null ? loiId : "", tieuDeLoi, moTa);
 
-        // NLP phân tích mức độ ưu tiên từ mô tả
         String uuTien = NlpHelper.phanTichUuTien(moTa + " " + tieuDeLoi);
         yeuCau.setUuTien(uuTien);
 
-        // Smart routing với timeout 30s
+        // Thử tìm KTV rảnh ngay. Nếu không có → lưu HangCho, Cloud Function tự assign sau.
         SmartRouter.timKtvRanh(sanPham, (ktvUid, ktvTen) -> {
             yeuCau.setKtvUid(ktvUid);
             yeuCau.setKtvTen(ktvTen);
+            // Có KTV → trangThai = ChoXuLy
             luuYeuCau(yeuCau, ktvUid);
-        }, () -> luuYeuCau(yeuCau, null));
+        }, () -> {
+            // Không có KTV → trangThai = HangCho, server sẽ assign
+            yeuCau.setTrangThai("HangCho");
+            luuYeuCau(yeuCau, null);
+        });
     }
 
     private void luuYeuCau(YeuCauHoTro yeuCau, String ktvUid) {
@@ -93,18 +95,13 @@ public class YeuCauHoTroActivity extends AppCompatActivity {
                 .addOnSuccessListener(ref -> {
                     if (ktvUid != null) {
                         SmartRouter.tangTicketKtv(ktvUid);
-                        // Đặt timeout 30s: nếu KTV không nhận thì chuyển HangCho
-                        SmartRouter.dispatchVoiTimeout(ref.getId(), yeuCau.getSanPham(),
-                                yeuCau.getUuTien(), null,
-                                ticketId -> Toast.makeText(this,
-                                        "Không có KTV nhận, bạn đã vào hàng chờ.", Toast.LENGTH_LONG).show());
                     } else {
-                        // Không có KTV ngay -> vào hàng chờ luôn, thông báo khách
-                        Toast.makeText(this, "Hiện tại không có KTV rảnh. Bạn đã vào hàng chờ, chúng tôi sẽ liên hệ sớm.", Toast.LENGTH_LONG).show();
+                        // Đánh dấu thời điểm vào hàng chờ để Cloud Function sort theo thứ tự
+                        ref.update("thoiGianChoXuLy", com.google.firebase.firestore.FieldValue.serverTimestamp());
                     }
                     String msg = ktvUid != null
                             ? "Yêu cầu đã gửi! KTV " + yeuCau.getKtvTen() + " sẽ hỗ trợ bạn."
-                            : "Yêu cầu đã gửi! Chúng tôi sẽ liên hệ sớm.";
+                            : "Yêu cầu đã gửi! Đang tìm kỹ thuật viên, bạn sẽ được hỗ trợ sớm nhất.";
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                     android.content.Intent chatIntent = new android.content.Intent(this, ChatKhachHangActivity.class);
                     chatIntent.putExtra("ticketId", ref.getId());

@@ -53,15 +53,18 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
         // Màu trạng thái
         String trangThai = t.getTrangThai();
-        holder.tvTrangThai.setText(trangThai);
         switch (trangThai != null ? trangThai : "") {
             case "ChoXuLy":
+                holder.tvTrangThai.setText("Chờ xử lý");
                 holder.tvTrangThai.setTextColor(Color.parseColor("#FF9800")); break;
             case "DangXuLy":
+                holder.tvTrangThai.setText("Đang xử lý");
                 holder.tvTrangThai.setTextColor(Color.parseColor("#2196F3")); break;
             case "HangCho":
+                holder.tvTrangThai.setText("Hàng chờ");
                 holder.tvTrangThai.setTextColor(Color.parseColor("#9C27B0")); break;
             default:
+                holder.tvTrangThai.setText("Đã xử lý");
                 holder.tvTrangThai.setTextColor(Color.parseColor("#4CAF50")); break;
         }
 
@@ -69,16 +72,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         String uuTien = t.getUuTien();
         if (holder.cardView != null) {
             if ("Cao".equals(uuTien)) {
-                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFEBEE")); // đỏ nhạt
-                holder.tvUuTien.setText("🔴 Khẩn cấp");
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFEBEE"));
+                holder.tvUuTien.setText("Khẩn cấp");
                 holder.tvUuTien.setTextColor(Color.parseColor("#D32F2F"));
             } else if ("Thap".equals(uuTien)) {
-                holder.cardView.setCardBackgroundColor(Color.parseColor("#F1F8E9")); // xanh lá nhạt
-                holder.tvUuTien.setText("🟢 Thấp");
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#F1F8E9"));
+                holder.tvUuTien.setText("Thấp");
                 holder.tvUuTien.setTextColor(Color.parseColor("#388E3C"));
             } else {
-                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFDE7")); // vàng nhạt
-                holder.tvUuTien.setText("🟡 Bình thường");
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFDE7"));
+                holder.tvUuTien.setText("Bình thường");
                 holder.tvUuTien.setTextColor(Color.parseColor("#F57F17"));
             }
         }

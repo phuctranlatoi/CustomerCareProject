@@ -18,57 +18,59 @@ import androidx.core.content.ContextCompat;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.utils.StringeeManager;
-import com.example.customercareproject.utils.StringeeTokenHelper;
 import com.stringee.StringeeClient;
 import com.stringee.call.StringeeCall;
-import com.stringee.call.StringeeCall2;
-import com.stringee.common.SocketAddress;
 import com.stringee.exception.StringeeError;
 import com.stringee.listener.StatusListener;
-import com.stringee.listener.StringeeConnectionListener;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Màn hình gọi đi (outgoing call).
+ * Luôn dùng StringeeManager client (đã kết nối với userId của người dùng hiện tại).
+ * Nếu chưa kết nối thì kết nối lại với token mới trước khi gọi.
+ */
 public class VoiceCallActivity extends AppCompatActivity {
 
-    public static final String EXTRA_CALLEE_ID = "calleeId";
+    public static final String EXTRA_CALLEE_ID   = "calleeId";
     public static final String EXTRA_CALLEE_NAME = "calleeName";
+    // EXTRA_ACCESS_TOKEN giữ lại để tương thích nhưng không dùng nữa
     public static final String EXTRA_ACCESS_TOKEN = "accessToken";
+    public static final String EXTRA_CALLER_UID  = "callerUid"; // uid của người gọi
+
     private static final int REQUEST_RECORD_AUDIO = 101;
 
     private StringeeClient stringeeClient;
-    private StringeeCall stringeeCall;
-    private AudioManager audioManager;
+    private StringeeCall   stringeeCall;
+    private AudioManager   audioManager;
 
-    private TextView tvCalleeName, tvCallStatus;
+    private TextView    tvCalleeName, tvCallStatus;
     private ImageButton btnHangup, btnMute, btnSpeaker;
 
-    private boolean isMuted = false;
+    private boolean isMuted   = false;
     private boolean isSpeaker = false;
+    private boolean callMade  = false; // tránh gọi 2 lần
 
-    private String calleeId, calleeName, accessToken;
+    private String calleeId, calleeName, callerUid;
 
-    private final Handler handler = new Handler(Looper.getMainLooper());
-    private int callSeconds = 0;
-    private Runnable timerRunnable;
+    private final Handler  handler = new Handler(Looper.getMainLooper());
+    private int            callSeconds = 0;
+    private Runnable       timerRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_call);
 
-        calleeId = getIntent().getStringExtra(EXTRA_CALLEE_ID);
+        calleeId   = getIntent().getStringExtra(EXTRA_CALLEE_ID);
         calleeName = getIntent().getStringExtra(EXTRA_CALLEE_NAME);
-        accessToken = getIntent().getStringExtra(EXTRA_ACCESS_TOKEN);
+        callerUid  = getIntent().getStringExtra(EXTRA_CALLER_UID);
 
         tvCalleeName = findViewById(R.id.tvCalleeName);
         tvCallStatus = findViewById(R.id.tvCallStatus);
-        btnHangup = findViewById(R.id.btnHangup);
-        btnMute = findViewById(R.id.btnMute);
-        btnSpeaker = findViewById(R.id.btnSpeaker);
+        btnHangup    = findViewById(R.id.btnHangup);
+        btnMute      = findViewById(R.id.btnMute);
+        btnSpeaker   = findViewById(R.id.btnSpeaker);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
@@ -84,72 +86,46 @@ public class VoiceCallActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
         } else {
-            initStringee();
+            initAndCall();
         }
     }
 
-    private void initStringee() {
-        // Dùng client từ StringeeManager (đã kết nối sẵn)
-        stringeeClient = StringeeManager.getInstance().getClient();
-        if (stringeeClient != null && stringeeClient.isConnected()) {
-            makeCall();
-        } else {
-            // Fallback: tạo client mới nếu chưa có
-            stringeeClient = new StringeeClient(this);
-            stringeeClient.setConnectionListener(new StringeeConnectionListener() {
-                @Override
-                public void onConnectionConnected(StringeeClient client, boolean isReconnecting) {
-                    runOnUiThread(() -> makeCall());
-                }
-
-                @Override
-                public void onConnectionDisconnected(StringeeClient client, boolean isReconnecting) {
-                    runOnUiThread(() -> tvCallStatus.setText("Mất kết nối"));
-                }
-
-                @Override
-                public void onIncomingCall(StringeeCall call) {}
-
-                @Override
-                public void onIncomingCall2(StringeeCall2 call2) {}
-
-                @Override
-                public void onConnectionError(StringeeClient client, StringeeError error) {
-                    runOnUiThread(() -> {
-                        Toast.makeText(VoiceCallActivity.this,
-                                "Lỗi kết nối: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                        finish();
-                    });
-                }
-
-                @Override
-                public void onRequestNewToken(StringeeClient client) {
-                    runOnUiThread(() -> {
-                        Toast.makeText(VoiceCallActivity.this, "Token hết hạn", Toast.LENGTH_SHORT).show();
-                        finish();
-                    });
-                }
-
-                @Override
-                public void onCustomMessage(String from, JSONObject msg) {}
-
-                @Override
-                public void onTopicMessage(String from, JSONObject msg) {}
-            });
-
-            List<SocketAddress> socketList = new ArrayList<>();
-            socketList.add(new SocketAddress("v1.stringee.com", 9879));
-            socketList.add(new SocketAddress("v2.stringee.com", 9879));
-            stringeeClient.setHost(socketList);
-            stringeeClient.connect(accessToken);
+    private void initAndCall() {
+        String uid = callerUid;
+        if (uid == null || uid.isEmpty()) {
+            com.google.firebase.auth.FirebaseUser u =
+                    com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+            if (u != null) uid = u.getUid();
         }
+        if (uid == null) {
+            Toast.makeText(this, "Không xác định được người dùng", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        tvCallStatus.setText("Đang kết nối Stringee...");
+        final String finalUid = uid;
+
+        // Luôn dùng StringeeManager, đảm bảo client sẵn sàng trước khi gọi
+        StringeeManager.getInstance().ensureConnected(finalUid, () -> {
+            stringeeClient = StringeeManager.getInstance().getClient();
+            if (stringeeClient == null) {
+                Toast.makeText(this, "Không thể kết nối Stringee", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+            makeCall();
+        });
     }
 
     private void makeCall() {
-        // Chế độ âm thanh khi gọi
+        if (callMade) return;
+        callMade = true;
+
         audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
         audioManager.setSpeakerphoneOn(false);
 
+        // from = userId của client đang kết nối, to = calleeId (userId của người nhận)
         stringeeCall = new StringeeCall(stringeeClient,
                 stringeeClient.getUserId(), calleeId);
         stringeeCall.setVideoCall(false);
@@ -161,6 +137,8 @@ public class VoiceCallActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     switch (state) {
                         case CALLING:
+                            tvCallStatus.setText("Đang gọi...");
+                            break;
                         case RINGING:
                             tvCallStatus.setText("Đang đổ chuông...");
                             break;
@@ -198,6 +176,7 @@ public class VoiceCallActivity extends AppCompatActivity {
             public void onMediaStateChange(StringeeCall call, StringeeCall.MediaState state) {
                 runOnUiThread(() -> {
                     if (state == StringeeCall.MediaState.CONNECTED) {
+                        // Media 2 chiều đã kết nối thành công
                         startTimer();
                     } else if (state == StringeeCall.MediaState.DISCONNECTED) {
                         tvCallStatus.setText("Media ngắt kết nối");
@@ -217,7 +196,9 @@ public class VoiceCallActivity extends AppCompatActivity {
 
         stringeeCall.makeCall(new StatusListener() {
             @Override
-            public void onSuccess() {}
+            public void onSuccess() {
+                runOnUiThread(() -> tvCallStatus.setText("Đang đổ chuông..."));
+            }
 
             @Override
             public void onError(StringeeError error) {
@@ -237,6 +218,7 @@ public class VoiceCallActivity extends AppCompatActivity {
                 @Override public void onSuccess() {}
                 @Override public void onError(StringeeError error) {}
             });
+            stringeeCall = null;
         }
         restoreAudio();
         finish();
@@ -272,8 +254,7 @@ public class VoiceCallActivity extends AppCompatActivity {
             @Override
             public void run() {
                 callSeconds++;
-                int m = callSeconds / 60;
-                int s = callSeconds % 60;
+                int m = callSeconds / 60, s = callSeconds % 60;
                 tvCallStatus.setText(String.format("%02d:%02d", m, s));
                 handler.postDelayed(this, 1000);
             }
@@ -292,7 +273,7 @@ public class VoiceCallActivity extends AppCompatActivity {
         if (requestCode == REQUEST_RECORD_AUDIO
                 && grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            initStringee();
+            initAndCall();
         } else {
             Toast.makeText(this, "Cần quyền microphone để gọi điện", Toast.LENGTH_SHORT).show();
             finish();
@@ -310,6 +291,6 @@ public class VoiceCallActivity extends AppCompatActivity {
             });
         }
         restoreAudio();
-        // Không disconnect client dùng chung từ StringeeManager
+        // StringeeManager client dùng chung, không disconnect ở đây
     }
 }

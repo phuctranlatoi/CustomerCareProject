@@ -17,6 +17,7 @@ public class YeuCauHoTro {
     private String ktvTen;          // Tên KTV
     private String phanHoiKyThuat;  // Phản hồi từ kỹ thuật viên
     private String uuTien;          // "Cao" | "TrungBinh" | "Thap"
+    private boolean daDanhGiaKtv;   // đã đánh giá KTV chưa
     private Timestamp taoLuc;
     private Timestamp capNhatLuc;
     private Timestamp thoiGianChoXuLy; // Thoi diem het 30s chuyen hang cho
@@ -67,6 +68,8 @@ public class YeuCauHoTro {
     public void setPhanHoiKyThuat(String phanHoiKyThuat) { this.phanHoiKyThuat = phanHoiKyThuat; }
     public String getUuTien() { return uuTien; }
     public void setUuTien(String uuTien) { this.uuTien = uuTien; }
+    public boolean isDaDanhGiaKtv() { return daDanhGiaKtv; }
+    public void setDaDanhGiaKtv(boolean daDanhGiaKtv) { this.daDanhGiaKtv = daDanhGiaKtv; }
     public Timestamp getTaoLuc() { return taoLuc; }
     public void setTaoLuc(Timestamp taoLuc) { this.taoLuc = taoLuc; }
     public Timestamp getCapNhatLuc() { return capNhatLuc; }

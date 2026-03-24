@@ -2,12 +2,13 @@ package com.example.customercareproject.ui.danhgiaktv;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 
 import com.example.customercareproject.R;
 import com.google.android.material.chip.Chip;
@@ -55,10 +56,8 @@ public class DanhGiaKTVActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setTitle("Đánh giá hỗ trợ");
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         ratingBar     = findViewById(R.id.ratingBar);
         tvSoSaoLabel  = findViewById(R.id.tvSoSaoLabel);

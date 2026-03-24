@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.button.MaterialButton;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.LoiPhatSinh;
@@ -27,12 +27,10 @@ public class ChiTietLoiActivity extends AppCompatActivity {
         loiId = getIntent().getStringExtra("loiId");
         sanPham = getIntent().getStringExtra("sanPham");
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        Button btnDaTuXuLy = findViewById(R.id.btnDaTuXuLy);
-        Button btnYeuCauHoTro = findViewById(R.id.btnYeuCauHoTro);
+        com.google.android.material.button.MaterialButton btnDaTuXuLy = findViewById(R.id.btnDaTuXuLy);
+        com.google.android.material.button.MaterialButton btnYeuCauHoTro = findViewById(R.id.btnYeuCauHoTro);
 
         btnDaTuXuLy.setOnClickListener(v -> {
             Toast.makeText(this, "Vui lòng liên hệ nếu vấn đề tái diễn!", Toast.LENGTH_SHORT).show();

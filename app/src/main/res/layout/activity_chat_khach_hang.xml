@@ -5,30 +5,61 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="@color/surface">
+    android:background="#F5F7FA">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Top bar -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bg_header_gradient"
-        app:titleTextColor="@color/white"
-        app:subtitleTextColor="#B3E5FC"
-        app:navigationIcon="@android:drawable/ic_media_previous"
-        app:navigationContentDescription="Quay lại">
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:gravity="center_vertical"
+        android:elevation="2dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            android:tint="#0F172A"
+            android:contentDescription="Quay lại" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chat hỗ trợ"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#0F172A" />
+
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang kết nối..."
+                android:textSize="12sp"
+                android:textColor="#94A3B8" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btnGoiThoai"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_icon_circle"
+            android:background="@drawable/bg_avatar_circle"
             android:src="@android:drawable/ic_menu_call"
-            android:tint="@color/white"
-            android:padding="8dp"
+            android:tint="#1976D2"
+            android:padding="9dp"
             android:contentDescription="Gọi thoại" />
-    </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
 
     <!-- Chat messages -->
     <androidx.recyclerview.widget.RecyclerView
@@ -43,12 +74,13 @@
 
     <!-- Input bar -->
     <LinearLayout
+        android:id="@+id/layoutInputBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="10dp"
         android:paddingVertical="8dp"
-        android:background="@color/white"
+        android:background="#FFFFFF"
         android:gravity="center_vertical"
         android:elevation="6dp">
 
@@ -65,8 +97,8 @@
             android:paddingHorizontal="14dp"
             android:paddingVertical="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_hint" />
+            android:textColor="#0F172A"
+            android:textColorHint="#94A3B8" />
 
         <ImageButton
             android:id="@+id/btnGui"
@@ -75,7 +107,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_btn_primary"
             android:src="@android:drawable/ic_menu_send"
-            android:tint="@color/white"
+            android:tint="#FFFFFF"
             android:contentDescription="Gửi"
             android:padding="11dp" />
     </LinearLayout>

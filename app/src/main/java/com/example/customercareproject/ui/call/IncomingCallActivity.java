@@ -8,6 +8,8 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,7 @@ import org.json.JSONObject;
 
 public class IncomingCallActivity extends AppCompatActivity {
 
-    public static final String EXTRA_CALL_ID = "callId";
+    public static final String EXTRA_CALL_ID    = "callId";
     public static final String EXTRA_CALLER_NAME = "callerName";
 
     private static final int REQUEST_RECORD_AUDIO = 102;
@@ -40,24 +42,28 @@ public class IncomingCallActivity extends AppCompatActivity {
     private ImageButton btnAnswer, btnReject;
 
     private String callId, callerName;
+    private boolean answered = false;
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int callSeconds = 0;
+    private Runnable timerRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incoming_call);
 
-        callId = getIntent().getStringExtra(EXTRA_CALL_ID);
+        callId     = getIntent().getStringExtra(EXTRA_CALL_ID);
         callerName = getIntent().getStringExtra(EXTRA_CALLER_NAME);
 
         tvCallerName = findViewById(R.id.tvCallerName);
         tvCallStatus = findViewById(R.id.tvCallStatus);
-        btnAnswer = findViewById(R.id.btnAnswer);
-        btnReject = findViewById(R.id.btnReject);
+        btnAnswer    = findViewById(R.id.btnAnswer);
+        btnReject    = findViewById(R.id.btnReject);
 
         tvCallerName.setText(callerName != null ? callerName : "Cuộc gọi đến");
         tvCallStatus.setText("Cuộc gọi đến...");
 
-        // Lấy call từ StringeeManager
         stringeeCall = StringeeManager.getInstance().getIncomingCall(callId);
         if (stringeeCall == null) {
             finish();
@@ -66,19 +72,40 @@ public class IncomingCallActivity extends AppCompatActivity {
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-        // Đổ chuông
+        setupCallListener();
+
         batDauChuong();
 
-        // Đăng ký listener để theo dõi trạng thái
+        btnAnswer.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
+            } else {
+                ngheMaxy();
+            }
+        });
+
+        btnReject.setOnClickListener(v -> tuChoiCuocGoi());
+    }
+
+    private void setupCallListener() {
         stringeeCall.setCallListener(new StringeeCall.StringeeCallListener() {
             @Override
             public void onSignalingStateChange(StringeeCall call, StringeeCall.SignalingState state,
                                                String reason, int sipCode, String sipReason) {
                 runOnUiThread(() -> {
-                    if (state == StringeeCall.SignalingState.ENDED
-                            || state == StringeeCall.SignalingState.BUSY) {
-                        dungChuong();
-                        finish();
+                    switch (state) {
+                        case ANSWERED:
+                            tvCallStatus.setText("Đang kết nối...");
+                            break;
+                        case ENDED:
+                        case BUSY:
+                            dungChuong();
+                            stopTimer();
+                            tvCallStatus.setText("Cuộc gọi kết thúc");
+                            handler.postDelayed(() -> finish(), 1500);
+                            break;
                     }
                 });
             }
@@ -87,6 +114,8 @@ public class IncomingCallActivity extends AppCompatActivity {
             public void onError(StringeeCall call, int code, String description) {
                 runOnUiThread(() -> {
                     dungChuong();
+                    Toast.makeText(IncomingCallActivity.this,
+                            "Lỗi: " + description, Toast.LENGTH_SHORT).show();
                     finish();
                 });
             }
@@ -102,7 +131,18 @@ public class IncomingCallActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onMediaStateChange(StringeeCall call, StringeeCall.MediaState state) {}
+            public void onMediaStateChange(StringeeCall call, StringeeCall.MediaState state) {
+                runOnUiThread(() -> {
+                    if (state == StringeeCall.MediaState.CONNECTED) {
+                        // Media 2 chiều đã kết nối
+                        tvCallStatus.setText("Đang nghe...");
+                        startTimer();
+                        btnAnswer.setEnabled(false);
+                    } else if (state == StringeeCall.MediaState.DISCONNECTED) {
+                        tvCallStatus.setText("Media ngắt kết nối");
+                    }
+                });
+            }
 
             @Override
             public void onLocalStream(StringeeCall call) {}
@@ -113,18 +153,61 @@ public class IncomingCallActivity extends AppCompatActivity {
             @Override
             public void onCallInfo(StringeeCall call, JSONObject info) {}
         });
+    }
 
-        btnAnswer.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
-            } else {
-                ngheMaxy();
+    private void ngheMaxy() {
+        if (answered) return;
+        answered = true;
+
+        dungChuong();
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.setSpeakerphoneOn(false);
+
+        // Thứ tự bắt buộc: ringing → answer
+        stringeeCall.ringing(new StatusListener() {
+            @Override public void onSuccess() {
+                stringeeCall.answer(new StatusListener() {
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(() -> tvCallStatus.setText("Đang kết nối media..."));
+                    }
+
+                    @Override
+                    public void onError(StringeeError error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(IncomingCallActivity.this,
+                                    "Lỗi nghe máy: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            finish();
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onError(StringeeError error) {
+                // ringing thất bại vẫn thử answer
+                stringeeCall.answer(new StatusListener() {
+                    @Override public void onSuccess() {
+                        runOnUiThread(() -> tvCallStatus.setText("Đang kết nối media..."));
+                    }
+                    @Override public void onError(StringeeError e) {
+                        runOnUiThread(() -> finish());
+                    }
+                });
             }
         });
+    }
 
-        btnReject.setOnClickListener(v -> tuChoiCuocGoi());
+    private void tuChoiCuocGoi() {
+        dungChuong();
+        if (stringeeCall != null) {
+            stringeeCall.reject(new StatusListener() {
+                @Override public void onSuccess() {}
+                @Override public void onError(StringeeError error) {}
+            });
+        }
+        StringeeManager.getInstance().removeCall(callId);
+        finish();
     }
 
     private void batDauChuong() {
@@ -141,43 +224,22 @@ public class IncomingCallActivity extends AppCompatActivity {
         if (ringtone != null && ringtone.isPlaying()) ringtone.stop();
     }
 
-    private void ngheMaxy() {
-        dungChuong();
-        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-        audioManager.setSpeakerphoneOn(false);
-
-        stringeeCall.ringing(new StatusListener() {
-            @Override public void onSuccess() {}
-            @Override public void onError(StringeeError error) {}
-        });
-
-        stringeeCall.answer(new StatusListener() {
+    private void startTimer() {
+        callSeconds = 0;
+        timerRunnable = new Runnable() {
             @Override
-            public void onSuccess() {
-                runOnUiThread(() -> tvCallStatus.setText("Đang nghe..."));
+            public void run() {
+                callSeconds++;
+                int m = callSeconds / 60, s = callSeconds % 60;
+                tvCallStatus.setText(String.format("%02d:%02d", m, s));
+                handler.postDelayed(this, 1000);
             }
-
-            @Override
-            public void onError(StringeeError error) {
-                runOnUiThread(() -> {
-                    Toast.makeText(IncomingCallActivity.this,
-                            "Lỗi nghe máy: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    finish();
-                });
-            }
-        });
+        };
+        handler.post(timerRunnable);
     }
 
-    private void tuChoiCuocGoi() {
-        dungChuong();
-        if (stringeeCall != null) {
-            stringeeCall.reject(new StatusListener() {
-                @Override public void onSuccess() {}
-                @Override public void onError(StringeeError error) {}
-            });
-        }
-        StringeeManager.getInstance().removeCall(callId);
-        finish();
+    private void stopTimer() {
+        if (timerRunnable != null) handler.removeCallbacks(timerRunnable);
     }
 
     @Override
@@ -198,6 +260,7 @@ public class IncomingCallActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         dungChuong();
+        stopTimer();
         if (audioManager != null) {
             audioManager.setSpeakerphoneOn(false);
             audioManager.setMode(AudioManager.MODE_NORMAL);

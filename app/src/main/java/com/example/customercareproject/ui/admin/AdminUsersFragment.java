@@ -41,6 +41,10 @@ public class AdminUsersFragment extends Fragment {
 
     private UserAdminAdapter adapter;
     private List<NguoiDung> allUsers = new ArrayList<>();
+    private com.google.firebase.firestore.ListenerRegistration userListener;
+    private Spinner spinnerLoc;
+    private com.google.android.material.textfield.TextInputEditText edtTimKiem;
+    private String[] vaiTroOptions;
 
     @Nullable
     @Override
@@ -54,14 +58,14 @@ public class AdminUsersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView rvUsers = view.findViewById(R.id.rvUsers);
-        TextInputEditText edtTimKiem = view.findViewById(R.id.edtTimKiemUser);
-        Spinner spinnerLoc = view.findViewById(R.id.spinnerLocVaiTro);
+        edtTimKiem = view.findViewById(R.id.edtTimKiemUser);
+        spinnerLoc = view.findViewById(R.id.spinnerLocVaiTro);
         FloatingActionButton fabTaoKtv = view.findViewById(R.id.fabTaoKtv);
 
         // Options dung de loc (gia tri thuc)
-        String[] vaiTroOptions = {"", NguoiDung.VAI_TRO_KHACH_HANG, NguoiDung.VAI_TRO_KTV, NguoiDung.VAI_TRO_ADMIN};
+        vaiTroOptions = new String[]{"", NguoiDung.VAI_TRO_KHACH_HANG, NguoiDung.VAI_TRO_KTV, NguoiDung.VAI_TRO_ADMIN};
         // Labels hien thi
-        String[] vaiTroLabels = {"Tat ca", "Khach hang", "KTV", "Admin"};
+        String[] vaiTroLabels = {"Tất cả", "Khách hàng", "KTV", "Admin"};
 
         ArrayAdapter<String> spAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item, vaiTroLabels);
@@ -90,20 +94,29 @@ public class AdminUsersFragment extends Fragment {
         });
 
         fabTaoKtv.setOnClickListener(v -> hienDialogTaoKtv());
-        taiDanhSachUser();
+        batLangNgheUser();
     }
 
-    private void taiDanhSachUser() {
-        FirebaseFirestore.getInstance().collection("NguoiDung").get()
-                .addOnSuccessListener(snap -> {
+    private void batLangNgheUser() {
+        if (userListener != null) userListener.remove();
+        userListener = FirebaseFirestore.getInstance().collection("NguoiDung")
+                .addSnapshotListener((snap, e) -> {
+                    if (snap == null || getContext() == null) return;
                     allUsers.clear();
                     for (QueryDocumentSnapshot doc : snap) {
                         NguoiDung nd = doc.toObject(NguoiDung.class);
                         nd.setUid(doc.getId());
                         allUsers.add(nd);
                     }
-                    adapter.capNhat(allUsers);
+                    String query = edtTimKiem.getText() != null ? edtTimKiem.getText().toString() : "";
+                    locDanhSach(query, vaiTroOptions[spinnerLoc.getSelectedItemPosition()]);
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (userListener != null) userListener.remove();
     }
 
     private void locDanhSach(String query, String vaiTro) {
@@ -136,16 +149,16 @@ public class AdminUsersFragment extends Fragment {
         }
 
         new AlertDialog.Builder(getContext())
-                .setTitle("Tao tai khoan Ky Thuat Vien")
+                .setTitle("Tạo tài khoản Kỹ Thuật Viên")
                 .setView(dialogView)
-                .setPositiveButton("Tao", (dialog, which) -> {
+                .setPositiveButton("Tạo", (dialog, which) -> {
                     String hoTen = edtHoTen.getText() != null ? edtHoTen.getText().toString().trim() : "";
                     String email = edtEmail.getText() != null ? edtEmail.getText().toString().trim() : "";
                     String sdt = edtSdt.getText() != null ? edtSdt.getText().toString().trim() : "";
                     String matKhau = edtMatKhau.getText() != null ? edtMatKhau.getText().toString().trim() : "";
 
                     if (hoTen.isEmpty() || email.isEmpty() || matKhau.length() < 6) {
-                        Toast.makeText(getContext(), "Vui long dien day du (mat khau >= 6 ky tu)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Vui lòng điền đầy đủ (mật khẩu >= 6 ký tự)", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -157,7 +170,7 @@ public class AdminUsersFragment extends Fragment {
 
                     taoTaiKhoanKtv(hoTen, email, sdt, matKhau, chuyenMon);
                 })
-                .setNegativeButton("Huy", null)
+                .setNegativeButton("Hủy", null)
                 .show();
     }
 
@@ -198,16 +211,16 @@ public class AdminUsersFragment extends Fragment {
                             .set(data)
                             .addOnSuccessListener(v -> {
                                 Toast.makeText(getContext(),
-                                        "Da tao KTV: " + hoTen, Toast.LENGTH_SHORT).show();
-                                taiDanhSachUser();
+                                        "Đã tạo KTV: " + hoTen, Toast.LENGTH_SHORT).show();
+                                // Listener tự cập nhật danh sách
                             })
                             .addOnFailureListener(e2 -> {
                                 Toast.makeText(getContext(),
-                                        "Loi luu thong tin: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
+                                        "Lỗi lưu thông tin: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
                             });
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(getContext(),
-                                "Loi tao tai khoan: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                "Lỗi tạo tài khoản: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

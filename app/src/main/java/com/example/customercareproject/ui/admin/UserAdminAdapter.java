@@ -42,6 +42,14 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
         holder.tvEmail.setText(nd.getEmail());
         holder.tvVaiTro.setText(nd.getVaiTro());
 
+        // Avatar chữ cái đầu
+        if (holder.tvAvatarInitial != null) {
+            String hoTen = nd.getHoTen();
+            String initial = (hoTen != null && !hoTen.isEmpty())
+                    ? String.valueOf(hoTen.charAt(0)).toUpperCase() : "?";
+            holder.tvAvatarInitial.setText(initial);
+        }
+
         // Hiển thị chuyên môn nếu là KTV
         if (NguoiDung.VAI_TRO_KTV.equals(nd.getVaiTro()) && nd.getChuyenMon() != null && !nd.getChuyenMon().isEmpty()) {
             holder.tvChuyenMon.setVisibility(View.VISIBLE);
@@ -54,7 +62,11 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
         if (NguoiDung.VAI_TRO_KTV.equals(nd.getVaiTro())) {
             holder.tvTrangThai.setVisibility(View.VISIBLE);
             String ts = nd.getTrangThai();
-            holder.tvTrangThai.setText(ts);
+            String tsHienThi;
+            if (NguoiDung.TRANG_THAI_RAN.equals(ts)) tsHienThi = "Rảnh";
+            else if (NguoiDung.TRANG_THAI_BAN.equals(ts)) tsHienThi = "Đang bận";
+            else tsHienThi = "Offline";
+            holder.tvTrangThai.setText(tsHienThi);
             int color;
             if (NguoiDung.TRANG_THAI_RAN.equals(ts)) color = holder.itemView.getContext().getColor(R.color.success);
             else if (NguoiDung.TRANG_THAI_BAN.equals(ts)) color = holder.itemView.getContext().getColor(R.color.warning);
@@ -97,7 +109,7 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
     public int getItemCount() { return danhSach.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvHoTen, tvEmail, tvVaiTro, tvChuyenMon, tvTrangThai;
+        TextView tvHoTen, tvEmail, tvVaiTro, tvChuyenMon, tvTrangThai, tvAvatarInitial;
         Spinner spinnerVaiTro;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +118,7 @@ public class UserAdminAdapter extends RecyclerView.Adapter<UserAdminAdapter.View
             tvVaiTro = itemView.findViewById(R.id.tvVaiTro);
             tvChuyenMon = itemView.findViewById(R.id.tvChuyenMon);
             tvTrangThai = itemView.findViewById(R.id.tvTrangThaiKtv);
+            tvAvatarInitial = itemView.findViewById(R.id.tvAvatarInitial);
             spinnerVaiTro = itemView.findViewById(R.id.spinnerVaiTro);
         }
     }

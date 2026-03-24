@@ -78,7 +78,7 @@ public class LoiPhatSinhFragment extends Fragment {
             Intent intent = new Intent(getContext(), com.example.customercareproject.ui.loi.YeuCauHoTroActivity.class);
             intent.putExtra("sanPham", sanPham);
             intent.putExtra("loiId", "");
-            intent.putExtra("tieuDeLoi", "Van de khac");
+            intent.putExtra("tieuDeLoi", "Vấn đề khác");
             startActivity(intent);
         });
 
@@ -96,8 +96,8 @@ public class LoiPhatSinhFragment extends Fragment {
     private void taiDanhSachLoi() {
         FirebaseFirestore.getInstance().collection("LoiPhatSinh")
                 .whereEqualTo("sanPham", sanPham)
-                .get()
-                .addOnSuccessListener(snapshot -> {
+                .addSnapshotListener((snapshot, e) -> {
+                    if (snapshot == null || getContext() == null) return;
                     danhSachLoi.clear();
                     for (QueryDocumentSnapshot doc : snapshot) {
                         LoiPhatSinh loi = doc.toObject(LoiPhatSinh.class);

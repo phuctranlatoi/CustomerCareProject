@@ -3,24 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingVertical="8dp">
+    android:paddingVertical="10dp">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:gravity="center_vertical"
-        android:layout_marginBottom="4dp">
-        <TextView android:id="@+id/tvTenSanPham"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:textSize="13sp"
-            android:textColor="@color/text_primary" android:textStyle="bold" />
-        <TextView android:id="@+id/tvSoLuong"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="12sp" android:textColor="@color/text_secondary" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:id="@+id/tvTenSanPham"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="13sp"
+            android:textColor="#0F172A"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSoLuong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#94A3B8" />
     </LinearLayout>
 
-    <ProgressBar android:id="@+id/pbSanPham"
-        android:layout_width="match_parent" android:layout_height="8dp"
+    <ProgressBar
+        android:id="@+id/pbSanPham"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:progressTint="@color/primary"
-        android:progressBackgroundTint="@color/star_inactive"
-        android:max="100" android:progress="0" />
+        android:progressBackgroundTint="#F1F5F9"
+        android:max="100"
+        android:progress="0" />
 </LinearLayout>

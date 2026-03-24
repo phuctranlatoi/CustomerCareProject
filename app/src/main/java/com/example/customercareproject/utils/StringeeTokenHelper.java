@@ -34,7 +34,7 @@ public class StringeeTokenHelper {
             JSONObject payload = new JSONObject();
             payload.put("jti", API_KEY_SID + "-" + now);
             payload.put("iss", API_KEY_SID);
-            payload.put("exp", now + 3600); // hết hạn sau 1 giờ
+            payload.put("exp", now + 86400); // hết hạn sau 24 giờ
             payload.put("userId", userId);
 
             String headerEncoded = base64UrlEncode(header.toString().getBytes(StandardCharsets.UTF_8));

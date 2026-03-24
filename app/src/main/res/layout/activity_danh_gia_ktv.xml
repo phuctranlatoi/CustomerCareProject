@@ -4,15 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F2F5">
+    android:fitsSystemWindows="true"
+    android:background="#F5F7FA">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Top bar -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@android:drawable/ic_media_previous" />
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:gravity="center_vertical"
+        android:elevation="2dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_media_previous"
+            android:tint="#0F172A"
+            android:contentDescription="Quay lại" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đánh giá hỗ trợ"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#0F172A"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,15 +46,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="16dp">
 
             <!-- Card thông tin KTV -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -40,22 +64,21 @@
                     android:padding="20dp"
                     android:gravity="center">
 
-                    <!-- Avatar placeholder -->
-                    <ImageView
-                        android:id="@+id/ivAvatar"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:src="@android:drawable/ic_menu_myplaces"
-                        android:tint="@color/primary"
-                        android:layout_marginBottom="12dp"
-                        android:contentDescription="Avatar KTV" />
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:text="👨‍💻"
+                        android:textSize="28sp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_avatar_circle"
+                        android:layout_marginBottom="12dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Kỹ thuật viên hỗ trợ bạn"
-                        android:textColor="#757575"
-                        android:textSize="13sp"
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
@@ -63,8 +86,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tên KTV"
-                        android:textColor="#212121"
-                        android:textSize="20sp"
+                        android:textColor="#0F172A"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -73,9 +96,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,8 +112,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bạn hài lòng với dịch vụ hỗ trợ không?"
-                        android:textColor="#212121"
-                        android:textSize="15sp"
+                        android:textColor="#0F172A"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:layout_marginBottom="16dp" />
@@ -108,8 +132,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Xuất sắc"
-                        android:textColor="@color/primary"
-                        android:textSize="16sp"
+                        android:textColor="#1976D2"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -118,9 +142,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -132,8 +157,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Chọn nhận xét nhanh"
-                        android:textColor="#212121"
-                        android:textSize="14sp"
+                        android:textColor="#0F172A"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="12dp" />
 
@@ -150,9 +175,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -164,8 +190,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nhận xét thêm (tuỳ chọn)"
-                        android:textColor="#212121"
-                        android:textSize="14sp"
+                        android:textColor="#0F172A"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp" />
 
@@ -192,28 +218,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@color/white"
+        android:padding="14dp"
+        android:background="#FFFFFF"
         android:elevation="4dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBoQua"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="Bỏ qua"
-            android:textColor="@color/primary"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:textColor="#1976D2"
+            app:cornerRadius="12dp"
+            app:backgroundTint="#EEF4FF"
+            android:textSize="14sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGuiDanhGia"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:layout_weight="2"
             android:text="Gửi đánh giá"
-            android:backgroundTint="@color/primary"
-            style="@style/Widget.MaterialComponents.Button" />
+            app:cornerRadius="12dp"
+            app:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

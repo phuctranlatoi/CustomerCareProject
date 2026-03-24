@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="4dp">
+
+    <TextView
+        android:id="@+id/tvStarNum"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textSize="11sp"
+        android:textColor="#64748B"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="★"
+        android:textSize="10sp"
+        android:textColor="#F59E0B"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="6dp" />
+
+    <ProgressBar
+        android:id="@+id/pbStar"
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:layout_weight="1"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressTint="#F59E0B"
+        android:progressBackgroundTint="#F1F5F9"
+        android:max="100"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/tvStarCount"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="11sp"
+        android:textColor="#94A3B8"
+        android:gravity="end"
+        android:layout_marginStart="6dp" />
+</LinearLayout>

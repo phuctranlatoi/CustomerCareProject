@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.LoiPhatSinh;
 import com.example.customercareproject.model.SanPham;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,7 +47,7 @@ public class AdminKnowledgeFragment extends Fragment {
 
         spinnerSanPham = view.findViewById(R.id.spinnerSanPham);
         RecyclerView rvKnowledge = view.findViewById(R.id.rvKnowledge);
-        FloatingActionButton fabThem = view.findViewById(R.id.fabThemLoi);
+        MaterialButton fabThem = view.findViewById(R.id.fabThemLoi);
 
         ArrayAdapter<String> spAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item, SanPham.DANH_SACH);
@@ -71,10 +71,10 @@ public class AdminKnowledgeFragment extends Fragment {
     }
 
     private void taiDanhSachLoi(String sanPham) {
-        db.collection("LoiPhatSinh").whereEqualTo("sanPham", sanPham).get()
-                .addOnSuccessListener(snap -> {
+        db.collection("LoiPhatSinh").whereEqualTo("sanPham", sanPham)
+                .addSnapshotListener((snap, e) -> {
+                    if (snap == null || getContext() == null) return;
                     List<LoiPhatSinh> list = new ArrayList<>();
-                
                     for (QueryDocumentSnapshot doc : snap) {
                         LoiPhatSinh loi = doc.toObject(LoiPhatSinh.class);
                         loi.setId(doc.getId());
@@ -115,7 +115,7 @@ public class AdminKnowledgeFragment extends Fragment {
                     db.collection("LoiPhatSinh").add(data)
                             .addOnSuccessListener(ref -> {
                                 Toast.makeText(getContext(), "Đã thêm!", Toast.LENGTH_SHORT).show();
-                                taiDanhSachLoi(sanPham);
+                                // Listener tự cập nhật
                             });
                 })
                 .setNegativeButton("Hủy", null)
@@ -130,7 +130,7 @@ public class AdminKnowledgeFragment extends Fragment {
                     db.collection("LoiPhatSinh").document(loiId).delete()
                             .addOnSuccessListener(v -> {
                                 Toast.makeText(getContext(), "Đã xóa!", Toast.LENGTH_SHORT).show();
-                                taiDanhSachLoi(SanPham.DANH_SACH[spinnerSanPham.getSelectedItemPosition()]);
+                                // Listener tự cập nhật
                             });
                 })
                 .setNegativeButton("Hủy", null)
