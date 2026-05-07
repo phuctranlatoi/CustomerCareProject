@@ -2,18 +2,21 @@ package com.example.customercareproject.ui.ktv;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.widget.TextView;
-
 import com.example.customercareproject.R;
+import com.example.customercareproject.model.TemplateTrLoi;
 import com.example.customercareproject.ui.call.VoiceCallActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +32,8 @@ import java.util.Map;
 public class KtvChatActivity extends AppCompatActivity {
 
     private String ticketId, tenKhachHang, khachHangUid = "", tenKtv = "KTV";
+    private String currentSanPham = "";
+    private TextInputEditText edtTinNhan;
     private TextView tvSubtitle;
     private FirebaseUser user;
     private ChatAdapter chatAdapter;
@@ -36,6 +41,7 @@ public class KtvChatActivity extends AppCompatActivity {
     private ListenerRegistration chatListener;
     private RecyclerView rvChat;
     private final List<Map<String, Object>> danhSachTin = new ArrayList<>();
+    private List<TemplateTrLoi> allTemplates = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +92,34 @@ public class KtvChatActivity extends AppCompatActivity {
                         if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
                             tvSubtitle.setText("Khách: " + tenKhachHang);
                         }
+                        // Lấy sanPham
+                        String sp = doc.getString("sanPham");
+                        if (sp != null) currentSanPham = sp;
+                        // Re-enable template end icon now that currentSanPham is loaded
+                        com.google.android.material.textfield.TextInputLayout til = findViewById(R.id.tilTinNhan);
+                        if (til != null) til.setEndIconActivated(true);
+                        // Load all templates for auto-suggest
+                        if (sp != null) {
+                            db.collection("TemplateTrLoi")
+                                .whereEqualTo("sanPham", sp)
+                                .get()
+                                .addOnSuccessListener(tSnap -> {
+                                    allTemplates.clear();
+                                    for (com.google.firebase.firestore.QueryDocumentSnapshot tDoc : tSnap) {
+                                        TemplateTrLoi t = tDoc.toObject(TemplateTrLoi.class);
+                                        t.setId(tDoc.getId());
+                                        allTemplates.add(t);
+                                    }
+                                });
+                        }
                     }
                 });
 
         TextInputEditText edtTinNhan = findViewById(R.id.edtTinNhan);
+        this.edtTinNhan = edtTinNhan;
         ImageButton btnGui = findViewById(R.id.btnGui);
         ImageButton btnGoiThoai = findViewById(R.id.btnGoiThoai);
+        com.google.android.material.textfield.TextInputLayout tilTinNhan = findViewById(R.id.tilTinNhan);
 
         btnGui.setOnClickListener(v -> guiTin(edtTinNhan));
         edtTinNhan.setOnEditorActionListener((v, actionId, event) -> {
@@ -100,6 +128,9 @@ public class KtvChatActivity extends AppCompatActivity {
         });
 
         btnGoiThoai.setOnClickListener(v -> batDauGoiThoai());
+        if (tilTinNhan != null) {
+            tilTinNhan.setEndIconOnClickListener(v -> hienBottomSheetTemplate());
+        }
 
         langNgheChat();
     }
@@ -158,6 +189,59 @@ public class KtvChatActivity extends AppCompatActivity {
                     if (!danhSachTin.isEmpty())
                         rvChat.scrollToPosition(chatAdapter.getItemCount() - 1);
                 });
+    }
+
+    private void hienBottomSheetTemplate() {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View sheetView = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_template, null);
+        dialog.setContentView(sheetView);
+
+        RecyclerView rvTemplate = sheetView.findViewById(R.id.rvTemplate);
+        TextView tvEmptyTemplate = sheetView.findViewById(R.id.tvEmptyTemplate);
+        rvTemplate.setLayoutManager(new LinearLayoutManager(this));
+
+        db.collection("TemplateTrLoi")
+                .whereEqualTo("sanPham", currentSanPham)
+                // Removed .orderBy("tieuDe") to avoid index requirement
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<TemplateTrLoi> danhSach = new ArrayList<>();
+                    for (com.google.firebase.firestore.QueryDocumentSnapshot doc : querySnapshot) {
+                        TemplateTrLoi t = doc.toObject(TemplateTrLoi.class);
+                        t.setId(doc.getId());
+                        danhSach.add(t);
+                    }
+                    
+                    // Sort in memory instead of in query
+                    if (!danhSach.isEmpty()) {
+                        java.util.Collections.sort(danhSach, (t1, t2) -> {
+                            String title1 = t1.getTieuDe() != null ? t1.getTieuDe() : "";
+                            String title2 = t2.getTieuDe() != null ? t2.getTieuDe() : "";
+                            return title1.compareTo(title2);
+                        });
+                    }
+                    
+                    if (danhSach.isEmpty()) {
+                        tvEmptyTemplate.setVisibility(View.VISIBLE);
+                        rvTemplate.setVisibility(View.GONE);
+                    } else {
+                        tvEmptyTemplate.setVisibility(View.GONE);
+                        rvTemplate.setVisibility(View.VISIBLE);
+                        TemplateAdapter adapter = new TemplateAdapter(danhSach, template -> {
+                            if (edtTinNhan != null) edtTinNhan.setText(template.getNoiDung());
+                            dialog.dismiss();
+                        });
+                        rvTemplate.setAdapter(adapter);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Lỗi tải template: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+        dialog.show();
+    }
+
+    private void filterTemplateSuggest(String query) {
+        // Feature disabled as layout is simplified
     }
 
     @Override

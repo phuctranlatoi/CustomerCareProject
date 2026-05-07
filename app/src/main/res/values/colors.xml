@@ -1,38 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Primary blue palette -->
+    <!-- ============================================ -->
+    <!-- Material Design 3 Color System -->
+    <!-- ============================================ -->
+
+    <!-- Primary Color Shades (Blue) -->
+    <color name="primary_50">#E3F2FD</color>
+    <color name="primary_100">#BBDEFB</color>
+    <color name="primary_200">#90CAF9</color>
+    <color name="primary_300">#64B5F6</color>
+    <color name="primary_400">#42A5F5</color>
+    <color name="primary_500">#2196F3</color>
+    <color name="primary_600">#1E88E5</color>
+    <color name="primary_700">#1976D2</color>
+    <color name="primary_800">#1565C0</color>
+    <color name="primary_900">#0D47A1</color>
+
+    <!-- Secondary Color Shades (Cyan) -->
+    <color name="secondary_50">#E0F7FA</color>
+    <color name="secondary_100">#B2EBF2</color>
+    <color name="secondary_200">#80DEEA</color>
+    <color name="secondary_300">#4DD0E1</color>
+    <color name="secondary_400">#26C6DA</color>
+    <color name="secondary_500">#00BCD4</color>
+    <color name="secondary_600">#00ACC1</color>
+    <color name="secondary_700">#0097A7</color>
+    <color name="secondary_800">#00838F</color>
+    <color name="secondary_900">#006064</color>
+
+    <!-- MD3 Primary Color Tokens -->
     <color name="primary">#1976D2</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#BBDEFB</color>
+    <color name="on_primary_container">#0D47A1</color>
+
+    <!-- MD3 Secondary Color Tokens -->
+    <color name="secondary">#0097A7</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#B2EBF2</color>
+    <color name="on_secondary_container">#006064</color>
+
+    <!-- MD3 Surface Color Tokens -->
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1C1B1F</color>
+    <color name="surface_variant">#E7E0EC</color>
+    <color name="on_surface_variant">#49454F</color>
+    <color name="surface_container">#F3EDF7</color>
+    <color name="surface_container_high">#ECE6F0</color>
+    <color name="surface_container_highest">#E6E0E9</color>
+    <color name="surface_container_low">#F7F2FA</color>
+    <color name="surface_container_lowest">#FFFFFF</color>
+
+    <!-- MD3 Background Color Tokens -->
+    <color name="background">#FFFBFE</color>
+    <color name="on_background">#1C1B1F</color>
+
+    <!-- MD3 Outline and Border Colors -->
+    <color name="outline">#79747E</color>
+    <color name="outline_variant">#CAC4D0</color>
+
+    <!-- Semantic Colors (WCAG AA Compliant) -->
+    <color name="success">#10B981</color>
+    <color name="on_success">#FFFFFF</color>
+    <color name="success_container">#D1FAE5</color>
+    <color name="on_success_container">#065F46</color>
+
+    <color name="warning">#F59E0B</color>
+    <color name="on_warning">#000000</color>
+    <color name="warning_container">#FEF3C7</color>
+    <color name="on_warning_container">#78350F</color>
+
+    <color name="error">#EF4444</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="error_container">#FEE2E2</color>
+    <color name="on_error_container">#991B1B</color>
+
+    <color name="info">#3B82F6</color>
+    <color name="on_info">#FFFFFF</color>
+    <color name="info_container">#DBEAFE</color>
+    <color name="on_info_container">#1E3A8A</color>
+
+    <!-- ============================================ -->
+    <!-- Legacy Colors (for backward compatibility) -->
+    <!-- ============================================ -->
+
+    <!-- Legacy primary colors -->
     <color name="primary_dark">#0D47A1</color>
     <color name="primary_light">#BBDEFB</color>
     <color name="primary_surface">#E3F2FD</color>
 
-    <!-- Accent & status -->
+    <!-- Legacy accent -->
     <color name="accent">#FF6F00</color>
-    <color name="success">#00897B</color>
-    <color name="warning">#F9A825</color>
-    <color name="error">#E53935</color>
 
-    <!-- Text -->
-    <color name="text_primary">#0D1B2A</color>
-    <color name="text_secondary">#546E7A</color>
+    <!-- Legacy text colors -->
+    <color name="text_primary">#1C1B1F</color>
+    <color name="text_secondary">#49454F</color>
     <color name="text_on_primary">#FFFFFF</color>
-    <color name="text_hint">#90A4AE</color>
+    <color name="text_hint">#79747E</color>
 
-    <!-- Backgrounds -->
-    <color name="background">#EEF4FB</color>
+    <!-- Legacy backgrounds -->
     <color name="card_bg">#FFFFFF</color>
-    <color name="surface">#F0F7FF</color>
+    <color name="background_light">#FAFAFA</color>
 
-    <!-- Misc -->
-    <color name="divider">#B0BEC5</color>
+    <!-- Legacy misc -->
+    <color name="divider">#CAC4D0</color>
     <color name="star_active">#FFB300</color>
     <color name="star_inactive">#E0E0E0</color>
-    <color name="chip_bg">#DCEEFB</color>
+    <color name="chip_bg">#E7E0EC</color>
     <color name="bubble_ktv">#1565C0</color>
     <color name="bubble_kh">#FFFFFF</color>
     <color name="header_gradient_start">#1565C0</color>
     <color name="header_gradient_end">#1E88E5</color>
+
+    <!-- Legacy secondary -->
+    <color name="secondary_dark">#006064</color>
+
+    <!-- ============================================ -->
+    <!-- Additional UI Colors -->
+    <!-- ============================================ -->
+
+    <!-- Scrim and overlays -->
+    <color name="scrim">#000000</color>
+    <color name="scrim_60">#99000000</color>
+
+    <!-- Inverse colors for dark backgrounds -->
+    <color name="inverse_surface">#313033</color>
+    <color name="inverse_on_surface">#F4EFF4</color>
+    <color name="inverse_primary">#90CAF9</color>
+
+    <!-- Shadow and elevation -->
+    <color name="shadow">#000000</color>
 </resources>

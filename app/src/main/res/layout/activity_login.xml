@@ -7,27 +7,28 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/loginContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="28dp"
-        android:paddingBottom="32dp"
         android:gravity="center_horizontal">
 
-        <!-- Logo / Brand area -->
+        <!-- Hero gradient background section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/bg_login_hero_gradient"
             android:gravity="center"
-            android:paddingTop="64dp"
-            android:paddingBottom="40dp">
+            android:paddingTop="48dp"
+            android:paddingBottom="48dp"
+            android:paddingHorizontal="28dp">
 
             <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@android:drawable/ic_dialog_info"
-                android:tint="@color/primary"
+                android:tint="?attr/colorOnPrimary"
                 android:contentDescription="Logo"
                 android:layout_marginBottom="16dp" />
 
@@ -35,121 +36,123 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chăm Sóc Khách Hàng"
-                android:textSize="26sp"
+                android:textSize="28sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary"
-                android:layout_marginBottom="6dp" />
+                android:textColor="?attr/colorOnPrimary"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng nhập để tiếp tục"
-                android:textSize="14sp"
-                android:textColor="@color/text_secondary" />
+                android:textSize="16sp"
+                android:textColor="?attr/colorOnPrimary"
+                android:alpha="0.9" />
         </LinearLayout>
 
-        <!-- Form card -->
-        <androidx.cardview.widget.CardView
+        <!-- Form section -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white">
+            android:orientation="vertical"
+            android:paddingHorizontal="28dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp">
+
+            <!-- Email field with Material3TextField -->
+            <com.example.customercareproject.ui.components.Material3TextField
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="16dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/primary"
+                app:hintTextColor="@color/primary" />
+
+            <!-- Password field with Material3TextField -->
+            <com.example.customercareproject.ui.components.Material3TextField
+                android:id="@+id/txtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mật khẩu"
+                android:inputType="textPassword"
+                android:layout_marginBottom="8dp"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/primary"
+                app:hintTextColor="@color/primary"
+                app:endIconMode="password_toggle" />
+
+            <TextView
+                android:id="@+id/tvForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quên mật khẩu?"
+                android:textColor="?attr/colorPrimary"
+                android:layout_gravity="end"
+                android:padding="8dp"
+                android:layout_marginBottom="24dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- Login button with Material3Button -->
+            <com.example.customercareproject.ui.components.Material3Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Đăng nhập"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="?attr/colorPrimary"
+                android:layout_marginBottom="16dp"
+                app:cornerRadius="@dimen/shape_corner_small" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="14dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Mật khẩu"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:passwordToggleEnabled="true"
-                    android:layout_marginBottom="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:imeOptions="actionDone" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/tvForgotPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quên mật khẩu?"
-                    android:textColor="@color/primary"
-                    android:layout_gravity="end"
-                    android:padding="4dp"
-                    android:layout_marginBottom="20dp" />
-
-                <Button
-                    android:id="@+id/btnLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:text="Đăng nhập"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:backgroundTint="@color/primary"
-                    android:layout_marginBottom="14dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginBottom="14dp">
-                    <View android:layout_width="0dp" android:layout_height="1dp"
-                        android:layout_weight="1" android:background="@color/divider" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="  hoặc  " android:textColor="@color/text_hint" android:textSize="13sp" />
-                    <View android:layout_width="0dp" android:layout_height="1dp"
-                        android:layout_weight="1" android:background="@color/divider" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnGoogleLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="Đăng nhập với Google"
-                    android:textColor="@color/text_primary"
-                    android:backgroundTint="@color/white"
-                    style="@style/Widget.Material3.Button.OutlinedButton" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+                <View android:layout_width="0dp" android:layout_height="1dp"
+                    android:layout_weight="1" android:background="@color/divider" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  hoặc  " android:textColor="?attr/colorOnSurfaceVariant" android:textSize="13sp" />
+                <View android:layout_width="0dp" android:layout_height="1dp"
+                    android:layout_weight="1" android:background="@color/divider" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Chưa có tài khoản? " android:textColor="@color/text_secondary" />
-            <TextView
-                android:id="@+id/tvRegister"
+            <!-- Google login button with Material3Button -->
+            <com.example.customercareproject.ui.components.Material3Button
+                android:id="@+id/btnGoogleLogin"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Đăng nhập với Google"
+                android:textColor="?attr/colorOnSurface"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp"
+                app:cornerRadius="@dimen/shape_corner_small"
+                android:layout_marginBottom="24dp" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đăng ký ngay"
-                android:textColor="@color/primary"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Chưa có tài khoản? " android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tvRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đăng ký ngay"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

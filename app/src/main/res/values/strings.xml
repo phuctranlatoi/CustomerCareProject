@@ -17,4 +17,8 @@
     <string name="tab_giao_dien">Giao Diện</string>
     <string name="tab_chuc_nang">Chức Năng</string>
     <string name="tab_loi_phat_sinh">Lỗi Phát Sinh</string>
+
+    <!-- EmptyStateView -->
+    <string name="empty_state_illustration">Empty state illustration</string>
+    <string name="action_button">Action</string>
 </resources>

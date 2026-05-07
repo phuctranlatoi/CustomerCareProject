@@ -55,11 +55,71 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/bg_avatar_circle"
-            android:src="@android:drawable/ic_menu_call"
-            android:tint="#1976D2"
+            android:src="@drawable/ic_call"
+            app:tint="?attr/colorPrimary"
             android:padding="9dp"
             android:contentDescription="Gọi thoại" />
     </LinearLayout>
+
+    <!-- Banner chờ KTV (ẩn mặc định) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bannerCho"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/warning_container"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_warning_amber"
+                app:tint="@color/on_warning_container"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đang tìm kỹ thuật viên..."
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/on_warning_container" />
+
+                <TextView
+                    android:id="@+id/tvThoiGianChoBanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian chờ: 00:00"
+                    android:textSize="12sp"
+                    android:textColor="@color/on_warning_container"
+                    android:alpha="0.9" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHuyYeuCauBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hủy"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:textColor="@color/error" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Chat messages -->
     <androidx.recyclerview.widget.RecyclerView
@@ -84,32 +144,48 @@
         android:gravity="center_vertical"
         android:elevation="6dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtTinNhan"
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp">
+            <!-- Gắn kèm đính kèm (ẩn tạm thời) -->
+        </FrameLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilTinNhan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Nhập tin nhắn..."
-            android:inputType="textMultiLine|textCapSentences"
-            android:imeOptions="actionSend"
-            android:maxLines="4"
-            android:background="@drawable/bg_input_chat"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="10dp"
-            android:textSize="15sp"
-            android:textColor="#0F172A"
-            android:textColorHint="#94A3B8" />
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_template"
+            app:endIconContentDescription="Mẫu tin nhắn">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtTinNhan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tin nhắn..."
+                android:inputType="textMultiLine|textCapSentences"
+                android:imeOptions="actionSend"
+                android:maxLines="4"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/btnGui"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/bg_btn_primary"
-            android:src="@android:drawable/ic_menu_send"
-            android:tint="#FFFFFF"
+            android:background="@drawable/bg_send_button"
+            android:src="@drawable/ic_send"
+            app:tint="?attr/colorOnPrimary"
             android:contentDescription="Gửi"
-            android:padding="11dp" />
+            android:padding="12dp" />
     </LinearLayout>
 
 </LinearLayout>

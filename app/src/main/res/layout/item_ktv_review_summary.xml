@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
     android:layout_marginVertical="5dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="#FFFFFF">
+    
+    
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:gravity="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#1976D2"
+            android:textColor="?attr/colorPrimary"
             android:background="@drawable/bg_avatar_circle"
             android:layout_marginEnd="14dp" />
 
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#0F172A" />
+                android:textColor="?attr/colorOnSurface" />
 
             <!-- Star row -->
             <LinearLayout
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="11sp"
-                    android:textColor="#94A3B8"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="#0F172A"
+                android:textColor="?attr/colorOnSurface"
                 android:gravity="center" />
 
             <TextView
@@ -126,10 +126,11 @@
                 android:layout_height="wrap_content"
                 android:text="›"
                 android:textSize="20sp"
-                android:textColor="#CBD5E1"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:gravity="center"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.example.customercareproject.ui.components.Material3Card>
+

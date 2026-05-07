@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="5dp"
+    
+    
+    app:cardBackgroundColor="?attr/colorSurfaceContainer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Row 1: Tên công ty + badge số lần hỗ trợ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvTenCongTy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Badge số lần hỗ trợ (cam) -->
+            <TextView
+                android:id="@+id/tvSoLanHoTro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_badge_orange"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- MST -->
+        <TextView
+            android:id="@+id/tvMaSoThue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginTop="2dp" />
+
+        <!-- Row 2: Chip sản phẩm + số sao -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSanPham"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#1976D2"
+                app:chipBackgroundColor="#DCEEFB"
+                app:chipStrokeWidth="0dp"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <TextView
+                android:id="@+id/tvSoSao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#E53935" />
+        </LinearLayout>
+
+        <!-- Nội dung góp ý -->
+        <TextView
+            android:id="@+id/tvNoiDung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginTop="8dp"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+        <!-- Thời gian -->
+        <TextView
+            android:id="@+id/tvThoiGian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginTop="6dp" />
+
+    </LinearLayout>
+
+</com.example.customercareproject.ui.components.Material3Card>
+

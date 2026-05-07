@@ -7,6 +7,7 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/registerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -28,7 +29,7 @@
                 android:text="Tạo tài khoản"
                 android:textSize="26sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary"
+                android:textColor="?attr/colorPrimary"
                 android:layout_marginBottom="6dp" />
 
             <TextView
@@ -36,16 +37,16 @@
                 android:layout_height="wrap_content"
                 android:text="Điền thông tin để đăng ký"
                 android:textSize="14sp"
-                android:textColor="@color/text_secondary" />
+                android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white">
+            
+            
+            app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,88 +54,105 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- Name field with Material3TextField -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtHoTen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Họ và tên *"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="14dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtHoTen"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:inputType="textPersonName"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- Email field with Material3TextField -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email *"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="14dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:inputType="textEmailAddress"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- Phone field with Material3TextField -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtSoDienThoai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Số điện thoại"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="14dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtSoDienThoai"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:inputType="phone"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- Tax code field with Material3TextField -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtMaSoThue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mã số thuế công ty *"
+                    android:inputType="number"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary" />
+
+                <!-- Company name field with Material3TextField -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtTenCongTy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên công ty *"
+                    android:inputType="textCapWords"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary" />
+
+                <!-- Password field with Material3TextField and password strength indicator -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtMatKhau"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mật khẩu * (ít nhất 6 ký tự)"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:passwordToggleEnabled="true"
-                    android:layout_marginBottom="14dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtMatKhau"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:inputType="textPassword"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary"
+                    app:endIconMode="password_toggle"
+                    app:showPasswordStrength="true" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- Confirm password field with Material3TextField -->
+                <com.example.customercareproject.ui.components.Material3TextField
+                    android:id="@+id/txtXacNhanMatKhau"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Xác nhận mật khẩu *"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    app:passwordToggleEnabled="true"
-                    android:layout_marginBottom="20dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtXacNhanMatKhau"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:imeOptions="actionDone" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:inputType="textPassword"
+                    android:layout_marginBottom="24dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/primary"
+                    app:hintTextColor="@color/primary"
+                    app:endIconMode="password_toggle" />
 
-                <Button
+                <!-- Register button with Material3Button -->
+                <com.example.customercareproject.ui.components.Material3Button
                     android:id="@+id/btnDangKy"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:text="Đăng ký"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:backgroundTint="@color/primary" />
+                    app:backgroundTint="?attr/colorPrimary"
+                    app:cornerRadius="@dimen/shape_corner_small" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.example.customercareproject.ui.components.Material3Card>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -142,15 +160,18 @@
             android:orientation="horizontal"
             android:layout_marginBottom="32dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Đã có tài khoản? " android:textColor="@color/text_secondary" />
+                android:text="Đã có tài khoản? " android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/tvDangNhap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng nhập"
-                android:textColor="@color/primary"
-                android:textStyle="bold" />
+                android:textColor="?attr/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
+

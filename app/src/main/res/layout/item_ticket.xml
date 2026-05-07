@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="2dp"
+    app:cardBackgroundColor="?attr/colorSurfaceContainer"
     android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
@@ -27,7 +28,7 @@
                 android:layout_weight="1"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary" />
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 android:id="@+id/tvTrangThai"
@@ -44,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:textColor="@color/text_secondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:layout_marginTop="4dp" />
 
         <TextView
@@ -52,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/primary"
+            android:textColor="?attr/colorPrimary"
             android:layout_marginTop="2dp" />
 
         <TextView
@@ -60,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="11sp"
-            android:textColor="@color/divider"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:layout_marginTop="4dp" />
 
         <TextView
@@ -70,6 +71,45 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:layout_marginTop="4dp" />
+
+        <!-- Badge ghi chú từ KTV trước -->
+        <TextView
+            android:id="@+id/tvBadgeGhiChu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📝 Có ghi chú từ KTV trước"
+            android:textSize="11sp"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            android:visibility="gone" />
+
+        <!-- Badge Follow-up đánh giá xấu -->
+        <TextView
+            android:id="@+id/tvBadgeFollowUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔴 Follow-up đánh giá xấu"
+            android:textSize="11sp"
+            android:textColor="@color/error"
+            android:textStyle="bold"
+            android:background="@drawable/bg_rounded"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
+        <!-- Badge cảnh báo quá 30 phút -->
+        <TextView
+            android:id="@+id/tvBadgeQuaHan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚠ Quá 30 phút"
+            android:textSize="11sp"
+            android:textColor="?attr/colorError"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

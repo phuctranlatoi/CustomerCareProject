@@ -10,58 +10,42 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtHoTenKtv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Họ và tên *">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtHoTenKtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Họ và tên *"
+            android:inputType="textPersonName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtEmailKtv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Email *">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtEmailKtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Email *"
+            android:inputType="textEmailAddress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtSdtKtv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Số điện thoại">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtSdtKtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtMatKhauKtv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:hint="Mật khẩu * (tối thiểu 6 ký tự)"
+            android:inputType="textPassword"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:passwordToggleEnabled="true"
-            android:hint="Mật khẩu * (tối thiểu 6 ký tự)">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtMatKhauKtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:passwordToggleEnabled="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +53,7 @@
             android:text="Chuyên môn (sản phẩm phụ trách):"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:layout_marginBottom="8dp" />
 
         <LinearLayout
@@ -81,3 +65,5 @@
 
     </LinearLayout>
 </ScrollView>
+
+

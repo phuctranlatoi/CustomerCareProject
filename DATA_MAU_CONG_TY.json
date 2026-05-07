@@ -1,0 +1,32 @@
+[
+  {
+    "maSoThue": "0100109106",
+    "tenCongTy": "Tập đoàn Vingroup",
+    "sanPhamDangKy": ["ERP", "CRM", "HRM", "Accounting"],
+    "moTa": "Tập đoàn đa ngành lớn nhất Việt Nam"
+  },
+  {
+    "maSoThue": "0101215301",
+    "tenCongTy": "Công ty TNHH FPT Software",
+    "sanPhamDangKy": ["ERP", "CRM", "Inventory"],
+    "moTa": "Công ty phần mềm hàng đầu"
+  },
+  {
+    "maSoThue": "0102182292",
+    "tenCongTy": "Công ty Cổ phần Viettel",
+    "sanPhamDangKy": ["CRM", "HRM", "Marketing"],
+    "moTa": "Tập đoàn viễn thông quân đội"
+  },
+  {
+    "maSoThue": "0123456789",
+    "tenCongTy": "Công ty TNHH ABC Technology",
+    "sanPhamDangKy": ["ERP", "Accounting", "Inventory", "POS"],
+    "moTa": "Công ty công nghệ mẫu"
+  },
+  {
+    "maSoThue": "0987654321",
+    "tenCongTy": "Công ty Cổ phần XYZ Solutions",
+    "sanPhamDangKy": ["CRM", "E-commerce", "Marketing"],
+    "moTa": "Công ty giải pháp thương mại điện tử"
+  }
+]

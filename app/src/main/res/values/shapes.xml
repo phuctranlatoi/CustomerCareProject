@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 Shape System -->
+    
+    <!-- Special corner radius for chat bubbles -->
+    <dimen name="shape_corner_chat_bubble">18dp</dimen>
+
+    <!-- Shape Appearance Styles -->
+    <!-- These can be used with MaterialShapeDrawable or ShapeableImageView -->
+    <style name="ShapeAppearance.App.ExtraSmall" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/shape_corner_extra_small</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Small" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/shape_corner_small</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Medium" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/shape_corner_medium</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Large" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/shape_corner_large</item>
+    </style>
+
+    <style name="ShapeAppearance.App.ExtraLarge" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/shape_corner_extra_large</item>
+    </style>
+</resources>

@@ -6,47 +6,34 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.example.customercareproject.ui.components.Material3TextField
+        android:id="@+id/edtTieuDe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Tiêu đề lỗi *">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtTieuDe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:hint="Tiêu đề lỗi *"
+        android:inputType="text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.example.customercareproject.ui.components.Material3TextField
+        android:id="@+id/edtMoTa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Mô tả lỗi *">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtMoTa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minLines="3"
-            android:gravity="top"
-            android:inputType="textMultiLine" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:hint="Mô tả lỗi *"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.example.customercareproject.ui.components.Material3TextField
+        android:id="@+id/edtCachGiaiQuyet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Cách giải quyết (để trống nếu cần KTV)">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtCachGiaiQuyet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minLines="3"
-            android:gravity="top"
-            android:inputType="textMultiLine" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:hint="Cách giải quyết (để trống nếu cần KTV)"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 
 </LinearLayout>
+

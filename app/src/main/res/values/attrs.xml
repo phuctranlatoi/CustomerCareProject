@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material3Button custom attributes -->
+    <declare-styleable name="Material3Button">
+        <!-- Whether the button is in loading state -->
+        <attr name="loading" format="boolean" />
+    </declare-styleable>
+
+    <!-- Material3Card custom attributes -->
+    <declare-styleable name="Material3Card">
+        <!-- Corner radius size: small (8dp), medium (12dp), large (16dp), extra_large (28dp) -->
+        <attr name="cornerRadiusSize" format="enum">
+            <enum name="small" value="0" />
+            <enum name="medium" value="1" />
+            <enum name="large" value="2" />
+            <enum name="extra_large" value="3" />
+        </attr>
+        <!-- Whether the card is clickable with ripple effect -->
+        <attr name="cardClickable" format="boolean" />
+        <!-- Whether to enable hover effect (scale animation) -->
+        <attr name="enableHoverEffect" format="boolean" />
+    </declare-styleable>
+
+    <!-- Material3TextField custom attributes -->
+    <declare-styleable name="Material3TextField">
+        <!-- Whether to show password strength indicator for password fields -->
+        <attr name="showPasswordStrength" format="boolean" />
+        <!-- Hint text for the text field -->
+        <attr name="android:hint" />
+        <!-- Input type for the text field -->
+        <attr name="android:inputType" />
+        <!-- Minimum lines for multiline text -->
+        <attr name="android:minLines" />
+        <!-- Maximum length of text -->
+        <attr name="android:maxLength" />
+        <!-- Text gravity -->
+        <attr name="android:gravity" />
+        <!-- Whether the field is enabled -->
+        <attr name="android:enabled" />
+    </declare-styleable>
+
+    <!-- SkeletonView custom attributes -->
+    <declare-styleable name="SkeletonView">
+        <!-- Shape of the skeleton: rectangle or circle -->
+        <attr name="skeletonShape" format="enum">
+            <enum name="rectangle" value="0" />
+            <enum name="circle" value="1" />
+        </attr>
+        <!-- Duration of shimmer animation in milliseconds -->
+        <attr name="shimmerDuration" format="integer" />
+        <!-- Base color of the skeleton (background) -->
+        <attr name="baseColor" format="color" />
+        <!-- Shimmer color (highlight color) -->
+        <attr name="shimmerColor" format="color" />
+        <!-- Whether to auto-start shimmer animation -->
+        <attr name="autoStart" format="boolean" />
+    </declare-styleable>
+
+    <!-- EmptyStateView custom attributes -->
+    <declare-styleable name="EmptyStateView">
+        <!-- Illustration drawable for the empty state -->
+        <attr name="emptyStateIllustration" format="reference" />
+        <!-- Title text for the empty state -->
+        <attr name="emptyStateTitle" format="string|reference" />
+        <!-- Description text for the empty state -->
+        <attr name="emptyStateDescription" format="string|reference" />
+        <!-- Action button text -->
+        <attr name="emptyStateActionText" format="string|reference" />
+        <!-- Whether to show the action button -->
+        <attr name="showActionButton" format="boolean" />
+    </declare-styleable>
+</resources>

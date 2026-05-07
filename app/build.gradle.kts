@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage)
 
     // Google Sign-In (Credential Manager)
     implementation(libs.credentials)
@@ -55,11 +56,18 @@ dependencies {
     implementation("io.github.webrtc-sdk:android:137.7151.03")
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
+    // Flutter
+    implementation(project(":flutter"))
 
 
     // Facebook Login - đã bỏ
 
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:5.8.0")
+    testImplementation("org.robolectric:robolectric:4.11.1")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

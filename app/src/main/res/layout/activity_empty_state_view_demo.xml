@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Demo Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="EmptyStateView Component Demo"
+            android:textAppearance="@style/TextAppearance.App.HeadlineSmall"
+            android:textColor="@color/on_background" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="This demo shows different empty state configurations with fade-in/fade-out animations."
+            android:textAppearance="@style/TextAppearance.App.BodyMedium"
+            android:textColor="@color/on_surface_variant" />
+
+        <!-- Section 1: Tickets Empty State -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="1. Tickets Empty State"
+            android:textAppearance="@style/TextAppearance.App.TitleMedium"
+            android:textColor="@color/on_background" />
+
+        <com.example.customercareproject.ui.components.Material3Button
+            android:id="@+id/btnToggleTickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Show Tickets Empty State"
+            app:cornerRadius="20dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <com.example.customercareproject.ui.components.EmptyStateView
+                android:id="@+id/emptyStateTickets"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Section 2: Messages Empty State -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="2. Messages Empty State"
+            android:textAppearance="@style/TextAppearance.App.TitleMedium"
+            android:textColor="@color/on_background" />
+
+        <com.example.customercareproject.ui.components.Material3Button
+            android:id="@+id/btnToggleMessages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Show Messages Empty State"
+            app:cornerRadius="20dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <com.example.customercareproject.ui.components.EmptyStateView
+                android:id="@+id/emptyStateMessages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Section 3: Search Empty State -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="3. Search Empty State"
+            android:textAppearance="@style/TextAppearance.App.TitleMedium"
+            android:textColor="@color/on_background" />
+
+        <com.example.customercareproject.ui.components.Material3Button
+            android:id="@+id/btnToggleSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Show Search Empty State"
+            app:cornerRadius="20dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+
+            <com.example.customercareproject.ui.components.EmptyStateView
+                android:id="@+id/emptyStateSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</ScrollView>
+

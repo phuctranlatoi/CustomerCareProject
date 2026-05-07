@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="?attr/colorSurfaceContainer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Timeline indicator với gradient -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginEnd="16dp">
+
+            <!-- Timeline dot với icon -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorPrimaryContainer">
+                
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_person"
+                    app:tint="?attr/colorOnPrimaryContainer" />
+                    
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Timeline line -->
+            <View
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorOutlineVariant" />
+
+        </LinearLayout>
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Header: KTV name and time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvKtvTen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nguyễn Văn A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <!-- Time badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="?attr/colorSecondaryContainer">
+                    
+                    <TextView
+                        android:id="@+id/tvThoiDiem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10:30"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnSecondaryContainer"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp" />
+                        
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- Note content với icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="top">
+                
+                <!-- Note icon -->
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_note"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="Ghi chú" />
+                
+                <TextView
+                    android:id="@+id/tvNoiDung"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Đã liên hệ khách hàng qua điện thoại. Khách hàng xác nhận vấn đề đã được giải quyết."
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:lineSpacingMultiplier="1.5"
+                    android:alpha="0.9" />
+                    
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

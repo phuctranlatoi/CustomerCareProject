@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Example: Skeleton loading state for ticket list -->
+<!-- This demonstrates how to use SkeletonView for loading ticket data in KTV Dashboard -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Ticket Item 1 -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header: Avatar + Title -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <!-- Customer Avatar -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:skeletonShape="circle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Ticket Title -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        app:skeletonShape="rectangle"
+                        app:shimmerDuration="1500"
+                        android:layout_marginBottom="6dp" />
+
+                    <!-- Customer Name -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:layout_width="140dp"
+                        android:layout_height="14dp"
+                        app:skeletonShape="rectangle"
+                        app:shimmerDuration="1500" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Description -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="6dp" />
+
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="220dp"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Footer: Status + Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Status Badge -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="80dp"
+                    android:layout_height="24dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginEnd="12dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Time -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="60dp"
+                    android:layout_height="14dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Ticket Item 2 -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header: Avatar + Title -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <!-- Customer Avatar -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:skeletonShape="circle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Ticket Title -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        app:skeletonShape="rectangle"
+                        app:shimmerDuration="1500"
+                        android:layout_marginBottom="6dp" />
+
+                    <!-- Customer Name -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:layout_width="160dp"
+                        android:layout_height="14dp"
+                        app:skeletonShape="rectangle"
+                        app:shimmerDuration="1500" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Description -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="6dp" />
+
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="180dp"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Footer: Status + Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Status Badge -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="80dp"
+                    android:layout_height="24dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginEnd="12dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Time -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="60dp"
+                    android:layout_height="14dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Ticket Item 3 -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header: Avatar + Title -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <!-- Customer Avatar -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:skeletonShape="circle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Ticket Title -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:layout_width="match_parent"
+                        android:layout_height="18dp"
+                        app:skeletonShape="rectangle"
+                        app:shimmerDuration="1500"
+                        android:layout_marginBottom="6dp" />
+
+                    <!-- Customer Name -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:layout_width="120dp"
+                        android:layout_height="14dp"
+                        app:skeletonShape="rectangle"
+                        app:shimmerDuration="1500" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Description -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="6dp" />
+
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="200dp"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Footer: Status + Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Status Badge -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="80dp"
+                    android:layout_height="24dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginEnd="12dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- Time -->
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="60dp"
+                    android:layout_height="14dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

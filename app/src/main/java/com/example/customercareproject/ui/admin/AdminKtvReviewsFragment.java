@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.NguoiDung;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.customercareproject.ui.components.Material3TextField;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -45,7 +45,7 @@ public class AdminKtvReviewsFragment extends Fragment {
         tvTongKtv = view.findViewById(R.id.tvTongKtv);
         tvDiemTBTong = view.findViewById(R.id.tvDiemTBTong);
         RecyclerView rv = view.findViewById(R.id.rvKtvReviews);
-        TextInputEditText edtSearch = view.findViewById(R.id.edtTimKiemKtv);
+        com.example.customercareproject.ui.components.Material3TextField edtSearch = view.findViewById(R.id.edtTimKiemKtv);
 
         adapter = new KtvReviewSummaryAdapter(new ArrayList<>(), item -> {
             Intent intent = new Intent(getContext(), AdminKtvReviewDetailActivity.class);
@@ -149,3 +149,5 @@ public class AdminKtvReviewsFragment extends Fragment {
         adapter.capNhat(filtered);
     }
 }
+
+

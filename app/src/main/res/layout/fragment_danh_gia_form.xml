@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,158 +12,466 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Chọn bước/tính năng -->
-        <androidx.cardview.widget.CardView
+        <!-- Thông báo khi không có quyền đánh giá -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardThongBaoQuyen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="@dimen/shape_corner_medium"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorError"
+            app:cardBackgroundColor="?attr/colorErrorContainer">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvThongBaoQuyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnErrorContainer"
+                android:drawablePadding="8dp"
+                app:drawableTopCompat="@drawable/ic_error_outline" />
+        </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bước / Tính năng đánh giá *"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="#0F172A"
-                    android:layout_marginBottom="8dp" />
-
-                <Spinner
-                    android:id="@+id/spinnerBuoc"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Đánh giá sao -->
-        <androidx.cardview.widget.CardView
+        <!-- Container chứa toàn bộ form đánh giá -->
+        <LinearLayout
+            android:id="@+id/formContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <LinearLayout
+            <!-- Chọn bước/tính năng -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mức độ hài lòng *"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="#0F172A"
-                    android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <LinearLayout
-                    android:id="@+id/layoutSao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-
-                    <ImageButton android:id="@+id/star1" android:layout_width="44dp" android:layout_height="44dp"
-                        android:src="@android:drawable/btn_star_big_off"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="1 sao" />
-                    <ImageButton android:id="@+id/star2" android:layout_width="44dp" android:layout_height="44dp"
-                        android:src="@android:drawable/btn_star_big_off"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="2 sao" />
-                    <ImageButton android:id="@+id/star3" android:layout_width="44dp" android:layout_height="44dp"
-                        android:src="@android:drawable/btn_star_big_off"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="3 sao" />
-                    <ImageButton android:id="@+id/star4" android:layout_width="44dp" android:layout_height="44dp"
-                        android:src="@android:drawable/btn_star_big_off"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="4 sao" />
-                    <ImageButton android:id="@+id/star5" android:layout_width="44dp" android:layout_height="44dp"
-                        android:src="@android:drawable/btn_star_big_off"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="5 sao" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvMucDoHaiLong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="Chưa đánh giá"
-                    android:textSize="13sp"
-                    android:textColor="#94A3B8" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Nội dung góp ý -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nội dung góp ý"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="#0F172A"
-                    android:layout_marginBottom="8dp" />
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:boxStrokeColor="#1976D2"
-                    app:hintTextColor="#1976D2"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtNoiDung"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bước / Tính năng đánh giá *"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textColor="?attr/colorOnSurface"
+                        android:layout_marginBottom="12dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerBuoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        
+                        android:paddingHorizontal="16dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Đánh giá sao với touch targets lớn hơn -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mức độ hài lòng *"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textColor="?attr/colorOnSurface"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Star rating với touch targets 48dp -->
+                    <LinearLayout
+                        android:id="@+id/layoutSao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageButton 
+                            android:id="@+id/star1" 
+                            android:layout_width="48dp" 
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:src="@drawable/ic_star_outline"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="1 sao"
+                            android:scaleType="centerInside" />
+                        
+                        <ImageButton 
+                            android:id="@+id/star2" 
+                            android:layout_width="48dp" 
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:src="@drawable/ic_star_outline"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="2 sao"
+                            android:scaleType="centerInside" />
+                        
+                        <ImageButton 
+                            android:id="@+id/star3" 
+                            android:layout_width="48dp" 
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:src="@drawable/ic_star_outline"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="3 sao"
+                            android:scaleType="centerInside" />
+                        
+                        <ImageButton 
+                            android:id="@+id/star4" 
+                            android:layout_width="48dp" 
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:src="@drawable/ic_star_outline"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="4 sao"
+                            android:scaleType="centerInside" />
+                        
+                        <ImageButton 
+                            android:id="@+id/star5" 
+                            android:layout_width="48dp" 
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:src="@drawable/ic_star_outline"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="5 sao"
+                            android:scaleType="centerInside" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMucDoHaiLong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Chưa đánh giá"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Nội dung góp ý với Material3TextField -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nội dung góp ý"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textColor="?attr/colorOnSurface"
+                        android:layout_marginBottom="12dp" />
+
+                    <com.example.customercareproject.ui.components.Material3TextField
+                        android:id="@+id/txtNoiDung"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nhập góp ý của bạn..."
+                        android:inputType="textMultiLine"
                         android:minLines="4"
+                        android:maxLength="500"
                         android:gravity="top"
-                        android:inputType="textMultiLine" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="500"
+                        app:endIconMode="clear_text"
+                        app:helperText="Chia sẻ ý kiến để giúp chúng tôi cải thiện sản phẩm"
+                        app:boxCornerRadiusTopStart="@dimen/shape_corner_medium"
+                        app:boxCornerRadiusTopEnd="@dimen/shape_corner_medium"
+                        app:boxCornerRadiusBottomStart="@dimen/shape_corner_medium"
+                        app:boxCornerRadiusBottomEnd="@dimen/shape_corner_medium" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnGuiDanhGia"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="Gửi đánh giá"
-            app:cornerRadius="14dp"
-            app:backgroundTint="#1976D2"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp" />
+            <!-- Issue cards grid layout -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardIssues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vấn đề gặp phải (tùy chọn)"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textColor="?attr/colorOnSurface"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Grid layout for issue cards -->
+                    <GridLayout
+                        android:id="@+id/gridIssues"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:rowCount="3"
+                        android:alignmentMode="alignBounds"
+                        android:useDefaultMargins="true">
+
+                        <!-- Issue card 1: Slow performance -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardIssue1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:checkable="true"
+                            app:cardCornerRadius="@dimen/shape_corner_medium"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="?attr/colorOutline"
+                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                            app:checkedIcon="@drawable/ic_check_circle"
+                            app:checkedIconTint="?attr/colorPrimary">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_speed"
+                                    android:layout_marginBottom="8dp"
+                                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Chậm"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:gravity="center" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Issue card 2: Bugs -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardIssue2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:checkable="true"
+                            app:cardCornerRadius="@dimen/shape_corner_medium"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="?attr/colorOutline"
+                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                            app:checkedIcon="@drawable/ic_check_circle"
+                            app:checkedIconTint="?attr/colorPrimary">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_bug_report"
+                                    android:layout_marginBottom="8dp"
+                                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lỗi"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:gravity="center" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Issue card 3: Confusing UI -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardIssue3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:checkable="true"
+                            app:cardCornerRadius="@dimen/shape_corner_medium"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="?attr/colorOutline"
+                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                            app:checkedIcon="@drawable/ic_check_circle"
+                            app:checkedIconTint="?attr/colorPrimary">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_confused"
+                                    android:layout_marginBottom="8dp"
+                                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Khó hiểu"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:gravity="center" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Issue card 4: Missing features -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardIssue4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:checkable="true"
+                            app:cardCornerRadius="@dimen/shape_corner_medium"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="?attr/colorOutline"
+                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                            app:checkedIcon="@drawable/ic_check_circle"
+                            app:checkedIconTint="?attr/colorPrimary">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_missing_feature"
+                                    android:layout_marginBottom="8dp"
+                                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thiếu tính năng"
+                                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
+                                    android:gravity="center" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </GridLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Submit button with Material3Button styling -->
+            <com.example.customercareproject.ui.components.Material3Button
+                android:id="@+id/btnGuiDanhGia"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Gửi đánh giá"
+                app:icon="@drawable/ic_send"
+                app:iconGravity="textStart"
+                app:cornerRadius="@dimen/shape_corner_large"
+                style="@style/Widget.Material3.Button" />
+
+            <!-- Success animation container (initially hidden) -->
+            <LinearLayout
+                android:id="@+id/layoutSuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/imgSuccess"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_check_circle"
+                    android:layout_marginBottom="16dp"
+                    app:tint="@color/success" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cảm ơn bạn đã đánh giá!"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textColor="?attr/colorOnSurface"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Phản hồi của bạn giúp chúng tôi cải thiện sản phẩm"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:gravity="center" />
+            </LinearLayout>
+
+        </LinearLayout><!-- end formContainer -->
 
     </LinearLayout>
 </ScrollView>
+
+
+

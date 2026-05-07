@@ -29,7 +29,7 @@ public class NlpHelper {
     public static final String PRIORITY_TRUNG_BINH = "TrungBinh";
     public static final String PRIORITY_THAP       = "Thap";
 
-    private static final String GROQ_API_KEY = "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";
+    private static final String GROQ_API_KEY = "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";
     private static final String GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
     private static final OkHttpClient HTTP = new OkHttpClient.Builder()

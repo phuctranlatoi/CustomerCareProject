@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================ -->
+    <!-- Dark Mode Color Overrides -->
+    <!-- ============================================ -->
+
+    <!-- MD3 Primary Color Tokens (Dark) -->
+    <color name="primary">#90CAF9</color>
+    <color name="on_primary">#0D47A1</color>
+    <color name="primary_container">#1565C0</color>
+    <color name="on_primary_container">#E3F2FD</color>
+
+    <!-- MD3 Secondary Color Tokens (Dark) -->
+    <color name="secondary">#4DD0E1</color>
+    <color name="on_secondary">#006064</color>
+    <color name="secondary_container">#00838F</color>
+    <color name="on_secondary_container">#B2EBF2</color>
+
+    <!-- MD3 Surface Color Tokens (Dark) -->
+    <color name="surface">#121212</color>
+    <color name="on_surface">#E0E0E0</color>
+    <color name="surface_variant">#2C2C2C</color>
+    <color name="on_surface_variant">#BDBDBD</color>
+    <color name="surface_container">#1E1E1E</color>
+    <color name="surface_container_high">#262626</color>
+    <color name="surface_container_highest">#2E2E2E</color>
+    <color name="surface_container_low">#1A1A1A</color>
+    <color name="surface_container_lowest">#0F0F0F</color>
+
+    <!-- MD3 Background Color Tokens (Dark) -->
+    <color name="background">#121212</color>
+    <color name="on_background">#E0E0E0</color>
+
+    <!-- MD3 Outline and Border Colors (Dark) -->
+    <color name="outline">#757575</color>
+    <color name="outline_variant">#424242</color>
+
+    <!-- Semantic Colors (Dark Mode) -->
+    <color name="success">#4CAF50</color>
+    <color name="on_success">#000000</color>
+    <color name="success_container">#2E7D32</color>
+    <color name="on_success_container">#C8E6C9</color>
+
+    <color name="warning">#FFB74D</color>
+    <color name="on_warning">#000000</color>
+    <color name="warning_container">#F57C00</color>
+    <color name="on_warning_container">#FFF3E0</color>
+
+    <color name="error">#F48FB1</color>
+    <color name="on_error">#000000</color>
+    <color name="error_container">#C2185B</color>
+    <color name="on_error_container">#FCE4EC</color>
+
+    <color name="info">#81C784</color>
+    <color name="on_info">#000000</color>
+    <color name="info_container">#388E3C</color>
+    <color name="on_info_container">#E8F5E8</color>
+
+    <!-- ============================================ -->
+    <!-- Legacy Colors (Dark Mode Override) -->
+    <!-- ============================================ -->
+
+    <!-- Legacy text colors (Dark) -->
+    <color name="text_primary">#E0E0E0</color>
+    <color name="text_secondary">#BDBDBD</color>
+    <color name="text_on_primary">#0D47A1</color>
+    <color name="text_hint">#757575</color>
+
+    <!-- Legacy backgrounds (Dark) -->
+    <color name="card_bg">#1E1E1E</color>
+    <color name="background_light">#121212</color>
+
+    <!-- Legacy misc (Dark) -->
+    <color name="divider">#424242</color>
+    <color name="star_active">#FFD54F</color>
+    <color name="star_inactive">#616161</color>
+    <color name="chip_bg">#2C2C2C</color>
+    <color name="bubble_ktv">#90CAF9</color>
+    <color name="bubble_kh">#2C2C2C</color>
+
+    <!-- Inverse colors for light backgrounds in dark mode -->
+    <color name="inverse_surface">#E0E0E0</color>
+    <color name="inverse_on_surface">#121212</color>
+    <color name="inverse_primary">#1976D2</color>
+
+    <!-- Shadow and elevation (Dark) -->
+    <color name="shadow">#000000</color>
+    <color name="scrim">#000000</color>
+    <color name="scrim_60">#99000000</color>
+
+    <!-- White stays white, black becomes lighter in dark mode -->
+    <color name="white">#1E1E1E</color>
+    <color name="black">#E0E0E0</color>
+</resources>

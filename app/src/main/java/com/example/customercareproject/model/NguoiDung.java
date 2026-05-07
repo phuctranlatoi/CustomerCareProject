@@ -20,9 +20,14 @@ public class NguoiDung {
     private String soDienThoai;
     private String vaiTro;
     private String trangThai;           // HoatDong | Khoa (user) | Ran/DangBan/Offline (KTV)
+    private String maSoThue;            // Mã số thuế công ty (duy nhất cho mỗi công ty)
+    private String tenCongTy;           // Tên công ty
     private int soTicketDangXuLy;       // KTV: số ticket đang xử lý (load balancing)
     private List<String> chuyenMon;     // KTV: danh sách sản phẩm chuyên môn
     private int tongTicketDaXuLy;       // KTV: tổng ticket đã xử lý (performance)
+    private boolean kinhDoanh;          // true nếu thuộc bộ phận kinh doanh (nhận thông báo lead)
+    private String fcmToken;            // Firebase Cloud Messaging token
+    private Long lastSeen;              // Timestamp cuối cùng KTV active (milliseconds)
     private Timestamp taoLuc;
 
     public NguoiDung() {}
@@ -39,12 +44,22 @@ public class NguoiDung {
     public void setVaiTro(String vaiTro) { this.vaiTro = vaiTro; }
     public String getTrangThai() { return trangThai; }
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
+    public String getMaSoThue() { return maSoThue; }
+    public void setMaSoThue(String maSoThue) { this.maSoThue = maSoThue; }
+    public String getTenCongTy() { return tenCongTy; }
+    public void setTenCongTy(String tenCongTy) { this.tenCongTy = tenCongTy; }
     public int getSoTicketDangXuLy() { return soTicketDangXuLy; }
     public void setSoTicketDangXuLy(int soTicketDangXuLy) { this.soTicketDangXuLy = soTicketDangXuLy; }
     public List<String> getChuyenMon() { return chuyenMon; }
     public void setChuyenMon(List<String> chuyenMon) { this.chuyenMon = chuyenMon; }
     public int getTongTicketDaXuLy() { return tongTicketDaXuLy; }
     public void setTongTicketDaXuLy(int tongTicketDaXuLy) { this.tongTicketDaXuLy = tongTicketDaXuLy; }
+    public boolean isKinhDoanh() { return kinhDoanh; }
+    public void setKinhDoanh(boolean kinhDoanh) { this.kinhDoanh = kinhDoanh; }
+    public String getFcmToken() { return fcmToken; }
+    public void setFcmToken(String fcmToken) { this.fcmToken = fcmToken; }
+    public Long getLastSeen() { return lastSeen; }
+    public void setLastSeen(Long lastSeen) { this.lastSeen = lastSeen; }
     public Timestamp getTaoLuc() { return taoLuc; }
     public void setTaoLuc(Timestamp taoLuc) { this.taoLuc = taoLuc; }
 }

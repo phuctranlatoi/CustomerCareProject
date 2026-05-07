@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.customercareproject.R;
@@ -32,9 +33,6 @@ public class KtvReviewSummaryAdapter extends RecyclerView.Adapter<KtvReviewSumma
 
     private List<KtvItem> list;
     private final OnKtvClick listener;
-
-    private static final int STAR_ON  = 0xFFF59E0B;
-    private static final int STAR_OFF = 0xFFE2E8F0;
 
     public KtvReviewSummaryAdapter(List<KtvItem> list, OnKtvClick listener) {
         this.list = list;
@@ -64,20 +62,22 @@ public class KtvReviewSummaryAdapter extends RecyclerView.Adapter<KtvReviewSumma
         // Stars
         int filled = (int) Math.round(item.diemTB);
         TextView[] stars = {h.sao1, h.sao2, h.sao3, h.sao4, h.sao5};
+        int starOnColor = ContextCompat.getColor(h.itemView.getContext(), R.color.star_active);
+        int starOffColor = ContextCompat.getColor(h.itemView.getContext(), R.color.star_inactive);
         for (int i = 0; i < 5; i++) {
-            stars[i].setTextColor(i < filled ? STAR_ON : STAR_OFF);
+            stars[i].setTextColor(i < filled ? starOnColor : starOffColor);
         }
 
         // Trạng thái
         if ("Ran".equals(item.trangThai)) {
             h.tvTrangThai.setText("● Rảnh");
-            h.tvTrangThai.setTextColor(0xFF10B981);
+            h.tvTrangThai.setTextColor(ContextCompat.getColor(h.itemView.getContext(), R.color.success));
         } else if ("DangBan".equals(item.trangThai)) {
             h.tvTrangThai.setText("● Đang bận");
-            h.tvTrangThai.setTextColor(0xFFF59E0B);
+            h.tvTrangThai.setTextColor(ContextCompat.getColor(h.itemView.getContext(), R.color.warning));
         } else {
             h.tvTrangThai.setText("● Offline");
-            h.tvTrangThai.setTextColor(0xFF94A3B8);
+            h.tvTrangThai.setTextColor(ContextCompat.getColor(h.itemView.getContext(), R.color.text_secondary));
         }
 
         h.itemView.setOnClickListener(v -> listener.onClick(item));

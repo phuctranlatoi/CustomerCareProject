@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.LoiPhatSinh;
 import com.example.customercareproject.ui.loi.ChiTietLoiActivity;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.customercareproject.ui.components.Material3TextField;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -61,7 +61,7 @@ public class LoiPhatSinhFragment extends Fragment {
 
         rvLoi = view.findViewById(R.id.rvLoiPhatSinh);
         layoutRong = view.findViewById(R.id.layoutRong);
-        TextInputEditText edtTimKiem = view.findViewById(R.id.edtTimKiem);
+        com.example.customercareproject.ui.components.Material3TextField edtTimKiem = view.findViewById(R.id.edtTimKiem);
 
         adapter = new LoiAdapter(new ArrayList<>(), loi -> {
             Intent intent = new Intent(getContext(), ChiTietLoiActivity.class);
@@ -130,3 +130,5 @@ public class LoiPhatSinhFragment extends Fragment {
         layoutRong.setVisibility(rong ? View.VISIBLE : View.GONE);
     }
 }
+
+

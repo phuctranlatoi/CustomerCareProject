@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,30 +17,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:background="#FFFFFF"
+            android:background="?attr/colorSurfaceContainer"
             android:elevation="1dp">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.example.customercareproject.ui.components.Material3TextField
+                android:id="@+id/edtTimKiemUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Tìm kiếm người dùng..."
+                android:inputType="text"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:startIconDrawable="@android:drawable/ic_menu_search"
                 app:startIconTint="#94A3B8"
                 app:boxStrokeColor="#E2E8F0"
                 app:boxStrokeWidthFocused="1.5dp"
-                app:hintTextColor="@color/primary"
+                app:hintTextColor="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtTimKiemUser"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Tìm kiếm người dùng..."
-                    android:inputType="text"
-                    android:textSize="14sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:boxCornerRadiusBottomEnd="12dp" />
 
             <Spinner
                 android:id="@+id/spinnerLocVaiTro"
@@ -65,9 +60,12 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/primary"
-        app:tint="@color/white"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="?attr/colorOnPrimary"
         android:contentDescription="Tạo KTV"
         app:elevation="4dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+

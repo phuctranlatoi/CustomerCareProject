@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="0dp"
+    android:paddingVertical="4dp">
+
+    <!-- Ảnh từ KTV (phải - gradient xanh) -->
+    <LinearLayout
+        android:id="@+id/layoutKtvImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingStart="60dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_bubble_ktv"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAnhKtv"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Ảnh đính kèm"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+            <TextView
+                android:id="@+id/tvThoiGianKtvImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="4dp"
+                android:layout_gravity="end" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Ảnh từ Khách hàng (trái - trắng) -->
+    <LinearLayout
+        android:id="@+id/layoutKhImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:paddingEnd="60dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_bubble_kh"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAnhKh"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Ảnh đính kèm"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+            <TextView
+                android:id="@+id/tvThoiGianKhImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="@color/on_surface_variant"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- ============================================ -->
+    <!-- Material Design 3 Typography System -->
+    <!-- ============================================ -->
+    
+    <!-- Font weights:
+         Regular: 400 (normal)
+         Medium: 500 (android:textStyle="normal" with fontWeight)
+         Bold: 700 (android:textStyle="bold")
+    -->
+    
+    <!-- ============================================ -->
+    <!-- Display Text Styles -->
+    <!-- ============================================ -->
+    
+    <!-- Display Large: 57sp, Regular (400), line height 64sp, letter spacing -0.25sp -->
+    <style name="TextAppearance.App.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:textSize">57sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">64sp</item>
+        <item name="android:letterSpacing">-0.0044</item> <!-- -0.25sp / 57sp = -0.0044 -->
+        <item name="lineHeight">64sp</item> <!-- For pre-P devices -->
+    </style>
+    
+    <!-- Display Medium: 45sp, Regular (400), line height 52sp, letter spacing 0 -->
+    <style name="TextAppearance.App.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:textSize">45sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">52sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">52sp</item>
+    </style>
+    
+    <!-- Display Small: 36sp, Regular (400), line height 44sp, letter spacing 0 -->
+    <style name="TextAppearance.App.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">44sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">44sp</item>
+    </style>
+    
+    <!-- ============================================ -->
+    <!-- Headline Text Styles -->
+    <!-- ============================================ -->
+    
+    <!-- Headline Large: 32sp, Regular (400), line height 40sp, letter spacing 0 -->
+    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">40sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">40sp</item>
+    </style>
+    
+    <!-- Headline Medium: 28sp, Regular (400), line height 36sp, letter spacing 0 -->
+    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">36sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">36sp</item>
+    </style>
+    
+    <!-- Headline Small: 24sp, Regular (400), line height 32sp, letter spacing 0 -->
+    <style name="TextAppearance.App.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">32sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">32sp</item>
+    </style>
+    
+    <!-- ============================================ -->
+    <!-- Title Text Styles -->
+    <!-- ============================================ -->
+    
+    <!-- Title Large: 22sp, Medium (500), line height 28sp, letter spacing 0 -->
+    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight" tools:targetApi="p">28sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">28sp</item>
+    </style>
+    
+    <!-- Title Medium: 16sp, Medium (500), line height 24sp, letter spacing 0.15sp -->
+    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight" tools:targetApi="p">24sp</item>
+        <item name="android:letterSpacing">0.0094</item> <!-- 0.15sp / 16sp = 0.0094 -->
+        <item name="lineHeight">24sp</item>
+    </style>
+    
+    <!-- Title Small: 14sp, Medium (500), line height 20sp, letter spacing 0.1sp -->
+    <style name="TextAppearance.App.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight" tools:targetApi="p">20sp</item>
+        <item name="android:letterSpacing">0.0071</item> <!-- 0.1sp / 14sp = 0.0071 -->
+        <item name="lineHeight">20sp</item>
+    </style>
+    
+    <!-- ============================================ -->
+    <!-- Body Text Styles -->
+    <!-- ============================================ -->
+    
+    <!-- Body Large: 16sp, Regular (400), line height 24sp (1.5x), letter spacing 0.5sp -->
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">24sp</item>
+        <item name="android:letterSpacing">0.0313</item> <!-- 0.5sp / 16sp = 0.0313 -->
+        <item name="lineHeight">24sp</item>
+    </style>
+    
+    <!-- Body Medium: 14sp, Regular (400), line height 20sp (1.43x), letter spacing 0.25sp -->
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">20sp</item>
+        <item name="android:letterSpacing">0.0179</item> <!-- 0.25sp / 14sp = 0.0179 -->
+        <item name="lineHeight">20sp</item>
+    </style>
+    
+    <!-- Body Small: 12sp, Regular (400), line height 16sp (1.33x), letter spacing 0.4sp -->
+    <style name="TextAppearance.App.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight" tools:targetApi="p">16sp</item>
+        <item name="android:letterSpacing">0.0333</item> <!-- 0.4sp / 12sp = 0.0333 -->
+        <item name="lineHeight">16sp</item>
+    </style>
+    
+    <!-- ============================================ -->
+    <!-- Label Text Styles -->
+    <!-- ============================================ -->
+    
+    <!-- Label Large: 14sp, Medium (500), line height 20sp, letter spacing 0.1sp -->
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight" tools:targetApi="p">20sp</item>
+        <item name="android:letterSpacing">0.0071</item> <!-- 0.1sp / 14sp = 0.0071 -->
+        <item name="lineHeight">20sp</item>
+    </style>
+    
+    <!-- Label Medium: 12sp, Medium (500), line height 16sp, letter spacing 0.5sp -->
+    <style name="TextAppearance.App.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight" tools:targetApi="p">16sp</item>
+        <item name="android:letterSpacing">0.0417</item> <!-- 0.5sp / 12sp = 0.0417 -->
+        <item name="lineHeight">16sp</item>
+    </style>
+    
+    <!-- Label Small: 11sp, Medium (500), line height 16sp, letter spacing 0.5sp -->
+    <style name="TextAppearance.App.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight" tools:targetApi="p">16sp</item>
+        <item name="android:letterSpacing">0.0455</item> <!-- 0.5sp / 11sp = 0.0455 -->
+        <item name="lineHeight">16sp</item>
+    </style>
+
+    <!-- ============================================ -->
+    <!-- Shape Appearance Styles -->
+    <!-- ============================================ -->
+    
+    <!-- Circle Image View -->
+    <style name="ShapeAppearance.App.CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

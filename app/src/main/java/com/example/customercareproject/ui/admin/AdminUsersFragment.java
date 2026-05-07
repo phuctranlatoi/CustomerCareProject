@@ -23,7 +23,7 @@ import com.example.customercareproject.R;
 import com.example.customercareproject.model.NguoiDung;
 import com.example.customercareproject.model.SanPham;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.customercareproject.ui.components.Material3TextField;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.Timestamp;
@@ -43,7 +43,7 @@ public class AdminUsersFragment extends Fragment {
     private List<NguoiDung> allUsers = new ArrayList<>();
     private com.google.firebase.firestore.ListenerRegistration userListener;
     private Spinner spinnerLoc;
-    private com.google.android.material.textfield.TextInputEditText edtTimKiem;
+    private com.example.customercareproject.ui.components.Material3TextField edtTimKiem;
     private String[] vaiTroOptions;
 
     @Nullable
@@ -133,10 +133,10 @@ public class AdminUsersFragment extends Fragment {
 
     private void hienDialogTaoKtv() {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_tao_ktv, null);
-        TextInputEditText edtHoTen = dialogView.findViewById(R.id.edtHoTenKtv);
-        TextInputEditText edtEmail = dialogView.findViewById(R.id.edtEmailKtv);
-        TextInputEditText edtSdt = dialogView.findViewById(R.id.edtSdtKtv);
-        TextInputEditText edtMatKhau = dialogView.findViewById(R.id.edtMatKhauKtv);
+        com.example.customercareproject.ui.components.Material3TextField edtHoTen = dialogView.findViewById(R.id.edtHoTenKtv);
+        com.example.customercareproject.ui.components.Material3TextField edtEmail = dialogView.findViewById(R.id.edtEmailKtv);
+        com.example.customercareproject.ui.components.Material3TextField edtSdt = dialogView.findViewById(R.id.edtSdtKtv);
+        com.example.customercareproject.ui.components.Material3TextField edtMatKhau = dialogView.findViewById(R.id.edtMatKhauKtv);
         LinearLayout layoutChuyenMon = dialogView.findViewById(R.id.layoutChuyenMon);
 
         CheckBox[] checkBoxes = new CheckBox[SanPham.DANH_SACH.length];
@@ -224,3 +224,5 @@ public class AdminUsersFragment extends Fragment {
                                 "Lỗi tạo tài khoản: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
+
+

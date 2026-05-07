@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Material3TextField Demo"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textColor="@color/on_background"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Showcasing Material3TextField features with validation"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/on_surface_variant"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Name Field -->
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+            app:helperText="Enter your full name (minimum 2 characters)"
+            app:helperTextEnabled="true"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Email Field -->
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            app:startIconDrawable="@android:drawable/ic_dialog_email"
+            app:helperText="Enter a valid email address"
+            app:helperTextEnabled="true"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Password Field with Strength Indicator -->
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/txtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            app:showPasswordStrength="true"
+            app:passwordToggleEnabled="true"
+            app:helperText="Minimum 6 characters (use letters, numbers, and symbols for strong password)"
+            app:helperTextEnabled="true"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Phone Number Field -->
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/txtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            app:startIconDrawable="@android:drawable/stat_sys_phone_call"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:helperText="Enter your phone number (minimum 10 digits)"
+            app:helperTextEnabled="true"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Multi-line Description Field -->
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/txtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:gravity="top"
+            app:counterEnabled="true"
+            app:counterMaxLength="500"
+            app:helperText="Enter a description (minimum 10 characters)"
+            app:helperTextEnabled="true"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Submit Button -->
+        <com.example.customercareproject.ui.components.Material3Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Form"
+            android:textAllCaps="false"
+            style="@style/Widget.Material3.Button" />
+
+        <!-- Feature List -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Features Demonstrated:"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="@color/on_background"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Floating label animation\n• Inline error messages with shake animation\n• Password strength indicator\n• Character counter\n• Helper text\n• Start icons\n• Password toggle\n• Real-time validation"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/on_surface_variant"
+            android:lineSpacingExtra="4dp" />
+
+    </LinearLayout>
+
+</ScrollView>

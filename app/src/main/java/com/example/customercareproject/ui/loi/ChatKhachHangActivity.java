@@ -2,6 +2,7 @@ package com.example.customercareproject.ui.loi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
@@ -49,6 +50,13 @@ public class ChatKhachHangActivity extends AppCompatActivity {
     private RecyclerView rvChat;
     private TextView tvSubtitle;
     private final List<Map<String, Object>> danhSachTin = new ArrayList<>();
+    private View bannerCho;
+    private TextView tvThoiGianChoBanner;
+    private View btnHuyYeuCauBanner;
+    private com.google.android.material.textfield.TextInputLayout tilTinNhan;
+    private Runnable thoiGianChoRunnable;
+    private Handler daChoHandler = new Handler(android.os.Looper.getMainLooper());
+    private long startMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +108,22 @@ public class ChatKhachHangActivity extends AppCompatActivity {
                     if (chuaCoKtv && ("HangCho".equals(ts) || "ChoXuLy".equals(ts))) {
                         // Chưa có KTV → bật quét realtime
                         capNhatSubtitle("🔍 Đang tìm kỹ thuật viên...");
+                        if (bannerCho != null) bannerCho.setVisibility(View.VISIBLE);
+                        if (thoiGianChoRunnable == null) batDauDemThoiGianCho();
                         batDauQuetKtv();
 
                     } else if (!chuaCoKtv && ("ChoXuLy".equals(ts) || "DangXuLy".equals(ts))) {
                         // Đã có KTV → dừng quét
                         dungQuetKtv();
+                        if (bannerCho != null) bannerCho.setVisibility(View.GONE);
+                        dungDemThoiGianCho();
                         capNhatSubtitle(ktvTen != null && !ktvTen.isEmpty()
                                 ? "KTV: " + ktvTen : "Đang kết nối...");
 
                     } else if ("DaXuLy".equals(ts)) {
                         dungQuetKtv();
+                        if (bannerCho != null) bannerCho.setVisibility(View.GONE);
+                        dungDemThoiGianCho();
                         if (!cheDoBocDoc) {
                             cheDoBocDoc = true;
                             apDungCheDoDocOnly();
@@ -125,6 +139,18 @@ public class ChatKhachHangActivity extends AppCompatActivity {
         TextInputEditText edtTinNhan = findViewById(R.id.edtTinNhan);
         ImageButton btnGui = findViewById(R.id.btnGui);
         ImageButton btnGoiThoai = findViewById(R.id.btnGoiThoai);
+        
+        bannerCho = findViewById(R.id.bannerCho);
+        tvThoiGianChoBanner = findViewById(R.id.tvThoiGianChoBanner);
+        btnHuyYeuCauBanner = findViewById(R.id.btnHuyYeuCauBanner);
+        tilTinNhan = findViewById(R.id.tilTinNhan);
+        
+        if (btnHuyYeuCauBanner != null) {
+            btnHuyYeuCauBanner.setOnClickListener(v -> huyYeuCau());
+        }
+        if (tilTinNhan != null) {
+            tilTinNhan.setEndIconOnClickListener(v -> Toast.makeText(this, "Chưa hỗ trợ Template", Toast.LENGTH_SHORT).show());
+        }
 
         if (cheDoBocDoc) apDungCheDoDocOnly();
 
@@ -229,6 +255,44 @@ public class ChatKhachHangActivity extends AppCompatActivity {
         ImageButton btnGoiThoai = findViewById(R.id.btnGoiThoai);
         if (btnGoiThoai != null) btnGoiThoai.setVisibility(View.GONE);
         capNhatSubtitle("Cuộc trò chuyện đã kết thúc");
+    }
+
+    private void batDauDemThoiGianCho() {
+        startMillis = System.currentTimeMillis();
+        thoiGianChoRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (thoiGianChoRunnable != null && tvThoiGianChoBanner != null) {
+                    long soGiay = (System.currentTimeMillis() - startMillis) / 1000;
+                    long phut = soGiay / 60;
+                    long giay = soGiay % 60;
+                    tvThoiGianChoBanner.setText(String.format("Thời gian chờ: %02d:%02d", phut, giay));
+                    daChoHandler.postDelayed(this, 1000);
+                }
+            }
+        };
+        daChoHandler.post(thoiGianChoRunnable);
+    }
+
+    private void dungDemThoiGianCho() {
+        if (thoiGianChoRunnable != null) {
+            daChoHandler.removeCallbacks(thoiGianChoRunnable);
+            thoiGianChoRunnable = null;
+        }
+    }
+
+    private void huyYeuCau() {
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Hủy yêu cầu")
+                .setMessage("Bạn có chắc chắn muốn hủy yêu cầu hỗ trợ này không?")
+                .setPositiveButton("Hủy", (d, w) -> {
+                    db.collection("YeuCauHoTro").document(ticketId)
+                            .update("trangThai", "DaHuy", "capNhatLuc", FieldValue.serverTimestamp())
+                            .addOnSuccessListener(v -> Toast.makeText(this, "Đã hủy yêu cầu", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                })
+                .setNegativeButton("Không", null)
+                .show();
     }
 
     private void moManHinhDanhGia() {

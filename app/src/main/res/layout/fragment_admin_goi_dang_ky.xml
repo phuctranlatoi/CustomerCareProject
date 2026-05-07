@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <!-- Header + nút thêm -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Quản lý gói đăng ký"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface" />
+
+        <com.example.customercareproject.ui.components.Material3Button
+            android:id="@+id/btnThemGoi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="+ Thêm gói"
+            android:textSize="13sp"
+            app:cornerRadius="10dp"
+            app:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF" />
+
+        <com.example.customercareproject.ui.components.Material3Button
+            android:id="@+id/btnResetSeed"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Reset mẫu"
+            android:textSize="12sp"
+            android:layout_marginStart="8dp"
+            app:cornerRadius="10dp"
+            app:strokeColor="#94A3B8"
+            android:textColor="#94A3B8" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGoiDangKy"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="12dp"
+        android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/tvEmptyGoi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chưa có gói đăng ký nào.\nNhấn '+ Thêm gói' để tạo mới."
+        android:gravity="center"
+        android:padding="32dp"
+        android:textSize="14sp"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:visibility="gone" />
+
+</LinearLayout>
+

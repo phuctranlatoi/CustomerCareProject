@@ -18,6 +18,9 @@ public class TinNhan {
     @ServerTimestamp
     private Timestamp thoiGian;
 
+    private String loaiTin = "van_ban";  // "van_ban" | "anh"
+    private String anhUrl;
+
     public TinNhan() {}
 
     public TinNhan(String ticketId, String nguoiGuiUid, String nguoiGuiTen,
@@ -50,4 +53,8 @@ public class TinNhan {
     public void setKhachHangUid(String khachHangUid) { this.khachHangUid = khachHangUid; }
     public Timestamp getThoiGian() { return thoiGian; }
     public void setThoiGian(Timestamp thoiGian) { this.thoiGian = thoiGian; }
+    public String getLoaiTin() { return loaiTin; }
+    public void setLoaiTin(String loaiTin) { this.loaiTin = loaiTin; }
+    public String getAnhUrl() { return anhUrl; }
+    public void setAnhUrl(String anhUrl) { this.anhUrl = anhUrl; }
 }

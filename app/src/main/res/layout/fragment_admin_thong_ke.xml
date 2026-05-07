@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:background="?attr/colorSurfaceContainerLow">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +27,8 @@
                 android:checkable="true"
                 android:checked="true"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
-                app:chipBackgroundColor="@color/primary"
-                android:textColor="@color/white"
+                app:chipBackgroundColor="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
                 android:layout_marginEnd="8dp" />
 
             <com.google.android.material.chip.Chip
@@ -50,27 +50,31 @@
             android:layout_marginBottom="12dp">
 
             <!-- Card 1: Đánh giá SP -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="0dp">
+                
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView
+                    
+                    <ImageView
+                        android:src="@drawable/ic_star"
+                        app:tint="?attr/colorPrimary"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:text="⭐"
-                        android:textSize="16sp"
-                        android:gravity="center"
                         android:background="@drawable/bg_icon_stat"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:contentDescription="Đánh giá" />
+                    
                     <TextView
                         android:id="@+id/tvTongDanhGia"
                         android:layout_width="wrap_content"
@@ -78,39 +82,44 @@
                         android:text="0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A" />
+                        android:textColor="?attr/colorOnSurface" />
+                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Đánh giá SP"
                         android:textSize="12sp"
-                        android:textColor="#94A3B8"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginTop="2dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Card 2: Yêu cầu HT -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="0dp">
+                
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView
+                    
+                    <ImageView
+                        android:src="@drawable/ic_ticket"
+                        app:tint="?attr/colorPrimary"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:text="🎫"
-                        android:textSize="16sp"
-                        android:gravity="center"
                         android:background="@drawable/bg_icon_stat"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:contentDescription="Ticket" />
+                    
                     <TextView
                         android:id="@+id/tvTongTicket"
                         android:layout_width="wrap_content"
@@ -118,16 +127,17 @@
                         android:text="0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A" />
+                        android:textColor="?attr/colorOnSurface" />
+                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Yêu cầu HT"
                         android:textSize="12sp"
-                        android:textColor="#94A3B8"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginTop="2dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <LinearLayout
@@ -137,27 +147,31 @@
             android:layout_marginBottom="20dp">
 
             <!-- Card 3: Đánh giá KTV -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="0dp">
+                
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView
+                    
+                    <ImageView
+                        android:src="@drawable/ic_nav_users"
+                        app:tint="?attr/colorPrimary"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:text="👤"
-                        android:textSize="16sp"
-                        android:gravity="center"
                         android:background="@drawable/bg_icon_stat"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:contentDescription="Người dùng" />
+                    
                     <TextView
                         android:id="@+id/tvTongDanhGiaKtv"
                         android:layout_width="wrap_content"
@@ -165,39 +179,44 @@
                         android:text="0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A" />
+                        android:textColor="?attr/colorOnSurface" />
+                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Đánh giá KTV"
                         android:textSize="12sp"
-                        android:textColor="#94A3B8"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginTop="2dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Card 4: Điểm TB KTV -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="@dimen/shape_corner_large"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeWidth="0dp">
+                
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView
+                    
+                    <ImageView
+                        android:src="@drawable/ic_analytics"
+                        app:tint="?attr/colorPrimary"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:text="📊"
-                        android:textSize="16sp"
-                        android:gravity="center"
                         android:background="@drawable/bg_icon_stat"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:contentDescription="Phân tích" />
+                    
                     <TextView
                         android:id="@+id/tvDiemTBKtv"
                         android:layout_width="wrap_content"
@@ -205,26 +224,29 @@
                         android:text="0.0"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A" />
+                        android:textColor="?attr/colorOnSurface" />
+                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Điểm TB KTV"
                         android:textSize="12sp"
-                        android:textColor="#94A3B8"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginTop="2dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <!-- Trạng thái Ticket -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardCornerRadius="@dimen/shape_corner_large"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeWidth="0dp">
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,7 +259,7 @@
                     android:text="Trạng thái Ticket"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="#0F172A"
+                    android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="16dp" />
 
                 <LinearLayout
@@ -246,25 +268,28 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="12dp">
+                    
                     <View
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:background="@drawable/bg_icon_circle"
-                        android:backgroundTint="#F59E0B"
+                        android:backgroundTint="@color/warning"
                         android:layout_marginEnd="10dp" />
+                    
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Chờ xử lý"
-                        android:textColor="#64748B"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
+                    
                     <TextView
                         android:id="@+id/tvTicketChoXuLy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textColor="#F59E0B"
+                        android:textColor="@color/warning"
                         android:textStyle="bold"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -275,25 +300,28 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="12dp">
+                    
                     <View
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:background="@drawable/bg_icon_circle"
-                        android:backgroundTint="@color/primary"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:layout_marginEnd="10dp" />
+                    
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Đang xử lý"
-                        android:textColor="#64748B"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
+                    
                     <TextView
                         android:id="@+id/tvTicketDangXuLy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textColor="@color/primary"
+                        android:textColor="?attr/colorPrimary"
                         android:textStyle="bold"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -303,39 +331,44 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
+                    
                     <View
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:background="@drawable/bg_icon_circle"
-                        android:backgroundTint="#10B981"
+                        android:backgroundTint="@color/success"
                         android:layout_marginEnd="10dp" />
+                    
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Đã xử lý"
-                        android:textColor="#64748B"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="13sp" />
+                    
                     <TextView
                         android:id="@+id/tvTicketDaXuLy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:textColor="#10B981"
+                        android:textColor="@color/success"
                         android:textStyle="bold"
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Tỷ lệ hài lòng -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardCornerRadius="@dimen/shape_corner_large"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeWidth="0dp">
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -348,7 +381,7 @@
                     android:text="Tỷ lệ hài lòng"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="#0F172A"
+                    android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="16dp" />
 
                 <LinearLayout
@@ -357,12 +390,14 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="10dp">
+                    
                     <TextView
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="Hài lòng"
                         android:textSize="12sp"
-                        android:textColor="#64748B" />
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                    
                     <ProgressBar
                         android:id="@+id/pbHaiLong"
                         android:layout_width="0dp"
@@ -370,17 +405,18 @@
                         android:layout_weight="1"
                         android:layout_marginHorizontal="10dp"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:progressTint="#10B981"
-                        android:progressBackgroundTint="#F1F5F9"
+                        android:progressTint="@color/success"
+                        android:progressBackgroundTint="?attr/colorSurfaceVariant"
                         android:max="100"
                         android:progress="0" />
+                    
                     <TextView
                         android:id="@+id/tvHaiLong"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content"
                         android:text="0%"
                         android:textSize="12sp"
-                        android:textColor="#10B981"
+                        android:textColor="@color/success"
                         android:textStyle="bold"
                         android:gravity="end" />
                 </LinearLayout>
@@ -391,12 +427,14 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="10dp">
+                    
                     <TextView
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="Trung bình"
                         android:textSize="12sp"
-                        android:textColor="#64748B" />
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                    
                     <ProgressBar
                         android:id="@+id/pbTrungBinh"
                         android:layout_width="0dp"
@@ -404,17 +442,18 @@
                         android:layout_weight="1"
                         android:layout_marginHorizontal="10dp"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:progressTint="#F59E0B"
-                        android:progressBackgroundTint="#F1F5F9"
+                        android:progressTint="@color/warning"
+                        android:progressBackgroundTint="?attr/colorSurfaceVariant"
                         android:max="100"
                         android:progress="0" />
+                    
                     <TextView
                         android:id="@+id/tvTrungBinh"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content"
                         android:text="0%"
                         android:textSize="12sp"
-                        android:textColor="#F59E0B"
+                        android:textColor="@color/warning"
                         android:textStyle="bold"
                         android:gravity="end" />
                 </LinearLayout>
@@ -424,12 +463,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
+                    
                     <TextView
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="Không HL"
                         android:textSize="12sp"
-                        android:textColor="#64748B" />
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                    
                     <ProgressBar
                         android:id="@+id/pbKhongHaiLong"
                         android:layout_width="0dp"
@@ -437,99 +478,97 @@
                         android:layout_weight="1"
                         android:layout_marginHorizontal="10dp"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:progressTint="#EF4444"
-                        android:progressBackgroundTint="#F1F5F9"
+                        android:progressTint="@color/error"
+                        android:progressBackgroundTint="?attr/colorSurfaceVariant"
                         android:max="100"
                         android:progress="0" />
+                    
                     <TextView
                         android:id="@+id/tvKhongHaiLong"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content"
                         android:text="0%"
                         android:textSize="12sp"
-                        android:textColor="#EF4444"
+                        android:textColor="@color/error"
                         android:textStyle="bold"
                         android:gravity="end" />
                 </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Đánh giá theo sản phẩm -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardCornerRadius="@dimen/shape_corner_large"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeWidth="0dp">
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp">
+                
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đánh giá theo Sản phẩm"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="#0F172A"
+                    android:textColor="?attr/colorOnSurface"
                     android:layout_marginBottom="12dp" />
+                
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvThongKeSanPham"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Hiệu suất KTV -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="20dp">-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Hiệu suất KTV"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textColor="#0F172A"-->
-<!--                    android:layout_marginBottom="12dp" />-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvThongKeKtv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false" />
-        </androidx.cardview.widget.CardView>
-
-        <!-- AI Phân tích: nút + trạng thái -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardCornerRadius="@dimen/shape_corner_large"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeWidth="0dp">
+            
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvThongKeKtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- AI Phân tích: nút + trạng thái -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="@dimen/shape_corner_large"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeWidth="0dp">
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp">
+                
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:layout_marginBottom="8dp">
+                    
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -537,7 +576,8 @@
                         android:text="✨ AI Phân tích &amp; Gợi ý"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A" />
+                        android:textColor="?attr/colorOnSurface" />
+                    
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnTaoInsight"
                         android:layout_width="wrap_content"
@@ -546,9 +586,10 @@
                         android:textSize="12sp"
                         android:paddingHorizontal="14dp"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        app:strokeColor="@color/primary"
-                        android:textColor="@color/primary" />
+                        app:strokeColor="?attr/colorPrimary"
+                        android:textColor="?attr/colorPrimary" />
                 </LinearLayout>
+                
                 <!-- Trạng thái / tóm tắt tổng thể -->
                 <TextView
                     android:id="@+id/tvAiInsight"
@@ -556,10 +597,10 @@
                     android:layout_height="wrap_content"
                     android:text="Nhấn 'Phân tích' để AI tự động gom cụm và đưa ra gợi ý."
                     android:textSize="13sp"
-                    android:textColor="#64748B"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:lineSpacingMultiplier="1.5" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Các cụm vấn đề do AI tạo ra (render động) -->
         <LinearLayout
@@ -568,8 +609,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="4dp" />
-
-
 
     </LinearLayout>
 </ScrollView>

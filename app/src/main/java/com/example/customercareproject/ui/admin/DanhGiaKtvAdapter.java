@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.customercareproject.R;
@@ -38,8 +39,6 @@ public class DanhGiaKtvAdapter extends RecyclerView.Adapter<DanhGiaKtvAdapter.VH
 
     private List<Item> list;
     private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-    private static final int STAR_ON = 0xFFF59E0B;
-    private static final int STAR_OFF = 0xFFE2E8F0;
 
     public DanhGiaKtvAdapter(List<Item> list) { this.list = list; }
 
@@ -67,8 +66,10 @@ public class DanhGiaKtvAdapter extends RecyclerView.Adapter<DanhGiaKtvAdapter.VH
         // Stars
         TextView[] stars = {h.star1, h.star2, h.star3, h.star4, h.star5};
         int filled = Math.round(item.soSao);
+        int starOnColor = ContextCompat.getColor(h.itemView.getContext(), R.color.star_active);
+        int starOffColor = ContextCompat.getColor(h.itemView.getContext(), R.color.star_inactive);
         for (int i = 0; i < 5; i++) {
-            stars[i].setTextColor(i < filled ? STAR_ON : STAR_OFF);
+            stars[i].setTextColor(i < filled ? starOnColor : starOffColor);
         }
 
         // Date
@@ -85,8 +86,9 @@ public class DanhGiaKtvAdapter extends RecyclerView.Adapter<DanhGiaKtvAdapter.VH
                 chip.setClickable(false);
                 chip.setTextSize(10f);
                 chip.setChipMinHeight(28f);
-                chip.setChipBackgroundColor(android.content.res.ColorStateList.valueOf(0xFFEEF4FF));
-                chip.setTextColor(Color.parseColor("#1976D2"));
+                chip.setChipBackgroundColor(android.content.res.ColorStateList.valueOf(
+                    ContextCompat.getColor(h.itemView.getContext(), R.color.primary_container)));
+                chip.setTextColor(ContextCompat.getColor(h.itemView.getContext(), R.color.on_primary_container));
                 h.chipTags.addView(chip);
             }
         }

@@ -43,7 +43,9 @@ public class KtvDashboardActivity extends AppCompatActivity {
     private ListenerRegistration autoStatusListener;
     private String filterTrangThai = "ChoXuLy";
     private TextView tvSoTicket;
-    private TextView tvTrangThaiKtv;
+    private com.google.android.material.chip.Chip tvTrangThaiKtv;
+    private com.example.customercareproject.ui.components.InitialAvatarView avatarKtv;
+    private com.google.android.material.search.SearchBar searchBar;
     private int prevChoXuLyCount = -1;
     // Tránh set Offline khi chỉ chuyển sang màn hình khác trong app
     private boolean dangXuatThucSu = false;
@@ -61,6 +63,8 @@ public class KtvDashboardActivity extends AppCompatActivity {
 
         tvSoTicket = findViewById(R.id.tvSoTicket);
         tvTrangThaiKtv = findViewById(R.id.tvTrangThaiKtv);
+        avatarKtv = findViewById(R.id.avatarKtv);
+        searchBar = findViewById(R.id.searchBar);
         TextView tvTenKtv = findViewById(R.id.tvTenKtv);
         ImageButton btnLogout = findViewById(R.id.btnLogout);
         RecyclerView rvTickets = findViewById(R.id.rvTickets);
@@ -78,7 +82,9 @@ public class KtvDashboardActivity extends AppCompatActivity {
 
         db.collection("NguoiDung").document(user.getUid()).get()
                 .addOnSuccessListener(doc -> {
-                    tvTenKtv.setText(doc.getString("hoTen"));
+                    String hoTen = doc.getString("hoTen");
+                    tvTenKtv.setText(hoTen);
+                    if (avatarKtv != null) avatarKtv.setName(hoTen);
                     TextView tvTongDaXuLy = findViewById(R.id.tvTongDaXuLy);
                     if (tvTongDaXuLy != null) {
                         Object tong = doc.get("tongTicketDaXuLy");
@@ -87,6 +93,12 @@ public class KtvDashboardActivity extends AppCompatActivity {
                 });
 
         btnLogout.setOnClickListener(v -> dangXuat());
+
+        tvTrangThaiKtv.setOnClickListener(v -> moDialogChonTrangThai());
+        
+        if (searchBar != null) {
+            searchBar.setOnClickListener(v -> android.widget.Toast.makeText(this, "Tính năng tìm kiếm sẽ sớm ra mắt", android.widget.Toast.LENGTH_SHORT).show());
+        }
 
         adapter = new TicketAdapter(new ArrayList<>(), ticket -> {
             Intent intent = new Intent(this, KtvTicketDetailActivity.class);
@@ -174,16 +186,32 @@ public class KtvDashboardActivity extends AppCompatActivity {
         switch (trangThai) {
             case NguoiDung.TRANG_THAI_RAN:
                 tvTrangThaiKtv.setText("● Rảnh");
-                tvTrangThaiKtv.setTextColor(android.graphics.Color.parseColor("#4CAF50"));
+                tvTrangThaiKtv.setTextColor(0xFF10B981);
+                tvTrangThaiKtv.setChipBackgroundColorResource(R.color.success_container);
                 break;
             case NguoiDung.TRANG_THAI_BAN:
                 tvTrangThaiKtv.setText("● Đang bận");
-                tvTrangThaiKtv.setTextColor(android.graphics.Color.parseColor("#FF9800"));
+                tvTrangThaiKtv.setTextColor(0xFFEF4444);
+                tvTrangThaiKtv.setChipBackgroundColorResource(R.color.error_container);
                 break;
             default:
                 tvTrangThaiKtv.setText("● Offline");
-                tvTrangThaiKtv.setTextColor(android.graphics.Color.parseColor("#9E9E9E"));
+                tvTrangThaiKtv.setTextColor(0xFF6B7280);
+                tvTrangThaiKtv.setChipBackgroundColorResource(R.color.surface_variant);
         }
+    }
+
+    private void moDialogChonTrangThai() {
+        String[] options = {"Rảnh", "Bận", "Offline"};
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Chọn trạng thái")
+                .setItems(options, (dialog, which) -> {
+                    String ts = NguoiDung.TRANG_THAI_RAN;
+                    if (which == 1) ts = NguoiDung.TRANG_THAI_BAN;
+                    else if (which == 2) ts = NguoiDung.TRANG_THAI_OFFLINE;
+                    batStatusRTDB(ts);
+                })
+                .show();
     }
 
     private void taiTickets() {

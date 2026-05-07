@@ -26,11 +26,12 @@
         android:textColor="#757575"
         android:layout_marginBottom="48dp" />
 
-    <Button
+    <com.example.customercareproject.ui.components.Material3Button
         android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:text="Đăng Xuất"
-        android:backgroundTint="#D32F2F" />
+         />
 
 </LinearLayout>
+

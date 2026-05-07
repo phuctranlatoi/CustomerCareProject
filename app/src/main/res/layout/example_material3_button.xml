@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Example layout demonstrating Material3Button usage.
+    This file shows various configurations of the Material3Button component.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Standard Material3Button -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnStandard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Standard Button"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Material3Button with loading state -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading Button"
+        app:loading="true"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Outlined Material3Button -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnOutlined"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Outlined Button"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Text Material3Button -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnText"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text Button"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Disabled Material3Button -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnDisabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disabled Button"
+        android:enabled="false"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Full-width Material3Button -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnFullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Full Width Button"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Material3Button with icon -->
+    <com.example.customercareproject.ui.components.Material3Button
+        android:id="@+id/btnWithIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button with Icon"
+        app:icon="@android:drawable/ic_dialog_info"
+        app:iconGravity="start"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>

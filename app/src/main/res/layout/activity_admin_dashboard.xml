@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F7FA"
+    android:background="?attr/colorSurfaceContainerLow"
     android:fitsSystemWindows="true">
 
     <!-- Top App Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
+        android:background="?attr/colorSurface"
         android:orientation="horizontal"
         android:paddingHorizontal="20dp"
         android:gravity="center_vertical"
@@ -28,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="ADMIN"
                 android:textSize="10sp"
-                android:textColor="#94A3B8"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:letterSpacing="0.15" />
 
             <TextView
@@ -37,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#0F172A"
+                android:textColor="?attr/colorOnSurface"
                 android:maxLines="1"
                 android:ellipsize="end" />
         </LinearLayout>
@@ -48,7 +49,7 @@
             android:layout_height="38dp"
             android:background="@drawable/bg_avatar_circle"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="#64748B"
+            android:tint="?attr/colorOnSurfaceVariant"
             android:contentDescription="Đăng xuất"
             android:padding="9dp" />
     </LinearLayout>
@@ -60,153 +61,16 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Custom Bottom Nav -->
-    <LinearLayout
-        android:id="@+id/bottomNavBar"
+    <!-- Material BottomNavigationView -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:orientation="horizontal"
-        android:background="#FFFFFF"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp"
-        android:elevation="12dp">
-
-        <!-- Tab: Tổng quan -->
-        <LinearLayout
-            android:id="@+id/tabThongKe"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/iconThongKe"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_dashboard"
-                android:tint="#1976D2" />
-
-            <TextView
-                android:id="@+id/labelThongKe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tổng quan"
-                android:textSize="10sp"
-                android:textColor="#1976D2"
-                android:textStyle="bold"
-                android:layout_marginTop="3dp" />
-        </LinearLayout>
-
-        <!-- Tab: Người dùng -->
-        <LinearLayout
-            android:id="@+id/tabUsers"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/iconUsers"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_users"
-                android:tint="#94A3B8" />
-
-            <TextView
-                android:id="@+id/labelUsers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Người dùng"
-                android:textSize="10sp"
-                android:textColor="#94A3B8"
-                android:layout_marginTop="3dp" />
-        </LinearLayout>
-
-        <!-- Tab: Tickets -->
-        <LinearLayout
-            android:id="@+id/tabTickets"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/iconTickets"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_tickets"
-                android:tint="#94A3B8" />
-
-            <TextView
-                android:id="@+id/labelTickets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tickets"
-                android:textSize="10sp"
-                android:textColor="#94A3B8"
-                android:layout_marginTop="3dp" />
-        </LinearLayout>
-
-        <!-- Tab: Knowledge -->
-        <LinearLayout
-            android:id="@+id/tabKnowledge"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/iconKnowledge"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_knowledge"
-                android:tint="#94A3B8" />
-
-            <TextView
-                android:id="@+id/labelKnowledge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FAQ"
-                android:textSize="10sp"
-                android:textColor="#94A3B8"
-                android:layout_marginTop="3dp" />
-        </LinearLayout>
-
-        <!-- Tab: Đánh giá NV -->
-        <LinearLayout
-            android:id="@+id/tabReviews"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/iconReviews"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/ic_nav_reviews"
-                android:tint="#94A3B8" />
-
-            <TextView
-                android:id="@+id/labelReviews"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đánh giá"
-                android:textSize="10sp"
-                android:textColor="#94A3B8"
-                android:layout_marginTop="3dp" />
-        </LinearLayout>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:elevation="12dp"
+        app:menu="@menu/admin_bottom_nav"
+        app:labelVisibilityMode="labeled"
+        app:itemIconSize="24dp" />
 
 </LinearLayout>
+

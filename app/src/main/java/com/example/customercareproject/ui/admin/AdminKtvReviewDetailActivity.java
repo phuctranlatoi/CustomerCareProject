@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -142,8 +143,9 @@ public class AdminKtvReviewDetailActivity extends AppCompatActivity {
                                 chip.setClickable(false);
                                 chip.setTextSize(11f);
                                 chip.setChipBackgroundColor(
-                                        android.content.res.ColorStateList.valueOf(0xFFEEF4FF));
-                                chip.setTextColor(Color.parseColor("#1976D2"));
+                                        android.content.res.ColorStateList.valueOf(
+                                            ContextCompat.getColor(AdminKtvReviewDetailActivity.this, R.color.primary_container)));
+                                chip.setTextColor(ContextCompat.getColor(AdminKtvReviewDetailActivity.this, R.color.on_primary_container));
                                 chipGroup.addView(chip);
                             });
 

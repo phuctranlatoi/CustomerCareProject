@@ -28,6 +28,8 @@ public class SmartRouter {
      * Tìm KTV rảnh phù hợp (one-shot, dùng khi tạo ticket).
      * Nếu không có → caller lưu ticket với trangThai="HangCho",
      * Cloud Function sẽ tự assign khi có KTV online.
+     * 
+     * FIXED: Chỉ chọn KTV đang online (không phải Offline) và active trong 2 phút gần đây
      */
     public static void timKtvRanh(String sanPham, OnKtvFoundCallback onFound, OnNotFoundCallback onNotFound) {
         FirebaseFirestore.getInstance().collection("NguoiDung")
@@ -42,10 +44,21 @@ public class SmartRouter {
 
                     String bestUid = null, bestTen = null;
                     int minTicket = Integer.MAX_VALUE;
+                    long currentTime = System.currentTimeMillis();
+                    long twoMinutesAgo = currentTime - (2 * 60 * 1000); // 2 phút
 
-                    // Ưu tiên KTV có chuyên môn phù hợp
+                    // Ưu tiên KTV có chuyên môn phù hợp VÀ đang online
                     for (QueryDocumentSnapshot doc : snapshot) {
                         NguoiDung ktv = doc.toObject(NguoiDung.class);
+                        
+                        // Kiểm tra lastSeen để đảm bảo KTV thực sự online
+                        Long lastSeen = doc.getLong("lastSeen");
+                        boolean isOnline = lastSeen != null && lastSeen > twoMinutesAgo;
+                        
+                        if (!isOnline) {
+                            continue; // Bỏ qua KTV không active
+                        }
+                        
                         boolean coChuyenMon = ktv.getChuyenMon() != null
                                 && ktv.getChuyenMon().contains(sanPham);
                         if (coChuyenMon && ktv.getSoTicketDangXuLy() < minTicket) {
@@ -55,11 +68,20 @@ public class SmartRouter {
                         }
                     }
 
-                    // Fallback: KTV rảnh bất kỳ ít ticket nhất
+                    // Fallback: KTV rảnh bất kỳ ít ticket nhất VÀ đang online
                     if (bestUid == null) {
                         minTicket = Integer.MAX_VALUE;
                         for (QueryDocumentSnapshot doc : snapshot) {
                             NguoiDung ktv = doc.toObject(NguoiDung.class);
+                            
+                            // Kiểm tra lastSeen
+                            Long lastSeen = doc.getLong("lastSeen");
+                            boolean isOnline = lastSeen != null && lastSeen > twoMinutesAgo;
+                            
+                            if (!isOnline) {
+                                continue; // Bỏ qua KTV không active
+                            }
+                            
                             if (ktv.getSoTicketDangXuLy() < minTicket) {
                                 minTicket = ktv.getSoTicketDangXuLy();
                                 bestUid = doc.getId();

@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F7FA"
+    android:background="?attr/colorSurface"
     android:fitsSystemWindows="true">
 
     <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
+        android:background="?attr/colorSurfaceContainer"
         android:orientation="horizontal"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical"
@@ -49,12 +49,12 @@
             android:padding="16dp">
 
             <!-- Score overview card -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -123,15 +123,15 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Top tags -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -151,14 +151,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Review list -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,8 +179,9 @@
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+

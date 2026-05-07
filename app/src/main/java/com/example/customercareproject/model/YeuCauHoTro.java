@@ -18,6 +18,11 @@ public class YeuCauHoTro {
     private String phanHoiKyThuat;  // Phản hồi từ kỹ thuật viên
     private String uuTien;          // "Cao" | "TrungBinh" | "Thap"
     private boolean daDanhGiaKtv;   // đã đánh giá KTV chưa
+    private String loaiTicket;      // "Normal" | "AutoFollowUp" - phân loại ticket
+    private String danhGiaLienQuan; // ID đánh giá liên quan (nếu là follow-up)
+    private String maSoThue;        // MST công ty (cho follow-up)
+    private String tenCongTy;       // Tên công ty (cho follow-up)
+    private java.util.List<java.util.Map<String, Object>> lichSuHoTro; // ghi chú tiến độ KTV
     private Timestamp taoLuc;
     private Timestamp capNhatLuc;
     private Timestamp thoiGianChoXuLy; // Thoi diem het 30s chuyen hang cho
@@ -36,8 +41,19 @@ public class YeuCauHoTro {
         this.moTaVanDe = moTaVanDe;
         this.trangThai = "ChoXuLy";
         this.uuTien = "TrungBinh";
+        this.loaiTicket = "Normal";
         this.taoLuc = Timestamp.now();
         this.capNhatLuc = Timestamp.now();
+    }
+    
+    // Helper methods
+    public void setNguoiDungId(String uid) { this.uid = uid; }
+    public void setTenNguoiDung(String hoTen) { this.hoTen = hoTen; }
+    public void setTieuDe(String tieuDe) { this.tieuDeLoi = tieuDe; }
+    public void setMoTa(String moTa) { this.moTaVanDe = moTa; }
+    
+    public boolean isFollowUpTicket() {
+        return "AutoFollowUp".equals(loaiTicket);
     }
 
     public String getId() { return id; }
@@ -70,6 +86,20 @@ public class YeuCauHoTro {
     public void setUuTien(String uuTien) { this.uuTien = uuTien; }
     public boolean isDaDanhGiaKtv() { return daDanhGiaKtv; }
     public void setDaDanhGiaKtv(boolean daDanhGiaKtv) { this.daDanhGiaKtv = daDanhGiaKtv; }
+    public String getLoaiTicket() { return loaiTicket; }
+    public void setLoaiTicket(String loaiTicket) { this.loaiTicket = loaiTicket; }
+    public String getDanhGiaLienQuan() { return danhGiaLienQuan; }
+    public void setDanhGiaLienQuan(String danhGiaLienQuan) { this.danhGiaLienQuan = danhGiaLienQuan; }
+    public String getMaSoThue() { return maSoThue; }
+    public void setMaSoThue(String maSoThue) { this.maSoThue = maSoThue; }
+    public String getTenCongTy() { return tenCongTy; }
+    public void setTenCongTy(String tenCongTy) { this.tenCongTy = tenCongTy; }
+    public java.util.List<java.util.Map<String, Object>> getLichSuHoTro() {
+        return lichSuHoTro != null ? lichSuHoTro : new java.util.ArrayList<>();
+    }
+    public void setLichSuHoTro(java.util.List<java.util.Map<String, Object>> lichSuHoTro) {
+        this.lichSuHoTro = lichSuHoTro;
+    }
     public Timestamp getTaoLuc() { return taoLuc; }
     public void setTaoLuc(Timestamp taoLuc) { this.taoLuc = taoLuc; }
     public Timestamp getCapNhatLuc() { return capNhatLuc; }

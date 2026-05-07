@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtMaSoThue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mã số thuế *"
+            android:inputType="text"
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp" />
+
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtTenCongTy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên công ty *"
+            android:inputType="text"
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusBottomEnd="10dp" />
+
+        <!-- Loại gói -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại gói *"
+            android:textSize="13sp"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <RadioGroup
+            android:id="@+id/rgLoaiGoi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="14dp">
+
+            <RadioButton
+                android:id="@+id/rbChinhThuc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chính thức"
+                android:checked="true"
+                android:layout_marginEnd="20dp" />
+
+            <RadioButton
+                android:id="@+id/rbDungThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dùng thử" />
+        </RadioGroup>
+
+        <!-- Sản phẩm -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm đăng ký *"
+            android:textSize="13sp"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox android:id="@+id/cbEcus5"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="ECUS5 VNACCS" />
+        <CheckBox android:id="@+id/cbEinvoice"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="E-INVOICE" />
+        <CheckBox android:id="@+id/cbEtax"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="ETAX" />
+        <CheckBox android:id="@+id/cbEbh"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="EBH (Bảo Hiểm)" />
+        <CheckBox android:id="@+id/cbCloudoffice"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="CLOUDOFFICE" />
+        <CheckBox android:id="@+id/cbTruepos"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="TRUEPOS" />
+
+        <!-- Trạng thái -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trạng thái"
+            android:textSize="13sp"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="6dp" />
+
+        <Spinner
+            android:id="@+id/spinnerTrangThai"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+    </LinearLayout>
+</ScrollView>
+
+

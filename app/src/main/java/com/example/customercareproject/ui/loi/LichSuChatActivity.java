@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,8 +34,10 @@ public class LichSuChatActivity extends AppCompatActivity {
 
     private ListenerRegistration listener;
     private RecyclerView rv;
-    private LinearLayout layoutEmpty;
+    private com.example.customercareproject.ui.components.EmptyStateView layoutEmpty;
     private LichSuAdapter adapter;
+    private List<YeuCauHoTro> danhSachGoc = new ArrayList<>();
+    private String filterHienTai = null; // null = tất cả
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,17 @@ public class LichSuChatActivity extends AppCompatActivity {
         });
         rv.setAdapter(adapter);
 
+        com.google.android.material.chip.ChipGroup chipGroup = findViewById(R.id.chipGroupFilter);
+        if (chipGroup != null) {
+            chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                if (checkedIds.contains(R.id.chipDangXuLy)) filterHienTai = "DangXuLy";
+                else if (checkedIds.contains(R.id.chipDaXuLy)) filterHienTai = "DaXuLy";
+                else if (checkedIds.contains(R.id.chipHangCho)) filterHienTai = "HangCho";
+                else filterHienTai = null;
+                apDungFilter();
+            });
+        }
+
         // Realtime listener
         listener = FirebaseFirestore.getInstance().collection("YeuCauHoTro")
                 .whereEqualTo("uid", user.getUid())
@@ -86,15 +98,32 @@ public class LichSuChatActivity extends AppCompatActivity {
                         t.setId(doc.getId());
                         list.add(t);
                     }
-                    adapter.capNhat(list);
-                    if (list.isEmpty()) {
-                        layoutEmpty.setVisibility(View.VISIBLE);
-                        rv.setVisibility(View.GONE);
-                    } else {
-                        layoutEmpty.setVisibility(View.GONE);
-                        rv.setVisibility(View.VISIBLE);
-                    }
+                    danhSachGoc = list;
+                    apDungFilter();
                 });
+    }
+
+    private void apDungFilter() {
+        List<YeuCauHoTro> filtered = new ArrayList<>();
+        for (YeuCauHoTro t : danhSachGoc) {
+            if (filterHienTai == null || filterHienTai.equals(t.getTrangThai())) {
+                filtered.add(t);
+            }
+        }
+        adapter.capNhat(filtered);
+        if (filtered.isEmpty()) {
+            if (filterHienTai != null) {
+                layoutEmpty.setTitle("Không tìm thấy ticket phù hợp");
+                layoutEmpty.setDescription("Thử chọn bộ lọc khác");
+            } else {
+                layoutEmpty.setTitle("Chưa có lịch sử hỗ trợ");
+                layoutEmpty.setDescription("Các cuộc trò chuyện với KTV sẽ hiển thị ở đây");
+            }
+            layoutEmpty.show();
+        } else {
+            layoutEmpty.hide();
+        }
+        rv.setVisibility(filtered.isEmpty() ? View.GONE : View.VISIBLE);
     }
 
     @Override

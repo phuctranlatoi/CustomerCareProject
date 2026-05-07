@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="@color/primary_container"
+        android:endColor="@color/primary"
+        android:angle="135" />
+    <corners
+        android:topLeftRadius="@dimen/shape_corner_chat_bubble"
+        android:topRightRadius="@dimen/shape_corner_extra_small"
+        android:bottomLeftRadius="@dimen/shape_corner_chat_bubble"
+        android:bottomRightRadius="@dimen/shape_corner_chat_bubble" />
+</shape>

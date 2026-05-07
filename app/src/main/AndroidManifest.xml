@@ -72,8 +72,24 @@
         <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" />
         <activity android:name=".ui.admin.AdminKtvReviewDetailActivity" android:exported="false" />
 
+        <!-- Profile khách hàng -->
+        <activity android:name=".ui.ProfileActivity" android:exported="false" />
+
         <!-- Đánh giá KTV -->
         <activity android:name=".ui.danhgiaktv.DanhGiaKTVActivity" android:exported="false" />
+
+        <!-- Typography Test (for development/testing) -->
+        <activity android:name=".ui.TypographyTestActivity" android:exported="false" />
+
+        <!-- UI Showcase -->
+        <activity android:name=".ui.UIShowcaseActivity" android:exported="false" />
+
+        <!-- Material3 Component Demos (for development/testing) -->
+        <activity android:name=".ui.components.Material3ButtonDemoActivity" android:exported="false" />
+        <activity android:name=".ui.components.Material3CardDemoActivity" android:exported="false" />
+        <activity android:name=".ui.components.Material3TextFieldDemoActivity" android:exported="false" />
+        <activity android:name=".ui.components.SkeletonViewDemoActivity" android:exported="false" />
+        <activity android:name=".ui.components.EmptyStateViewDemoActivity" android:exported="false" />
 
     </application>
 

@@ -14,6 +14,9 @@ public class DanhGia {
     private java.util.List<String> tags;  // NLP tags: #UI, #TinhNang, ...
     private String uuTien;        // Cao | TrungBinh | Thap
     private String camXuc;        // HaiLong | TrungBinh | KhongHaiLong
+    private String loaiGoi;       // ChinhThuc | DungThu | null
+    private String maSoThue;      // MST công ty của người đánh giá
+    private String tenCongTy;     // Tên công ty
     private Timestamp taoLuc;
 
     public DanhGia() {}
@@ -52,6 +55,12 @@ public class DanhGia {
     public void setUuTien(String uuTien) { this.uuTien = uuTien; }
     public String getCamXuc() { return camXuc; }
     public void setCamXuc(String camXuc) { this.camXuc = camXuc; }
+    public String getLoaiGoi() { return loaiGoi; }
+    public void setLoaiGoi(String loaiGoi) { this.loaiGoi = loaiGoi; }
+    public String getMaSoThue() { return maSoThue; }
+    public void setMaSoThue(String maSoThue) { this.maSoThue = maSoThue; }
+    public String getTenCongTy() { return tenCongTy; }
+    public void setTenCongTy(String tenCongTy) { this.tenCongTy = tenCongTy; }
     public Timestamp getTaoLuc() { return taoLuc; }
     public void setTaoLuc(Timestamp taoLuc) { this.taoLuc = taoLuc; }
 }

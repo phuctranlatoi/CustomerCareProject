@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bottom sheet shape with extra large top corners (28dp) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorSurface" />
+    <corners
+        android:topLeftRadius="@dimen/shape_corner_extra_large"
+        android:topRightRadius="@dimen/shape_corner_extra_large"
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp" />
+</shape>

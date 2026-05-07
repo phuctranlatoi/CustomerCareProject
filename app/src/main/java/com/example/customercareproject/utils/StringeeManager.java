@@ -208,7 +208,7 @@ public class StringeeManager {
         currentUserId = null;
     }
 
-    /** @deprecated dùng reset() thay thế */
+    @Deprecated
     public void disconnect() {
         reset();
     }

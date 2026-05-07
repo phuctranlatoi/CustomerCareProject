@@ -132,12 +132,31 @@ public class DanhGiaKTVActivity extends AppCompatActivity {
                     capNhatDiemKtv();
                     danhDauDaXuLy();
                     Toast.makeText(this, "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (sanPham != null && !sanPham.isEmpty()) {
+                        hienDialogGoiYDanhGiaSanPham();
+                    } else {
+                        finish();
+                    }
                 })
                 .addOnFailureListener(e -> {
                     btnGuiDanhGia.setEnabled(true);
                     Toast.makeText(this, "Lỗi gửi đánh giá", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void hienDialogGoiYDanhGiaSanPham() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Đánh giá sản phẩm")
+            .setMessage("Bạn có muốn đánh giá sản phẩm " + sanPham + " không?")
+            .setPositiveButton("Đánh giá ngay", (d, w) -> {
+                android.content.Intent intent = new android.content.Intent(this, com.example.customercareproject.ui.danhgia.DanhGiaActivity.class);
+                intent.putExtra("sanPham", sanPham);
+                startActivity(intent);
+                finish();
+            })
+            .setNegativeButton("Bỏ qua", (d, w) -> finish())
+            .setCancelable(false)
+            .show();
     }
 
     private void capNhatDiemKtv() {

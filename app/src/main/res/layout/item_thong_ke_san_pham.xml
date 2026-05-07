@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="13sp"
-            android:textColor="#0F172A"
+            android:textColor="?attr/colorOnSurface"
             android:textStyle="bold" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="#94A3B8" />
+            android:textColor="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 
     <ProgressBar
@@ -34,8 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="6dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressTint="@color/primary"
-        android:progressBackgroundTint="#F1F5F9"
+        android:progressTint="?attr/colorPrimary"
+        android:progressBackgroundTint="?attr/colorSurfaceVariant"
         android:max="100"
         android:progress="0" />
 </LinearLayout>

@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="#F5F7FA">
+    >
 
-    <!-- Top bar -->
+    <!-- Top bar with Material Design 3 styling -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
+        
         android:orientation="horizontal"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical"
@@ -19,11 +19,11 @@
 
         <ImageButton
             android:id="@+id/btnBack"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            
             android:src="@android:drawable/ic_media_previous"
-            android:tint="#0F172A"
+            android:tint="?attr/colorOnSurface"
             android:contentDescription="Quay lại" />
 
         <TextView
@@ -32,9 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Chi tiết lỗi"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#0F172A"
+            android:textAppearance="@style/TextAppearance.App.TitleLarge"
+            android:textColor="?attr/colorOnSurface"
             android:layout_marginStart="4dp" />
     </LinearLayout>
 
@@ -49,14 +48,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Card tiêu đề lỗi -->
-            <androidx.cardview.widget.CardView
+            <!-- Card tiêu đề lỗi using Material3Card -->
+            <com.example.customercareproject.ui.components.Material3Card
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
+                app:cornerRadiusSize="large"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -68,31 +67,30 @@
                         android:id="@+id/tvTieuDe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#0F172A" />
+                        android:textAppearance="@style/TextAppearance.App.HeadlineSmall"
+                        android:textColor="?attr/colorOnSurface" />
 
                     <TextView
                         android:id="@+id/tvSanPham"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="11sp"
-                        android:textColor="#1976D2"
-                        android:background="@drawable/bg_rounded"
+                        android:textAppearance="@style/TextAppearance.App.LabelMedium"
+                        android:textColor="?attr/colorPrimary"
+                        
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="3dp"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
-            <!-- Card mô tả lỗi -->
-            <androidx.cardview.widget.CardView
+            <!-- Card mô tả lỗi using Material3Card -->
+            <com.example.customercareproject.ui.components.Material3Card
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
+                app:cornerRadiusSize="large"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -104,32 +102,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mô tả lỗi"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="#0F172A"
+                        android:textAppearance="@style/TextAppearance.App.TitleMedium"
+                        android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="10dp" />
 
                     <TextView
                         android:id="@+id/tvMoTa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="#475569"
-                        android:lineSpacingMultiplier="1.6"
-                        android:background="#F8FAFC"
+                        android:textAppearance="@style/TextAppearance.App.BodyLarge"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        
                         android:padding="12dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
-            <!-- Card hướng dẫn giải quyết -->
-            <androidx.cardview.widget.CardView
+            <!-- Card hướng dẫn giải quyết using Material3Card -->
+            <com.example.customercareproject.ui.components.Material3Card
                 android:id="@+id/cardHuongDan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                app:cornerRadiusSize="large"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F0FDF4"
+                app:cardBackgroundColor="@color/success_container"
                 android:visibility="gone">
 
                 <LinearLayout
@@ -142,44 +138,43 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="✅ Cách giải quyết"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="#10B981"
+                        android:textAppearance="@style/TextAppearance.App.TitleMedium"
+                        android:textColor="@color/on_success_container"
                         android:layout_marginBottom="10dp" />
 
                     <TextView
                         android:id="@+id/tvCachGiaiQuyet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="#0F172A"
-                        android:lineSpacingMultiplier="1.6" />
+                        android:textAppearance="@style/TextAppearance.App.BodyLarge"
+                        android:textColor="@color/on_success_container" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
-            <com.google.android.material.button.MaterialButton
+            <com.example.customercareproject.ui.components.Material3Button
                 android:id="@+id/btnDaTuXuLy"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="Tôi đã tự xử lý được"
-                android:textSize="14sp"
-                app:cornerRadius="12dp"
-                app:backgroundTint="#10B981"
-                android:textColor="#FFFFFF"
+                android:textAppearance="@style/TextAppearance.App.LabelLarge"
+                app:cornerRadius="@dimen/shape_corner_medium"
+                app:backgroundTint="@color/success"
+                android:textColor="@color/on_success"
                 android:layout_marginBottom="10dp"
                 android:visibility="gone" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.example.customercareproject.ui.components.Material3Button
                 android:id="@+id/btnYeuCauHoTro"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:text="Gửi yêu cầu hỗ trợ kỹ thuật"
-                android:textSize="14sp"
-                app:cornerRadius="12dp"
-                app:backgroundTint="#1976D2"
-                android:textColor="#FFFFFF" />
+                android:textAppearance="@style/TextAppearance.App.LabelLarge"
+                app:cornerRadius="@dimen/shape_corner_medium"
+                app:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary" />
 
         </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
+

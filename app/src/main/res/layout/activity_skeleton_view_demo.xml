@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SkeletonView Demo"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Demonstrates skeleton loading states with shimmer effect"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Control Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <com.example.customercareproject.ui.components.Material3Button
+                android:id="@+id/btnSimulateLoading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Show Content"
+                android:layout_marginEnd="8dp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+            <com.example.customercareproject.ui.components.Material3Button
+                android:id="@+id/btnToggleShimmer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Stop Shimmer"
+                android:layout_marginStart="8dp"
+                style="@style/Widget.Material3.Button.OutlinedButton" />
+        </LinearLayout>
+
+        <!-- Card Container -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Skeleton Loading State -->
+                <LinearLayout
+                    android:id="@+id/skeletonContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:visibility="visible">
+
+                    <!-- Avatar Skeleton (Circle) -->
+                    <com.example.customercareproject.ui.components.SkeletonView
+                        android:id="@+id/skeletonAvatar"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        app:skeletonShape="circle"
+                        app:shimmerDuration="1500"
+                        app:autoStart="true"
+                        android:layout_marginEnd="16dp" />
+
+                    <!-- Text Skeletons (Rectangles) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <!-- Title Skeleton -->
+                        <com.example.customercareproject.ui.components.SkeletonView
+                            android:id="@+id/skeletonTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            app:skeletonShape="rectangle"
+                            app:shimmerDuration="1500"
+                            app:autoStart="true"
+                            android:layout_marginBottom="8dp" />
+
+                        <!-- Subtitle Skeleton -->
+                        <com.example.customercareproject.ui.components.SkeletonView
+                            android:id="@+id/skeletonSubtitle"
+                            android:layout_width="180dp"
+                            android:layout_height="16dp"
+                            app:skeletonShape="rectangle"
+                            app:shimmerDuration="1500"
+                            app:autoStart="true"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Description Skeleton -->
+                        <com.example.customercareproject.ui.components.SkeletonView
+                            android:id="@+id/skeletonDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="14dp"
+                            app:skeletonShape="rectangle"
+                            app:shimmerDuration="1500"
+                            app:autoStart="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Actual Content -->
+                <LinearLayout
+                    android:id="@+id/contentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:visibility="gone">
+
+                    <!-- Avatar Image -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_person"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
+                        
+                        android:layout_marginEnd="16dp" />
+
+                    <!-- Text Content -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nguyễn Văn A"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kỹ thuật viên"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:layout_marginBottom="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Đã xử lý 45 tickets trong tháng này"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Section: Different Shapes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Different Shapes"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <!-- Small Circle -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:skeletonShape="circle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Small Circle"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <!-- Medium Circle -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    app:skeletonShape="circle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium Circle"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <!-- Large Circle -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    app:skeletonShape="circle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Large Circle"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Section: Text Placeholders -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text Placeholders"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+            <!-- Title -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Subtitle -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="200dp"
+                android:layout_height="18dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Paragraph Line 1 -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Paragraph Line 2 -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Paragraph Line 3 (shorter) -->
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="240dp"
+                android:layout_height="14dp"
+                app:skeletonShape="rectangle"
+                app:shimmerDuration="1500" />
+        </LinearLayout>
+
+        <!-- Section: List Items -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List Items"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- List Item 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            
+            android:layout_marginBottom="8dp">
+
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:skeletonShape="circle"
+                app:shimmerDuration="1500"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginBottom="6dp" />
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="160dp"
+                    android:layout_height="12dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- List Item 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            
+            android:layout_marginBottom="8dp">
+
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:skeletonShape="circle"
+                app:shimmerDuration="1500"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginBottom="6dp" />
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="140dp"
+                    android:layout_height="12dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- List Item 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            
+            android:layout_marginBottom="24dp">
+
+            <com.example.customercareproject.ui.components.SkeletonView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:skeletonShape="circle"
+                app:shimmerDuration="1500"
+                android:layout_marginEnd="12dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500"
+                    android:layout_marginBottom="6dp" />
+
+                <com.example.customercareproject.ui.components.SkeletonView
+                    android:layout_width="180dp"
+                    android:layout_height="12dp"
+                    app:skeletonShape="rectangle"
+                    app:shimmerDuration="1500" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+

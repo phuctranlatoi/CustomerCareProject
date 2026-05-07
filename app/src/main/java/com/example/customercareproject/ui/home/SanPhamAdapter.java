@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.customercareproject.R;
 
+import java.util.List;
+
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHolder> {
 
-    private final String[] danhSach;
+    private final List<String> danhSach;
     private final String[] moTa;
     private final String[] icons;
     private final OnItemClickListener listener;
@@ -21,7 +23,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
         void onItemClick(String tenSanPham);
     }
 
-    public SanPhamAdapter(String[] danhSach, OnItemClickListener listener) {
+    public SanPhamAdapter(List<String> danhSach, OnItemClickListener listener) {
         this.danhSach = danhSach;
         this.listener = listener;
         this.moTa = new String[]{
@@ -45,14 +47,16 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvIcon.setText(icons[position]);
-        holder.tvTen.setText(danhSach[position]);
-        holder.tvMoTa.setText(moTa[position]);
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(danhSach[position]));
+        int iconIdx = position < icons.length ? position : 0;
+        int moTaIdx = position < moTa.length ? position : 0;
+        holder.tvIcon.setText(icons[iconIdx]);
+        holder.tvTen.setText(danhSach.get(position));
+        holder.tvMoTa.setText(moTa[moTaIdx]);
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(danhSach.get(position)));
     }
 
     @Override
-    public int getItemCount() { return danhSach.length; }
+    public int getItemCount() { return danhSach.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvIcon, tvTen, tvMoTa;

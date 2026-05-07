@@ -1,60 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="#F5F7FA">
+    android:background="?attr/colorSurface">
 
-    <!-- Top bar -->
-    <LinearLayout
+    <!-- App Bar Layout with Material Design 3 styling -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#FFFFFF"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8dp"
-        android:gravity="center_vertical"
-        android:elevation="2dp">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_media_previous"
-            android:tint="#0F172A"
-            android:contentDescription="Quay lại" />
+        <!-- Toolbar -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorSurface"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationContentDescription="Quay lại"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
+            app:titleTextColor="?attr/colorOnSurface" />
 
-        <TextView
-            android:id="@+id/tvTieuDe"
-            android:layout_width="0dp"
+        <!-- Tab Layout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?attr/colorSurface"
+            app:tabTextAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:tabTextColor="?attr/colorOnSurfaceVariant"
+            app:tabSelectedTextColor="?attr/colorPrimary"
+            app:tabIndicatorColor="?attr/colorPrimary"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabRippleColor="?attr/colorPrimaryContainer" />
+
+        <!-- Current Tab Header Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTabHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Đánh giá"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#0F172A"
-            android:layout_marginStart="4dp" />
-    </LinearLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer">
 
-    <!-- Tab Layout -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        app:tabTextColor="#94A3B8"
-        app:tabSelectedTextColor="#1976D2"
-        app:tabIndicatorColor="#1976D2"
-        app:tabIndicatorHeight="2dp"
-        android:elevation="1dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
 
-    <!-- ViewPager -->
+                <!-- Tab Icon -->
+                <ImageView
+                    android:id="@+id/imgTabIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_star_filled"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="Tab icon" />
+
+                <!-- Tab Info -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTabTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đánh giá Giao diện"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTabDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Đánh giá về thiết kế và trải nghiệm người dùng"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:alpha="0.8" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ViewPager with smooth transitions -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="?attr/colorSurface" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -138,7 +138,7 @@ public class AdminThongKeFragment extends Fragment {
                     int cho = 0, dang = 0, da = 0;
                     for (QueryDocumentSnapshot doc : snap) {
                         String ts = doc.getString("trangThai");
-                        if ("ChoXuLy".equals(ts)) cho++;
+                        if ("ChoXuLy".equals(ts) || "HangCho".equals(ts)) cho++;
                         else if ("DangXuLy".equals(ts)) dang++;
                         else da++;
                     }
@@ -218,18 +218,18 @@ public class AdminThongKeFragment extends Fragment {
             String badgeText;
             switch (uuTien) {
                 case "Cao":
-                    colorBg = Color.parseColor("#FEE2E2");
-                    colorText = Color.parseColor("#DC2626");
+                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.error_container);
+                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.error);
                     badgeText = "🔴 Ưu tiên cao";
                     break;
                 case "Thap":
-                    colorBg = Color.parseColor("#DCFCE7");
-                    colorText = Color.parseColor("#16A34A");
+                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.success_container);
+                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.success);
                     badgeText = "🟢 Thấp";
                     break;
                 default:
-                    colorBg = Color.parseColor("#FEF9C3");
-                    colorText = Color.parseColor("#CA8A04");
+                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.warning_container);
+                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.warning);
                     badgeText = "🟡 Trung bình";
             }
 
@@ -241,7 +241,7 @@ public class AdminThongKeFragment extends Fragment {
             card.setLayoutParams(cardLp);
             card.setRadius(dpToPx(14));
             card.setCardElevation(0);
-            card.setCardBackgroundColor(Color.WHITE);
+            card.setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.surface));
 
             LinearLayout inner = new LinearLayout(getContext());
             inner.setOrientation(LinearLayout.VERTICAL);
@@ -261,7 +261,7 @@ public class AdminThongKeFragment extends Fragment {
             tvTen.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
             tvTen.setText(chuDe);
             tvTen.setTextSize(14);
-            tvTen.setTextColor(Color.parseColor("#0F172A"));
+            tvTen.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.on_surface));
             tvTen.setTypeface(null, android.graphics.Typeface.BOLD);
 
             TextView tvBadge = new TextView(getContext());
@@ -283,7 +283,7 @@ public class AdminThongKeFragment extends Fragment {
             TextView tvCount = new TextView(getContext());
             tvCount.setText((soLuong != null ? soLuong : 0) + " phản hồi liên quan");
             tvCount.setTextSize(12);
-            tvCount.setTextColor(Color.parseColor("#94A3B8"));
+            tvCount.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.text_secondary));
             LinearLayout.LayoutParams countLp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             countLp.setMargins(0, 0, 0, dpToPx(10));
@@ -296,7 +296,7 @@ public class AdminThongKeFragment extends Fragment {
                     LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(1));
             divLp.setMargins(0, 0, 0, dpToPx(10));
             div.setLayoutParams(divLp);
-            div.setBackgroundColor(Color.parseColor("#F1F5F9"));
+            div.setBackgroundColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.divider));
             inner.addView(div);
 
             // Các câu đánh giá gốc (tối đa 3)
@@ -306,7 +306,7 @@ public class AdminThongKeFragment extends Fragment {
                     TextView tvItem = new TextView(getContext());
                     tvItem.setText("• " + danhGia.get(i));
                     tvItem.setTextSize(12);
-                    tvItem.setTextColor(Color.parseColor("#475569"));
+                    tvItem.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.text_primary));
                     tvItem.setLineSpacing(0, 1.4f);
                     LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -318,7 +318,7 @@ public class AdminThongKeFragment extends Fragment {
                     TextView tvMore = new TextView(getContext());
                     tvMore.setText("Xem thêm " + (danhGia.size() - 3) + " phản hồi...");
                     tvMore.setTextSize(12);
-                    tvMore.setTextColor(Color.parseColor("#1976D2"));
+                    tvMore.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.primary));
                     tvMore.setClickable(true);
                     tvMore.setFocusable(true);
                     tvMore.setOnClickListener(v -> hienThiDanhGiaCum(chuDe, danhGia));

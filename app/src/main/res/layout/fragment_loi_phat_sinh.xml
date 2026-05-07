@@ -4,20 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F7FA">
+    >
 
     <!-- Search bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        
         android:paddingHorizontal="16dp"
         android:paddingVertical="10dp"
         android:elevation="1dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.example.customercareproject.ui.components.Material3TextField
+            android:id="@+id/edtTimKiem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Tìm kiếm lỗi..."
+            android:inputType="text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@android:drawable/ic_menu_search"
             app:boxStrokeColor="#1976D2"
@@ -25,15 +28,7 @@
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusBottomEnd="12dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtTimKiem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tìm kiếm lỗi..."
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:boxCornerRadiusBottomEnd="12dp" />
     </LinearLayout>
 
     <FrameLayout
@@ -69,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="Không tìm thấy lỗi phù hợp"
                 android:textSize="15sp"
-                android:textColor="#0F172A"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:layout_marginTop="12dp" />
 
@@ -78,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="Thử từ khoá khác hoặc gửi yêu cầu mới"
                 android:textSize="13sp"
-                android:textColor="#94A3B8"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:paddingHorizontal="32dp" />
@@ -88,11 +83,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        
         android:padding="14dp"
         android:elevation="4dp">
 
-        <com.google.android.material.button.MaterialButton
+        <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnGuiYeuCauMoi"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -104,3 +99,6 @@
     </LinearLayout>
 
 </LinearLayout>
+
+
+

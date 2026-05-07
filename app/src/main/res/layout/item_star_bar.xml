@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="5"
         android:textSize="11sp"
-        android:textColor="#64748B"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:gravity="center" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textSize="11sp"
-        android:textColor="#94A3B8"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:gravity="end"
         android:layout_marginStart="6dp" />
 </LinearLayout>

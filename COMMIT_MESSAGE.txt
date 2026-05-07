@@ -1,0 +1,28 @@
+feat: Tự động tạo ticket follow-up cho đánh giá xấu (không cần Functions)
+
+✨ Tính năng mới:
+- Tự động tạo ticket follow-up khi đánh giá ≤ 2 sao
+- Hiển thị badge "🔴 Follow-up" trong KTV dashboard
+- Lưu analytics đánh giá xấu vào Firestore
+- Hoạt động hoàn toàn trong app, không cần Firebase Functions
+
+📦 Files mới:
+- BadRatingHandler.java: Xử lý logic tạo ticket tự động
+- HUONG_DAN_TICKET_FOLLOW_UP.md: Hướng dẫn chi tiết
+- TICKET_FOLLOW_UP_SUMMARY.md: Tóm tắt tính năng
+
+🔧 Files cập nhật:
+- YeuCauHoTro.java: Thêm fields loaiTicket, danhGiaLienQuan, maSoThue, tenCongTy
+- DanhGiaFormFragment.java: Đã tích hợp BadRatingHandler
+- TicketAdapter.java: Đã hiển thị badge follow-up
+
+✅ Ưu điểm:
+- Không cần Firebase Functions
+- Không cần Blaze Plan
+- Miễn phí 100%
+- Phù hợp đồ án thực tập
+
+🧪 Test:
+- Đánh giá 1-2 sao → Ticket tự động được tạo
+- Badge "🔴 Follow-up" hiển thị đúng
+- Analytics được lưu vào Firestore

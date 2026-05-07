@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:background="#F5F7FA">
+    >
 
     <!-- Top bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
+        
         android:orientation="horizontal"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical"
@@ -21,7 +21,7 @@
             android:id="@+id/btnBack"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            
             android:src="@android:drawable/ic_media_previous"
             android:tint="#0F172A"
             android:contentDescription="Quay lại" />
@@ -49,12 +49,12 @@
             android:padding="16dp">
 
             <!-- Card thông tin KTV -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -70,7 +70,7 @@
                         android:text="👨‍💻"
                         android:textSize="28sp"
                         android:gravity="center"
-                        android:background="@drawable/bg_avatar_circle"
+                        
                         android:layout_marginBottom="12dp" />
 
                     <TextView
@@ -90,15 +90,15 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Card đánh giá sao -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -136,15 +136,15 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Card tags nhanh -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -169,15 +169,15 @@
                         app:chipSpacingHorizontal="8dp"
                         app:chipSpacingVertical="4dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Card nhận xét thêm -->
-            <androidx.cardview.widget.CardView
+            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                
+                
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -203,12 +203,12 @@
                         android:inputType="textMultiLine|textCapSentences"
                         android:minLines="3"
                         android:maxLines="5"
-                        android:background="@drawable/bg_input_chat"
+                        
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="10dp"
                         android:textSize="14sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.example.customercareproject.ui.components.Material3Card>
 
         </LinearLayout>
     </ScrollView>
@@ -219,10 +219,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="14dp"
-        android:background="#FFFFFF"
+        
         android:elevation="4dp">
 
-        <com.google.android.material.button.MaterialButton
+        <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnBoQua"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -234,7 +234,7 @@
             app:backgroundTint="#EEF4FF"
             android:textSize="14sp" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnGuiDanhGia"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -247,3 +247,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+

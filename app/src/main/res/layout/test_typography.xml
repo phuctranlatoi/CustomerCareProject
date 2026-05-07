@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Display Styles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Display Large"
+            android:textAppearance="@style/TextAppearance.App.DisplayLarge"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Display Medium"
+            android:textAppearance="@style/TextAppearance.App.DisplayMedium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Display Small"
+            android:textAppearance="@style/TextAppearance.App.DisplaySmall"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Headline Styles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Headline Large"
+            android:textAppearance="@style/TextAppearance.App.HeadlineLarge"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Headline Medium"
+            android:textAppearance="@style/TextAppearance.App.HeadlineMedium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Headline Small"
+            android:textAppearance="@style/TextAppearance.App.HeadlineSmall"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Title Styles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title Large"
+            android:textAppearance="@style/TextAppearance.App.TitleLarge"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title Medium"
+            android:textAppearance="@style/TextAppearance.App.TitleMedium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title Small"
+            android:textAppearance="@style/TextAppearance.App.TitleSmall"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Body Styles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Body Large: This is a sample text to demonstrate the body large text style with proper line height and letter spacing."
+            android:textAppearance="@style/TextAppearance.App.BodyLarge"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Body Medium: This is a sample text to demonstrate the body medium text style with proper line height and letter spacing."
+            android:textAppearance="@style/TextAppearance.App.BodyMedium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Body Small: This is a sample text to demonstrate the body small text style."
+            android:textAppearance="@style/TextAppearance.App.BodySmall"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Label Styles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LABEL LARGE"
+            android:textAppearance="@style/TextAppearance.App.LabelLarge"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LABEL MEDIUM"
+            android:textAppearance="@style/TextAppearance.App.LabelMedium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LABEL SMALL"
+            android:textAppearance="@style/TextAppearance.App.LabelSmall"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+</ScrollView>

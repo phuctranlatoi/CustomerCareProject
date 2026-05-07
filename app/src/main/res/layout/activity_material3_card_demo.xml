@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Material3Card Demo"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Section: Medium Corner Radius (Default) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Corner Radius (12dp)"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.example.customercareproject.ui.components.Material3Card
+            android:id="@+id/cardProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadiusSize="medium"
+            app:cardClickable="true"
+            app:enableHoverEffect="true"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product Card"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clickable card with medium corners and hover effect"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </com.example.customercareproject.ui.components.Material3Card>
+
+        <!-- Section: Extra Large Corner Radius -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Extra Large Corner Radius (28dp)"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.example.customercareproject.ui.components.Material3Card
+            android:id="@+id/cardTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadiusSize="extra_large"
+            app:cardClickable="true"
+            app:enableHoverEffect="true"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ticket Card"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clickable card with extra large corners (28dp)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </com.example.customercareproject.ui.components.Material3Card>
+
+        <!-- Section: Statistics Cards (Non-clickable) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Statistics Cards (Non-clickable)"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <com.example.customercareproject.ui.components.Material3Card
+                android:id="@+id/cardStat1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cornerRadiusSize="large"
+                app:cardClickable="false"
+                app:enableHoverEffect="false"
+                app:cardElevation="4dp"
+                android:layout_marginEnd="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="42"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Active"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+            </com.example.customercareproject.ui.components.Material3Card>
+
+            <com.example.customercareproject.ui.components.Material3Card
+                android:id="@+id/cardStat2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cornerRadiusSize="large"
+                app:cardClickable="false"
+                app:enableHoverEffect="false"
+                app:cardElevation="4dp"
+                android:layout_marginStart="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15"
+                        android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+                        android:textColor="?attr/colorSecondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pending"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+            </com.example.customercareproject.ui.components.Material3Card>
+        </LinearLayout>
+
+        <!-- Section: Small Corner Radius -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Small Corner Radius (8dp)"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.example.customercareproject.ui.components.Material3Card
+            android:id="@+id/cardSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadiusSize="small"
+            app:cardClickable="true"
+            app:enableHoverEffect="true"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Small Corner Card"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clickable card with small corners (8dp)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </com.example.customercareproject.ui.components.Material3Card>
+
+        <!-- Section: Large Corner Radius -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large Corner Radius (16dp)"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.example.customercareproject.ui.components.Material3Card
+            android:id="@+id/cardLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadiusSize="large"
+            app:cardClickable="true"
+            app:enableHoverEffect="true"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Large Corner Card"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clickable card with large corners (16dp)"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </com.example.customercareproject.ui.components.Material3Card>
+
+        <!-- Section: Programmatic Configuration -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Programmatic Configuration"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <com.example.customercareproject.ui.components.Material3Card
+            android:id="@+id/cardProgrammatic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dynamic Card"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Click to cycle through corner radius sizes"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </com.example.customercareproject.ui.components.Material3Card>
+
+    </LinearLayout>
+</ScrollView>

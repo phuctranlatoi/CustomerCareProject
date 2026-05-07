@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true" xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
     android:layout_marginVertical="5dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="#FFFFFF"
+    
+    
+    app:cardBackgroundColor="?attr/colorSurfaceContainer"
     android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
@@ -29,14 +29,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="#0F172A" />
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 android:id="@+id/tvMoTaLoi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:textColor="#64748B"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:layout_marginTop="4dp"
                 android:maxLines="2"
                 android:ellipsize="end" />
@@ -57,8 +57,9 @@
             android:layout_height="wrap_content"
             android:text="›"
             android:textSize="22sp"
-            android:textColor="#CBD5E1"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.example.customercareproject.ui.components.Material3Card>
+

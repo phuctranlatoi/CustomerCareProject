@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.card.MaterialCardView;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.YeuCauHoTro;
@@ -92,6 +92,41 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             holder.tvThoiGian.setText(time);
         }
 
+        // Badge ghi chú từ KTV trước
+        boolean coGhiChu = t.getLichSuHoTro() != null && !t.getLichSuHoTro().isEmpty();
+        if (holder.tvBadgeGhiChu != null) {
+            holder.tvBadgeGhiChu.setVisibility(coGhiChu ? View.VISIBLE : View.GONE);
+        }
+
+        // Badge Follow-up đánh giá xấu
+        boolean isFollowUp = "AutoFollowUp".equals(t.getLoaiTicket());
+        if (holder.tvBadgeFollowUp != null) {
+            holder.tvBadgeFollowUp.setVisibility(isFollowUp ? View.VISIBLE : View.GONE);
+            if (isFollowUp) {
+                holder.tvBadgeFollowUp.setText("🔴 Follow-up");
+                holder.tvBadgeFollowUp.setBackgroundColor(Color.parseColor("#FFCDD2"));
+                holder.tvBadgeFollowUp.setTextColor(Color.parseColor("#D32F2F"));
+            }
+        }
+
+        // Màu card đặc biệt cho follow-up
+        if (isFollowUp && holder.cardView != null) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#FFEBEE"));
+            holder.cardView.setStrokeColor(Color.parseColor("#F44336"));
+            holder.cardView.setStrokeWidth(2);
+        }
+
+        // Badge cảnh báo quá 30 phút (G3.1, G3.3)
+        if (holder.tvBadgeQuaHan != null) {
+            boolean hienBadge = false;
+            if (t.getTaoLuc() != null) {
+                long elapsed = (System.currentTimeMillis() - t.getTaoLuc().toDate().getTime()) / 60000L;
+                boolean trangThaiCho = "HangCho".equals(trangThai) || "ChoXuLy".equals(trangThai);
+                hienBadge = trangThaiCho && elapsed > 30;
+            }
+            holder.tvBadgeQuaHan.setVisibility(hienBadge ? View.VISIBLE : View.GONE);
+        }
+
         holder.itemView.setOnClickListener(v -> listener.onItemClick(t));
     }
 
@@ -99,8 +134,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     public int getItemCount() { return danhSach.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTieuDe, tvKhachHang, tvSanPham, tvTrangThai, tvThoiGian, tvUuTien;
-        CardView cardView;
+        TextView tvTieuDe, tvKhachHang, tvSanPham, tvTrangThai, tvThoiGian, tvUuTien, tvBadgeGhiChu, tvBadgeQuaHan, tvBadgeFollowUp;
+        MaterialCardView cardView;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,8 +145,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             tvTrangThai = itemView.findViewById(R.id.tvTrangThai);
             tvThoiGian = itemView.findViewById(R.id.tvThoiGian);
             tvUuTien = itemView.findViewById(R.id.tvUuTien);
+            tvBadgeGhiChu = itemView.findViewById(R.id.tvBadgeGhiChu);
+            tvBadgeQuaHan = itemView.findViewById(R.id.tvBadgeQuaHan);
+            tvBadgeFollowUp = itemView.findViewById(R.id.tvBadgeFollowUp);
             // CardView là root của item_ticket
-            if (itemView instanceof CardView) cardView = (CardView) itemView;
+            if (itemView instanceof MaterialCardView) cardView = (MaterialCardView) itemView;
         }
     }
 }
