@@ -14,7 +14,7 @@
         android:text="Chào mừng!"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#1976D2"
+        android:textColor="?attr/colorPrimary"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="8dp" />
 
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="#757575"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:layout_marginBottom="48dp" />
 
     <com.example.customercareproject.ui.components.Material3Button

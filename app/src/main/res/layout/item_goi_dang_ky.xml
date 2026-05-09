@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
-                android:textColor="#FFFFFF"
+                android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="3dp" />
@@ -85,7 +85,7 @@
                 android:textSize="12sp"
                 android:layout_marginEnd="6dp"
                 app:cornerRadius="8dp"
-                app:strokeColor="#1976D2" />
+                app:strokeColor="?attr/colorPrimary" />
 
             <com.example.customercareproject.ui.components.Material3Button
                 android:id="@+id/btnXoa"
@@ -95,8 +95,8 @@
                 android:text="Xóa"
                 android:textSize="12sp"
                 app:cornerRadius="8dp"
-                app:strokeColor="#EF4444"
-                android:textColor="#EF4444" />
+                app:strokeColor="@color/error"
+                android:textColor="@color/error" />
         </LinearLayout>
 
     </LinearLayout>

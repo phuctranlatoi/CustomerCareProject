@@ -573,7 +573,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="✨ AI Phân tích &amp; Gợi ý"
+                        android:text="Phân tích &amp; Gợi ý"
+                        app:drawableStartCompat="@drawable/ic_analytics"
+                        android:drawablePadding="8dp"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="?attr/colorOnSurface" />

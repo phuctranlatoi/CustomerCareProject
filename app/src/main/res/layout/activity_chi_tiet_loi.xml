@@ -21,8 +21,8 @@
             android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            
-            android:src="@android:drawable/ic_media_previous"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
             android:tint="?attr/colorOnSurface"
             android:contentDescription="Quay lại" />
 
@@ -137,7 +137,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="✅ Cách giải quyết"
+                        android:text="Cách giải quyết"
+                        app:drawableStartCompat="@drawable/ic_check_circle"
+                        android:drawablePadding="8dp"
                         android:textAppearance="@style/TextAppearance.App.TitleMedium"
                         android:textColor="@color/on_success_container"
                         android:layout_marginBottom="10dp" />

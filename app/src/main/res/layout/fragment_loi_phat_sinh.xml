@@ -23,8 +23,8 @@
             android:inputType="text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@android:drawable/ic_menu_search"
-            app:boxStrokeColor="#1976D2"
-            app:hintTextColor="#1976D2"
+            app:boxStrokeColor="?attr/colorPrimary"
+            app:hintTextColor="?attr/colorPrimary"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
@@ -52,12 +52,13 @@
             android:gravity="center"
             android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🔍"
-                android:textSize="40sp"
-                android:gravity="center" />
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_search"
+                app:tint="?attr/colorOutline"
+                android:contentDescription="Tìm kiếm"
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,8 +94,8 @@
             android:layout_height="50dp"
             android:text="Gửi yêu cầu hỗ trợ mới"
             app:cornerRadius="12dp"
-            app:backgroundTint="#1976D2"
-            android:textColor="#FFFFFF"
+            app:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="14sp" />
     </LinearLayout>
 

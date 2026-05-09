@@ -13,9 +13,9 @@
         android:background="?attr/colorSurfaceContainer"
         app:tabMode="fixed"
         app:tabGravity="fill"
-        app:tabSelectedTextColor="#1976D2"
-        app:tabTextColor="#94A3B8"
-        app:tabIndicatorColor="#1976D2"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabTextColor="?attr/colorOnSurfaceVariant"
+        app:tabIndicatorColor="?attr/colorPrimary"
         app:tabIndicatorHeight="3dp"
         app:tabTextAppearance="@android:style/TextAppearance.Small" />
 

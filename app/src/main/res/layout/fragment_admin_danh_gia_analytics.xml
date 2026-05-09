@@ -15,7 +15,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📊 Analytics Đánh Giá Xấu"
+            android:text="Analytics Đánh Giá Xấu"
+            app:drawableStartCompat="@drawable/ic_analytics"
+            android:drawablePadding="8dp"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="?attr/colorOnSurface"
@@ -48,7 +50,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🔴 Tổng số"
+                        android:text="Tổng số"
+                        app:drawableStartCompat="@drawable/ic_warning_amber"
+                        app:drawableTint="@color/error"
+                        android:drawablePadding="4dp"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -93,7 +98,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📈 Xu hướng"
+                        android:text="Xu hướng"
+                        app:drawableStartCompat="@drawable/ic_timeline"
+                        android:drawablePadding="4dp"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -146,7 +153,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📱 Sản phẩm xấu nhất"
+                        android:text="Sản phẩm xấu nhất"
+                        app:drawableStartCompat="@drawable/ic_devices"
+                        android:drawablePadding="4dp"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginBottom="8dp" />
@@ -183,7 +192,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🏢 Công ty xấu nhất"
+                        android:text="Công ty xấu nhất"
+                        app:drawableStartCompat="@drawable/ic_business"
+                        android:drawablePadding="4dp"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginBottom="8dp" />
@@ -221,7 +232,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🏷️ Vấn đề phổ biến nhất"
+                    android:text="Vấn đề phổ biến nhất"
+                    app:drawableStartCompat="@drawable/ic_label"
+                    android:drawablePadding="4dp"
                     android:textSize="14sp"
                     android:textColor="?attr/colorOnSurfaceVariant"
                     android:layout_marginBottom="8dp" />
@@ -274,7 +287,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📅 7 ngày qua"
+                        android:text="7 ngày qua"
+                        app:drawableStartCompat="@drawable/ic_calendar_today"
+                        android:drawablePadding="4dp"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -312,7 +327,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📅 30 ngày qua"
+                        android:text="30 ngày qua"
+                        app:drawableStartCompat="@drawable/ic_calendar_today"
+                        android:drawablePadding="4dp"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -349,7 +366,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="💡 Gợi ý hành động"
+                    android:text="Gợi ý hành động"
+                    app:drawableStartCompat="@drawable/ic_lightbulb"
+                    app:drawableTint="@color/info"
+                    android:drawablePadding="4dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/info"

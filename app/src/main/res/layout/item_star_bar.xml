@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="★"
         android:textSize="10sp"
-        android:textColor="#F59E0B"
+        android:textColor="@color/warning"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="6dp" />
 
@@ -30,8 +30,8 @@
         android:layout_height="6dp"
         android:layout_weight="1"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressTint="#F59E0B"
-        android:progressBackgroundTint="#F1F5F9"
+        android:progressTint="@color/warning"
+        android:progressBackgroundTint="?attr/colorSurfaceVariant"
         android:max="100"
         android:progress="0" />
 

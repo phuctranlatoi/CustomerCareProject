@@ -43,7 +43,7 @@
                 android:paddingVertical="3dp"
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="?attr/colorOnPrimary"
                 android:background="@drawable/bg_badge_orange"
                 android:visibility="gone" />
         </LinearLayout>
@@ -70,8 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:textColor="#1976D2"
-                app:chipBackgroundColor="#DCEEFB"
+                android:textColor="?attr/colorPrimary"
+                app:chipBackgroundColor="?attr/colorPrimaryContainer"
                 app:chipStrokeWidth="0dp"
                 android:clickable="false"
                 android:focusable="false" />
@@ -83,7 +83,7 @@
                 android:layout_marginStart="10dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="#E53935" />
+                android:textColor="@color/error" />
         </LinearLayout>
 
         <!-- Nội dung góp ý -->

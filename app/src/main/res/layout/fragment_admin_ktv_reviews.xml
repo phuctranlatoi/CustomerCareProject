@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="★ Trung bình"
                 android:textSize="11sp"
-                android:textColor="#F59E0B"
+                android:textColor="@color/warning"
                 android:gravity="center" />
         </LinearLayout>
     </LinearLayout>
@@ -76,8 +76,8 @@
             android:inputType="text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@android:drawable/ic_menu_search"
-            app:startIconTint="#94A3B8"
-            app:boxStrokeColor="#E2E8F0"
+            app:startIconTint="?attr/colorOnSurfaceVariant"
+            app:boxStrokeColor="?attr/colorOutlineVariant"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"

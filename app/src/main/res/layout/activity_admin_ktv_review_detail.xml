@@ -22,8 +22,8 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_media_previous"
-            android:tint="#0F172A"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="?attr/colorOnSurface"
             android:contentDescription="Quay lại" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#0F172A"
+            android:textColor="?attr/colorOnSurface"
             android:layout_marginStart="4dp" />
     </LinearLayout>
 
@@ -55,7 +55,7 @@
                 android:layout_marginBottom="12dp"
                 
                 
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                                 android:text="0.0"
                                 android:textSize="52sp"
                                 android:textStyle="bold"
-                                android:textColor="#0F172A"
+                                android:textColor="?attr/colorOnSurface"
                                 android:gravity="center" />
 
                             <TextView
@@ -94,7 +94,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="★★★★★"
                                 android:textSize="20sp"
-                                android:textColor="#F59E0B"
+                                android:textColor="@color/warning"
                                 android:gravity="center" />
 
                             <TextView
@@ -103,7 +103,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="0 đánh giá"
                                 android:textSize="12sp"
-                                android:textColor="#94A3B8"
+                                android:textColor="?attr/colorOnSurfaceVariant"
                                 android:gravity="center"
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
@@ -132,7 +132,7 @@
                 android:layout_marginBottom="12dp"
                 
                 
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="?attr/colorSurface">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                         android:text="Nhận xét phổ biến"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A"
+                        android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="12dp" />
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroupTags"
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 
                 
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="?attr/colorSurface">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                         android:text="Tất cả đánh giá"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#0F172A"
+                        android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="8dp" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvDanhGia"

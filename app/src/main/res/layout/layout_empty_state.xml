@@ -10,7 +10,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:src="@android:drawable/ic_menu_agenda"
-        android:tint="#CBD5E1"
+        android:tint="?attr/colorOutlineVariant"
         android:contentDescription="Danh sách trống"
         android:layout_marginBottom="16dp" />
 

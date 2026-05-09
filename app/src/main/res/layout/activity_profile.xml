@@ -21,8 +21,8 @@
             android:id="@+id/btnBack"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            
-            android:src="@android:drawable/ic_media_previous"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
             android:tint="?attr/colorOnSurface"
             android:contentDescription="Quay lại" />
 
@@ -44,8 +44,8 @@
             android:textSize="13sp"
             android:paddingHorizontal="16dp"
             app:cornerRadius="10dp"
-            app:backgroundTint="#1976D2"
-            android:textColor="#FFFFFF"
+            app:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:text="Chỉnh sửa"
                             android:textSize="13sp"
-                            android:textColor="#1976D2"
+                            android:textColor="?attr/colorPrimary"
                             android:textStyle="bold"
                             android:clickable="true"
                             android:focusable="true" />

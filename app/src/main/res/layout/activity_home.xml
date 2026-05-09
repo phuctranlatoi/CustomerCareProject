@@ -85,12 +85,12 @@
             android:padding="16dp"
             android:gravity="center_vertical">
 
-            <TextView
+            <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="⚠️"
-                android:textSize="20sp"
-                android:gravity="center"
+                android:src="@drawable/ic_warning_amber"
+                app:tint="@color/warning"
+                android:padding="8dp"
                 android:layout_marginEnd="12dp" />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="#E65100"
+                android:textColor="@color/on_warning_container"
                 android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -124,12 +124,12 @@
             android:padding="16dp"
             android:gravity="center_vertical">
 
-            <TextView
+            <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="💬"
-                android:textSize="20sp"
-                android:gravity="center"
+                android:src="@drawable/ic_chat"
+                app:tint="?attr/colorOnPrimaryContainer"
+                android:padding="8dp"
                 android:layout_marginEnd="12dp" />
 
             <LinearLayout

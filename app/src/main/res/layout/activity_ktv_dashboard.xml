@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F7FA"
+    android:background="?attr/colorSurfaceContainerLow"
     android:fitsSystemWindows="true">
 
     <!-- Top bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
+        android:background="?attr/colorSurface"
         android:orientation="horizontal"
         android:paddingHorizontal="20dp"
         android:gravity="center_vertical"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="KỸ THUẬT VIÊN"
                     android:textSize="10sp"
-                    android:textColor="#94A3B8"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:letterSpacing="0.1" />
 
                 <TextView
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="#0F172A"
+                    android:textColor="?attr/colorOnSurface"
                     android:maxLines="1"
                     android:ellipsize="end" />
             </LinearLayout>
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="● Rảnh"
             android:textSize="12sp"
-            android:textColor="#10B981"
+            android:textColor="@color/success"
             android:textStyle="bold"
             app:chipBackgroundColor="@color/success_container"
             app:chipStrokeWidth="0dp"
@@ -74,7 +74,7 @@
             android:layout_height="38dp"
             android:background="@drawable/bg_avatar_circle"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="#64748B"
+            android:tint="?attr/colorOnSurfaceVariant"
             android:padding="9dp"
             android:contentDescription="Đăng xuất" />
     </LinearLayout>
@@ -172,10 +172,10 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#FFFFFF"
-        app:tabTextColor="#94A3B8"
-        app:tabSelectedTextColor="#1976D2"
-        app:tabIndicatorColor="#1976D2"
+        android:background="?attr/colorSurface"
+        app:tabTextColor="?attr/colorOnSurfaceVariant"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabIndicatorColor="?attr/colorPrimary"
         app:tabIndicatorHeight="2dp"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         android:elevation="1dp" />

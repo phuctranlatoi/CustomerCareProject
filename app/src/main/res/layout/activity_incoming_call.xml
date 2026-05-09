@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#1B5E20"
+    android:background="@color/success"
     android:padding="32dp">
 
     <!-- Avatar -->
@@ -18,7 +18,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_call"
-            android:tint="#FFFFFF"
+            android:tint="@color/on_primary"
             android:contentDescription="Avatar" />
     </LinearLayout>
 
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Người gọi"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/on_primary"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cuộc gọi đến..."
-        android:textColor="#A5D6A7"
+        android:textColor="@color/success_container"
         android:textSize="15sp"
         android:layout_marginBottom="64dp" />
 
@@ -62,7 +62,7 @@
                 android:layout_height="72dp"
                 android:background="@drawable/bg_btn_send"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:tint="#FFFFFF"
+                android:tint="@color/on_primary"
                 android:padding="16dp"
                 android:contentDescription="Từ chối" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Từ chối"
-                android:textColor="#EF9A9A"
+                android:textColor="@color/error"
                 android:textSize="13sp"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_height="72dp"
                 android:background="@drawable/bg_icon_circle"
                 android:src="@android:drawable/ic_menu_call"
-                android:tint="#FFFFFF"
+                android:tint="@color/on_primary"
                 android:padding="16dp"
                 android:contentDescription="Nghe máy" />
 
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nghe máy"
-                android:textColor="#A5D6A7"
+                android:textColor="@color/success_container"
                 android:textSize="13sp"
                 android:layout_marginTop="8dp" />
         </LinearLayout>

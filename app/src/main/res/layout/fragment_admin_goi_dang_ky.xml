@@ -30,8 +30,8 @@
             android:text="+ Thêm gói"
             android:textSize="13sp"
             app:cornerRadius="10dp"
-            app:backgroundTint="#1976D2"
-            android:textColor="#FFFFFF" />
+            app:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary" />
 
         <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnResetSeed"
@@ -42,8 +42,8 @@
             android:textSize="12sp"
             android:layout_marginStart="8dp"
             app:cornerRadius="10dp"
-            app:strokeColor="#94A3B8"
-            android:textColor="#94A3B8" />
+            app:strokeColor="?attr/colorOnSurfaceVariant"
+            android:textColor="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
