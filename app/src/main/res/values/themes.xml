@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- ============================================ -->
-    <!-- Material Design 3 Light Theme -->
+    <!-- Aura Design System Light Theme -->
     <!-- ============================================ -->
     
     <!-- Base application theme with Material Design 3 color tokens -->
@@ -58,6 +58,9 @@
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.Corner.Medium</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.Corner.Large</item>
         
+        <!-- Font family globally -->
+        <item name="android:fontFamily">@font/inter</item>
+
         <!-- Legacy compatibility -->
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
@@ -66,25 +69,29 @@
     <style name="Theme.CustomerCareProject" parent="Base.Theme.CustomerCareProject" />
 
     <!-- ============================================ -->
-    <!-- Text Styles -->
+    <!-- Text Styles (Aura System) -->
     <!-- ============================================ -->
     
     <style name="TextStyle.Heading" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/on_surface</item>
+        <item name="android:fontFamily">@font/plus_jakarta_sans</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextStyle.Body" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/text_primary</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="TextStyle.Caption" parent="TextAppearance.Material3.BodySmall">
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 
     <style name="TextStyle.Label" parent="TextAppearance.Material3.LabelSmall">
         <item name="android:textColor">@color/text_hint</item>
+        <item name="android:fontFamily">@font/inter</item>
         <item name="android:letterSpacing">0.08</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
-

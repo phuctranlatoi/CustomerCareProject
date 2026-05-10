@@ -5,72 +5,82 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- ============================================ -->
-    <!-- Material Design 3 Color System -->
+    <!-- Aura Design System (Modern B2B SaaS) -->
     <!-- ============================================ -->
 
-    <!-- Primary Color Shades (Blue) -->
-    <color name="primary_50">#E3F2FD</color>
-    <color name="primary_100">#BBDEFB</color>
-    <color name="primary_200">#90CAF9</color>
-    <color name="primary_300">#64B5F6</color>
-    <color name="primary_400">#42A5F5</color>
-    <color name="primary_500">#2196F3</color>
-    <color name="primary_600">#1E88E5</color>
-    <color name="primary_700">#1976D2</color>
-    <color name="primary_800">#1565C0</color>
-    <color name="primary_900">#0D47A1</color>
+    <!-- Primary Colors (Indigo) -->
+    <color name="primary_50">#EEF2FF</color>
+    <color name="primary_100">#E0E7FF</color>
+    <color name="primary_200">#C7D2FE</color>
+    <color name="primary_300">#A5B4FC</color>
+    <color name="primary_400">#818CF8</color>
+    <color name="primary_500">#6366F1</color>
+    <color name="primary_600">#4F46E5</color> <!-- Brand Primary -->
+    <color name="primary_700">#4338CA</color>
+    <color name="primary_800">#3730A3</color>
+    <color name="primary_900">#312E81</color>
 
-    <!-- Secondary Color Shades (Cyan) -->
-    <color name="secondary_50">#E0F7FA</color>
-    <color name="secondary_100">#B2EBF2</color>
-    <color name="secondary_200">#80DEEA</color>
-    <color name="secondary_300">#4DD0E1</color>
-    <color name="secondary_400">#26C6DA</color>
-    <color name="secondary_500">#00BCD4</color>
-    <color name="secondary_600">#00ACC1</color>
-    <color name="secondary_700">#0097A7</color>
-    <color name="secondary_800">#00838F</color>
-    <color name="secondary_900">#006064</color>
+    <!-- Secondary Colors (Cyan) -->
+    <color name="secondary_50">#ECFEFF</color>
+    <color name="secondary_100">#CFFAFE</color>
+    <color name="secondary_200">#A5F3FC</color>
+    <color name="secondary_300">#67E8F9</color>
+    <color name="secondary_400">#22D3EE</color>
+    <color name="secondary_500">#06B6D4</color> <!-- Brand Secondary -->
+    <color name="secondary_600">#0891B2</color>
+    <color name="secondary_700">#0E7490</color>
+    <color name="secondary_800">#155E75</color>
+    <color name="secondary_900">#164E63</color>
 
-    <!-- MD3 Primary Color Tokens -->
-    <color name="primary">#1976D2</color>
+    <!-- MD3 Primary Color Tokens (Aura Mapped) -->
+    <color name="primary">#4F46E5</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="primary_container">#BBDEFB</color>
-    <color name="on_primary_container">#0D47A1</color>
+    <color name="primary_container">#E0E7FF</color>
+    <color name="on_primary_container">#312E81</color>
 
-    <!-- MD3 Secondary Color Tokens -->
-    <color name="secondary">#0097A7</color>
+    <!-- MD3 Secondary Color Tokens (Aura Mapped) -->
+    <color name="secondary">#06B6D4</color>
     <color name="on_secondary">#FFFFFF</color>
-    <color name="secondary_container">#B2EBF2</color>
-    <color name="on_secondary_container">#006064</color>
+    <color name="secondary_container">#CFFAFE</color>
+    <color name="on_secondary_container">#164E63</color>
 
-    <!-- MD3 Surface Color Tokens -->
+    <!-- MD3 Surface & Background Color Tokens (Light Mode Base) -->
     <color name="surface">#FFFFFF</color>
-    <color name="on_surface">#1C1B1F</color>
-    <color name="surface_variant">#E7E0EC</color>
-    <color name="on_surface_variant">#49454F</color>
-    <color name="surface_container">#F3EDF7</color>
-    <color name="surface_container_high">#ECE6F0</color>
-    <color name="surface_container_highest">#E6E0E9</color>
-    <color name="surface_container_low">#F7F2FA</color>
+    <color name="on_surface">#0F172A</color> <!-- Slate 900 -->
+    <color name="surface_variant">#F1F5F9</color> <!-- Slate 100 -->
+    <color name="on_surface_variant">#475569</color> <!-- Slate 600 -->
+    <color name="surface_container">#F8FAFC</color>
+    <color name="surface_container_high">#F1F5F9</color>
+    <color name="surface_container_highest">#E2E8F0</color>
+    <color name="surface_container_low">#FFFFFF</color>
     <color name="surface_container_lowest">#FFFFFF</color>
 
     <!-- MD3 Background Color Tokens -->
-    <color name="background">#FFFBFE</color>
-    <color name="on_background">#1C1B1F</color>
+    <color name="background">#F8FAFC</color> <!-- Slate 50 -->
+    <color name="on_background">#0F172A</color>
 
-    <!-- MD3 Outline and Border Colors -->
-    <color name="outline">#79747E</color>
-    <color name="outline_variant">#CAC4D0</color>
+    <!-- Glassmorphism Tokens (For special cards & docks) -->
+    <color name="glass_surface_dark">#08FFFFFF</color> <!-- 3% White -->
+    <color name="glass_outline_dark">#14FFFFFF</color> <!-- 8% White -->
+    <color name="glass_surface_light">#80FFFFFF</color> <!-- 50% White -->
+    <color name="glass_outline_light">#1A000000</color> <!-- 10% Black -->
 
-    <!-- Semantic Colors (WCAG AA Compliant) -->
+    <!-- Deep Dark Mode Colors -->
+    <color name="dark_background">#09090B</color> <!-- Zinc 950 -->
+    <color name="dark_surface">#18181B</color> <!-- Zinc 900 -->
+
+    <!-- Outline and Border Colors -->
+    <color name="outline">#94A3B8</color> <!-- Slate 400 -->
+    <color name="outline_variant">#E2E8F0</color> <!-- Slate 200 -->
+
+    <!-- Semantic Colors (Aura Neon) -->
     <color name="success">#10B981</color>
     <color name="on_success">#FFFFFF</color>
     <color name="success_container">#D1FAE5</color>
     <color name="on_success_container">#065F46</color>
 
     <color name="warning">#F59E0B</color>
-    <color name="on_warning">#000000</color>
+    <color name="on_warning">#FFFFFF</color>
     <color name="warning_container">#FEF3C7</color>
     <color name="on_warning_container">#78350F</color>
 
@@ -85,53 +95,33 @@
     <color name="on_info_container">#1E3A8A</color>
 
     <!-- ============================================ -->
-    <!-- Legacy Colors (for backward compatibility) -->
+    <!-- Legacy Colors (Kept to prevent crash during transition) -->
     <!-- ============================================ -->
 
-    <!-- Legacy primary colors -->
-    <color name="primary_dark">#0D47A1</color>
-    <color name="primary_light">#BBDEFB</color>
-    <color name="primary_surface">#E3F2FD</color>
-
-    <!-- Legacy accent -->
-    <color name="accent">#FF6F00</color>
-
-    <!-- Legacy text colors -->
-    <color name="text_primary">#1C1B1F</color>
-    <color name="text_secondary">#49454F</color>
+    <color name="primary_dark">#3730A3</color>
+    <color name="primary_light">#A5B4FC</color>
+    <color name="primary_surface">#EEF2FF</color>
+    <color name="accent">#06B6D4</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#475569</color>
     <color name="text_on_primary">#FFFFFF</color>
-    <color name="text_hint">#79747E</color>
-
-    <!-- Legacy backgrounds -->
+    <color name="text_hint">#94A3B8</color>
     <color name="card_bg">#FFFFFF</color>
-    <color name="background_light">#FAFAFA</color>
-
-    <!-- Legacy misc -->
-    <color name="divider">#CAC4D0</color>
-    <color name="star_active">#FFB300</color>
-    <color name="star_inactive">#E0E0E0</color>
-    <color name="chip_bg">#E7E0EC</color>
-    <color name="bubble_ktv">#1565C0</color>
+    <color name="background_light">#F8FAFC</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="star_active">#F59E0B</color>
+    <color name="star_inactive">#E2E8F0</color>
+    <color name="chip_bg">#F1F5F9</color>
+    <color name="bubble_ktv">#4F46E5</color>
     <color name="bubble_kh">#FFFFFF</color>
-    <color name="header_gradient_start">#1565C0</color>
-    <color name="header_gradient_end">#1E88E5</color>
+    <color name="header_gradient_start">#4F46E5</color>
+    <color name="header_gradient_end">#06B6D4</color>
+    <color name="secondary_dark">#0E7490</color>
 
-    <!-- Legacy secondary -->
-    <color name="secondary_dark">#006064</color>
-
-    <!-- ============================================ -->
-    <!-- Additional UI Colors -->
-    <!-- ============================================ -->
-
-    <!-- Scrim and overlays -->
     <color name="scrim">#000000</color>
     <color name="scrim_60">#99000000</color>
-
-    <!-- Inverse colors for dark backgrounds -->
-    <color name="inverse_surface">#313033</color>
-    <color name="inverse_on_surface">#F4EFF4</color>
-    <color name="inverse_primary">#90CAF9</color>
-
-    <!-- Shadow and elevation -->
+    <color name="inverse_surface">#1E293B</color>
+    <color name="inverse_on_surface">#F8FAFC</color>
+    <color name="inverse_primary">#818CF8</color>
     <color name="shadow">#000000</color>
 </resources>
