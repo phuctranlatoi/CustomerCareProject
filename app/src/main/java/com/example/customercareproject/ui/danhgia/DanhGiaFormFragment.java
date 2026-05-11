@@ -374,8 +374,48 @@ public class DanhGiaFormFragment extends Fragment {
                                 public void onError(String error) {
                                     if (getActivity() == null) return;
                                     getActivity().runOnUiThread(() -> {
-                                        Toast.makeText(getContext(), "Lỗi NLP: " + error, Toast.LENGTH_SHORT).show();
-                                        resetButtonState();
+                                        // NLP lỗi → vẫn lưu đánh giá với giá trị mặc định
+                                        // để đảm bảo không mất dữ liệu (đặc biệt đánh giá xấu)
+                                        android.util.Log.w("DanhGia", "NLP lỗi, lưu fallback: " + error);
+                                        
+                                        // Gán giá trị fallback dựa trên số sao
+                                        if (soSaoFinal <= 2) {
+                                            danhGia.setCamXuc("KhongHaiLong");
+                                            danhGia.setUuTien("Cao");
+                                        } else if (soSaoFinal == 3) {
+                                            danhGia.setCamXuc("TrungBinh");
+                                            danhGia.setUuTien("TrungBinh");
+                                        } else {
+                                            danhGia.setCamXuc("HaiLong");
+                                            danhGia.setUuTien("Thap");
+                                        }
+                                        
+                                        // Giữ tags từ selectedIssues (user đã chọn thủ công)
+                                        if (!selectedIssues.isEmpty()) {
+                                            danhGia.setTags(new ArrayList<>(selectedIssues));
+                                        }
+                                        
+                                        // Lưu vào Firestore dù NLP lỗi
+                                        FirebaseFirestore.getInstance().collection("DanhGia")
+                                            .add(danhGia)
+                                            .addOnSuccessListener(ref -> {
+                                                if (getActivity() == null) return;
+                                                getActivity().runOnUiThread(() -> {
+                                                    // Vẫn xử lý đánh giá xấu
+                                                    BadRatingHandler.handleRatingSubmitted(
+                                                        getContext(), danhGia, ref.getId());
+                                                    showSuccessAnimation();
+                                                });
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                if (getActivity() == null) return;
+                                                getActivity().runOnUiThread(() -> {
+                                                    Toast.makeText(getContext(),
+                                                        "Lỗi lưu đánh giá: " + e.getMessage(), 
+                                                        Toast.LENGTH_SHORT).show();
+                                                    resetButtonState();
+                                                });
+                                            });
                                     });
                                 }
                             }

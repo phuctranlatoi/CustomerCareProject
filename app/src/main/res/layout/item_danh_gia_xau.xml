@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
+<com.example.customercareproject.ui.components.Material3Card
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cornerRadiusSize="medium"
+    app:cardClickable="true"
+    app:enableHoverEffect="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
     android:layout_marginVertical="5dp"
-    
-    
     app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
     <LinearLayout
@@ -16,31 +17,53 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Row 1: Tên công ty + badge số lần hỗ trợ -->
+        <!-- Row 1: Tên KH/Công ty + badge số lần hỗ trợ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tvTenCongTy"
+            <!-- Accent bar bên trái (màu đỏ) -->
+            <View
+                android:layout_width="3dp"
+                android:layout_height="36dp"
+                android:background="@color/error"
+                android:layout_marginEnd="10dp" />
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface"
-                android:maxLines="1"
-                android:ellipsize="end" />
+                android:orientation="vertical">
 
-            <!-- Badge số lần hỗ trợ (cam) -->
+                <TextView
+                    android:id="@+id/tvTenCongTy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/tvMaSoThue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginTop="1dp" />
+
+            </LinearLayout>
+
+            <!-- Badge số lần hỗ trợ -->
             <TextView
                 android:id="@+id/tvSoLanHoTro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
-                android:paddingVertical="3dp"
+                android:paddingVertical="4dp"
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
@@ -48,42 +71,50 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <!-- MST -->
-        <TextView
-            android:id="@+id/tvMaSoThue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:layout_marginTop="2dp" />
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorOutlineVariant"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp" />
 
         <!-- Row 2: Chip sản phẩm + số sao -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="8dp">
+            android:gravity="center_vertical">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipSanPham"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textColor="?attr/colorPrimary"
                 app:chipBackgroundColor="?attr/colorPrimaryContainer"
                 app:chipStrokeWidth="0dp"
+                app:chipMinHeight="28dp"
                 android:clickable="false"
                 android:focusable="false" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Star rating display -->
             <TextView
                 android:id="@+id/tvSoSao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="@color/error" />
+                android:textColor="@color/error"
+                android:background="@drawable/bg_error_surface"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp" />
+
         </LinearLayout>
 
         <!-- Nội dung góp ý -->
@@ -92,21 +123,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="13sp"
+            android:lineSpacingExtra="3dp"
             android:textColor="?attr/colorOnSurface"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:maxLines="3"
             android:ellipsize="end" />
 
-        <!-- Thời gian -->
-        <TextView
-            android:id="@+id/tvThoiGian"
-            android:layout_width="wrap_content"
+        <!-- Footer: Thời gian + tap hint -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:layout_marginTop="6dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_calendar_today"
+                android:alpha="0.5"
+                app:tint="?attr/colorOnSurfaceVariant" />
+
+            <TextView
+                android:id="@+id/tvThoiGian"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:layout_marginStart="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_arrow_next"
+                android:text="Xem yêu cầu liên quan"
+                android:textSize="11sp"
+                android:textColor="?attr/colorPrimary"
+                android:drawablePadding="4dp"
+                app:drawableTint="?attr/colorPrimary" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
 </com.example.customercareproject.ui.components.Material3Card>
-

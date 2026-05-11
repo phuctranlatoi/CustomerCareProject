@@ -1,392 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
 
+    <!-- Header cố định -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?attr/colorSurfaceContainer"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="12dp"
+        android:elevation="2dp">
 
-        <!-- Header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Analytics Đánh Giá Xấu"
-            app:drawableStartCompat="@drawable/ic_analytics"
-            android:drawablePadding="8dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Row 1: Tổng số & Xu hướng -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:gravity="center_vertical">
 
-            <!-- Card: Tổng đánh giá xấu -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tổng số"
-                        app:drawableStartCompat="@drawable/ic_warning_amber"
-                        app:drawableTint="@color/error"
-                        android:drawablePadding="4dp"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                    <TextView
-                        android:id="@+id/tvTongDanhGiaXau"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/error"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="30 ngày qua"
-                        android:textSize="12sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card: Xu hướng -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Xu hướng"
-                        app:drawableStartCompat="@drawable/ic_timeline"
-                        android:drawablePadding="4dp"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                    <TextView
-                        android:id="@+id/tvTangGiam"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đang tải..."
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface"
-                        android:layout_marginTop="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="So với kỳ trước"
-                        android:textSize="12sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-
-        <!-- Row 2: Sản phẩm & Công ty xấu nhất -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <!-- Card: Sản phẩm xấu nhất -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sản phẩm xấu nhất"
-                        app:drawableStartCompat="@drawable/ic_devices"
-                        android:drawablePadding="4dp"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvSanPhamXauNhat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đang tải..."
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card: Công ty xấu nhất -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Công ty xấu nhất"
-                        app:drawableStartCompat="@drawable/ic_business"
-                        android:drawablePadding="4dp"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvCongTyXauNhat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đang tải..."
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-
-        <!-- Card: Tag phổ biến -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_analytics"
+                app:tint="?attr/colorPrimary" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vấn đề phổ biến nhất"
-                    app:drawableStartCompat="@drawable/ic_label"
-                    android:drawablePadding="4dp"
-                    android:textSize="14sp"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/tvTagPhoBien"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đang tải..."
-                    android:textSize="18sp"
+                    android:text="Analytics Đánh Giá Xấu"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/warning" />
+                    android:letterSpacing="0.01"
+                    android:textColor="?attr/colorOnSurface" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dựa trên phân tích NLP của các đánh giá xấu"
+                    android:text="Vuốt sang trái/phải để chuyển biểu đồ"
                     android:textSize="12sp"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:layout_marginTop="4dp" />
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
-        <!-- Row 3: Xu hướng theo khoảng thời gian -->
+        <!-- KPI Row: Tổng số + Xu hướng + 7 ngày + 30 ngày -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginTop="14dp">
 
-            <!-- Card: 7 ngày -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="7 ngày qua"
-                        app:drawableStartCompat="@drawable/ic_calendar_today"
-                        android:drawablePadding="4dp"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                    <TextView
-                        android:id="@+id/tvXuHuong7Ngay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 đánh giá xấu"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card: 30 ngày -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="30 ngày qua"
-                        app:drawableStartCompat="@drawable/ic_calendar_today"
-                        android:drawablePadding="4dp"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-
-                    <TextView
-                        android:id="@+id/tvXuHuong30Ngay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 đánh giá xấu"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="?attr/colorOnSurface"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-
-        <!-- Card: Gợi ý hành động -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/info_container">
-
+            <!-- Tổng số -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:gravity="center_horizontal">
 
                 <TextView
+                    android:id="@+id/tvTongDanhGiaXau"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Gợi ý hành động"
-                    app:drawableStartCompat="@drawable/ic_lightbulb"
-                    app:drawableTint="@color/info"
-                    android:drawablePadding="4dp"
-                    android:textSize="16sp"
+                    android:text="—"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textColor="@color/info"
-                    android:layout_marginBottom="8dp" />
+                    android:textColor="@color/error" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="• Liên hệ trực tiếp với công ty có nhiều đánh giá xấu\n• Tập trung cải thiện sản phẩm có vấn đề nhiều nhất\n• Phân tích chi tiết các tag để tìm nguyên nhân gốc\n• Tạo ticket follow-up cho các đánh giá xấu chưa xử lý"
-                    android:textSize="14sp"
-                    android:textColor="@color/on_info_container"
-                    android:lineSpacingExtra="4dp" />
+                    android:text="Tổng (30 ngày)"
+                    android:textSize="10sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            <!-- Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="?attr/colorOutlineVariant" />
+
+            <!-- Xu hướng -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvTangGiam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="So kỳ trước"
+                    android:textSize="10sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="?attr/colorOutlineVariant" />
+
+            <!-- 7 ngày -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvXuHuong7Ngay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7 ngày qua"
+                    android:textSize="10sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="?attr/colorOutlineVariant" />
+
+            <!-- 30 ngày -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvXuHuong30Ngay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30 ngày qua"
+                    android:textSize="10sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</ScrollView>
+    <!-- ViewPager2 cho biểu đồ -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Page indicator dots + label -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingBottom="12dp"
+        android:paddingTop="6dp"
+        android:background="?attr/colorSurface">
+
+        <TextView
+            android:id="@+id/tvChartTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Indicator dots -->
+        <LinearLayout
+            android:id="@+id/llIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout>

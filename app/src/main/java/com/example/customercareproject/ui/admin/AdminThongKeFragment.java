@@ -129,6 +129,10 @@ public class AdminThongKeFragment extends Fragment {
                     for (String sp : SanPham.DANH_SACH)
                         spList.add(new ThongKeSanPhamAdapter.Item(sp, spCount.getOrDefault(sp, 0), maxSp));
                     rvThongKeSanPham.setAdapter(new ThongKeSanPhamAdapter(spList));
+                })
+                .addOnFailureListener(e -> {
+                    android.util.Log.e("ThongKe", "Lỗi tải đánh giá: " + e.getMessage(), e);
+                    if (getContext() != null) tvTongDanhGia.setText("0");
                 });
 
         db.collection("YeuCauHoTro").whereGreaterThan("taoLuc", tuNgay).get()
@@ -145,6 +149,10 @@ public class AdminThongKeFragment extends Fragment {
                     tvTicketChoXuLy.setText(String.valueOf(cho));
                     tvTicketDangXuLy.setText(String.valueOf(dang));
                     tvTicketDaXuLy.setText(String.valueOf(da));
+                })
+                .addOnFailureListener(e -> {
+                    android.util.Log.e("ThongKe", "Lỗi tải ticket: " + e.getMessage(), e);
+                    if (getContext() != null) tvTongTicket.setText("0");
                 });
 
         db.collection("DanhGiaKTV").whereGreaterThan("taoLuc", tuNgay).get()
@@ -158,6 +166,13 @@ public class AdminThongKeFragment extends Fragment {
                     }
                     double diemTB = snapDG.size() > 0 ? tongDiem / snapDG.size() : 0;
                     tvDiemTBKtv.setText(String.format("%.1f★", diemTB));
+                })
+                .addOnFailureListener(e -> {
+                    android.util.Log.e("ThongKe", "Lỗi tải DG KTV: " + e.getMessage(), e);
+                    if (getContext() != null) {
+                        tvTongDanhGiaKtv.setText("0");
+                        tvDiemTBKtv.setText("0.0★");
+                    }
                 });
 
         // Load cụm đã lưu từ lần phân tích trước

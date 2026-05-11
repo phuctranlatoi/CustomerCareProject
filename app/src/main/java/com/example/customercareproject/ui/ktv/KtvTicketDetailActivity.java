@@ -2,10 +2,14 @@ package com.example.customercareproject.ui.ktv;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +25,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class KtvTicketDetailActivity extends AppCompatActivity {
@@ -93,6 +102,12 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
         rvGhiChu.setAdapter(ghiChuAdapter);
 
         btnLuuGhiChu.setOnClickListener(v -> luuGhiChu());
+
+        // Nút xem lịch sử note toàn bộ của KH trên sản phẩm này
+        com.google.android.material.button.MaterialButton btnXemLichSuNote = findViewById(R.id.btnXemLichSuNote);
+        if (btnXemLichSuNote != null) {
+            btnXemLichSuNote.setOnClickListener(v -> xemLichSuNoteKhachHang());
+        }
 
         if (readOnly) {
             layoutNhapGhiChu.setVisibility(View.GONE);
@@ -183,6 +198,13 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
                 GhiChuTienDo g = GhiChuTienDo.fromMap(map);
                 if (g != null) danhSachGhiChu.add(g);
             }
+            // Sắp xếp gần nhất lên đầu
+            danhSachGhiChu.sort((a, b) -> {
+                if (a.getThoiDiem() == null && b.getThoiDiem() == null) return 0;
+                if (a.getThoiDiem() == null) return 1;
+                if (b.getThoiDiem() == null) return -1;
+                return b.getThoiDiem().compareTo(a.getThoiDiem());
+            });
         }
         ghiChuAdapter.notifyDataSetChanged();
         tvGhiChuTrong.setVisibility(danhSachGhiChu.isEmpty() ? View.VISIBLE : View.GONE);
@@ -289,11 +311,181 @@ public class KtvTicketDetailActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Xem lịch sử note của tất cả KTV cho khách hàng này trên cùng sản phẩm.
+     * Gom nhóm theo: KTV → Ticket (đợt hỗ trợ) → Danh sách note chi tiết
+     */
+    private void xemLichSuNoteKhachHang() {
+        if (ticketHienTai == null || khachHangUid == null || khachHangUid.isEmpty()) {
+            Toast.makeText(this, "Chưa có thông tin khách hàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String sanPham = ticketHienTai.getSanPham();
+        if (sanPham == null || sanPham.isEmpty()) {
+            Toast.makeText(this, "Không xác định được sản phẩm", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(this, "Đang tải lịch sử...", Toast.LENGTH_SHORT).show();
+
+        db.collection("YeuCauHoTro")
+            .whereEqualTo("uid", khachHangUid)
+            .whereEqualTo("sanPham", sanPham)
+            .get()
+            .addOnSuccessListener(snap -> {
+                if (snap.isEmpty()) {
+                    new AlertDialog.Builder(this)
+                        .setTitle("Lịch sử Note - " + sanPham)
+                        .setMessage("Chưa có lịch sử note nào cho khách hàng này trên sản phẩm " + sanPham)
+                        .setPositiveButton("Đóng", null)
+                        .show();
+                    return;
+                }
+
+                // Thu thập tất cả note, gom theo KTV → đợt hỗ trợ (ticketId)
+                // Key: ktvTen, Value: list of SessionGroup
+                LinkedHashMap<String, List<SessionGroup>> ktvGroupMap = new LinkedHashMap<>();
+                SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat sdfFull = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+                for (QueryDocumentSnapshot doc : snap) {
+                    YeuCauHoTro yc = doc.toObject(YeuCauHoTro.class);
+                    yc.setId(doc.getId());
+                    List<Map<String, Object>> lichSu = yc.getLichSuHoTro();
+                    if (lichSu == null || lichSu.isEmpty()) continue;
+
+                    // Nhóm note theo ktvTen trong từng ticket
+                    LinkedHashMap<String, List<GhiChuTienDo>> notesByKtvInTicket = new LinkedHashMap<>();
+                    for (Map<String, Object> map : lichSu) {
+                        GhiChuTienDo g = GhiChuTienDo.fromMap(map);
+                        if (g == null) continue;
+                        String ktvKey = g.getKtvTen() != null ? g.getKtvTen() : "(Không rõ)";
+                        notesByKtvInTicket.computeIfAbsent(ktvKey, k -> new ArrayList<>()).add(g);
+                    }
+
+                    // Tạo SessionGroup cho mỗi KTV trong ticket này
+                    String tieuDeTicket = yc.getTieuDeLoi() != null ? yc.getTieuDeLoi() : "(Không tiêu đề)";
+                    String trangThaiTicket = yc.getTrangThai() != null ? yc.getTrangThai() : "";
+                    String ngayTao = yc.getTaoLuc() != null ? sdfDate.format(yc.getTaoLuc().toDate()) : "";
+
+                    for (Map.Entry<String, List<GhiChuTienDo>> entry : notesByKtvInTicket.entrySet()) {
+                        String ktvTen = entry.getKey();
+                        List<GhiChuTienDo> notes = entry.getValue();
+                        SessionGroup session = new SessionGroup();
+                        session.ticketId = doc.getId();
+                        session.tieuDe = tieuDeTicket;
+                        session.trangThai = trangThaiTicket;
+                        session.ngayTao = ngayTao;
+                        session.notes = notes;
+
+                        ktvGroupMap.computeIfAbsent(ktvTen, k -> new ArrayList<>()).add(session);
+                    }
+                }
+
+                if (ktvGroupMap.isEmpty()) {
+                    new AlertDialog.Builder(this)
+                        .setTitle("Lịch sử Note - " + sanPham)
+                        .setMessage("Chưa có note nào được ghi cho khách hàng này.")
+                        .setPositiveButton("Đóng", null)
+                        .show();
+                    return;
+                }
+
+                // Hiển thị danh sách nhóm KTV
+                hienThiDanhSachKtvGroup(sanPham, ktvGroupMap, sdfFull);
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(this, "Lỗi tải lịch sử: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+    }
+
+    /** Hiển thị dialog cấp 1: danh sách KTV → mỗi KTV có các đợt hỗ trợ */
+    private void hienThiDanhSachKtvGroup(String sanPham, 
+            LinkedHashMap<String, List<SessionGroup>> ktvGroupMap, SimpleDateFormat sdfFull) {
+        
+        // Build danh sách items cho dialog
+        List<String> ktvNames = new ArrayList<>(ktvGroupMap.keySet());
+        String[] items = new String[ktvNames.size()];
+        for (int i = 0; i < ktvNames.size(); i++) {
+            String ktvTen = ktvNames.get(i);
+            List<SessionGroup> sessions = ktvGroupMap.get(ktvTen);
+            int totalNotes = 0;
+            for (SessionGroup s : sessions) totalNotes += s.notes.size();
+            items[i] = "👤 " + ktvTen + " — " + sessions.size() + " đợt HT, " + totalNotes + " note";
+        }
+
+        new AlertDialog.Builder(this)
+            .setTitle("📋 Lịch sử Note - " + sanPham)
+            .setItems(items, (dialog, which) -> {
+                String ktvTen = ktvNames.get(which);
+                List<SessionGroup> sessions = ktvGroupMap.get(ktvTen);
+                hienThiDanhSachSession(ktvTen, sessions, sdfFull);
+            })
+            .setPositiveButton("Đóng", null)
+            .show();
+    }
+
+    /** Hiển thị dialog cấp 2: danh sách đợt hỗ trợ (ticket) của 1 KTV */
+    private void hienThiDanhSachSession(String ktvTen, List<SessionGroup> sessions, 
+            SimpleDateFormat sdfFull) {
+        
+        String[] items = new String[sessions.size()];
+        for (int i = 0; i < sessions.size(); i++) {
+            SessionGroup s = sessions.get(i);
+            String trangThaiEmoji = "DaXuLy".equals(s.trangThai) ? "✅" 
+                : "DangXuLy".equals(s.trangThai) ? "🔄" : "⏳";
+            items[i] = trangThaiEmoji + " " + s.tieuDe + "\n    📅 " + s.ngayTao 
+                + " — " + s.notes.size() + " note";
+        }
+
+        new AlertDialog.Builder(this)
+            .setTitle("👤 " + ktvTen + " — Các đợt hỗ trợ")
+            .setItems(items, (dialog, which) -> {
+                SessionGroup session = sessions.get(which);
+                hienThiChiTietNote(ktvTen, session, sdfFull);
+            })
+            .setPositiveButton("Quay lại", null)
+            .show();
+    }
+
+    /** Hiển thị dialog cấp 3: chi tiết từng note trong 1 đợt hỗ trợ */
+    private void hienThiChiTietNote(String ktvTen, SessionGroup session, SimpleDateFormat sdfFull) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("📌 Ticket: ").append(session.tieuDe).append("\n");
+        sb.append("📅 Ngày tạo: ").append(session.ngayTao).append("\n");
+        sb.append("──────────────────\n\n");
+
+        for (int i = 0; i < session.notes.size(); i++) {
+            GhiChuTienDo note = session.notes.get(i);
+            sb.append("#").append(i + 1);
+            if (note.getThoiDiem() != null) {
+                sb.append(" — ").append(sdfFull.format(note.getThoiDiem().toDate()));
+            }
+            sb.append("\n");
+            sb.append(note.getNoiDung() != null ? note.getNoiDung() : "(trống)");
+            sb.append("\n\n");
+        }
+
+        new AlertDialog.Builder(this)
+            .setTitle("👤 " + ktvTen + " — Chi tiết note")
+            .setMessage(sb.toString().trim())
+            .setPositiveButton("Quay lại", null)
+            .show();
+    }
+
+    /** Helper class để group note theo đợt hỗ trợ (ticket) */
+    private static class SessionGroup {
+        String ticketId;
+        String tieuDe;
+        String trangThai;
+        String ngayTao;
+        List<GhiChuTienDo> notes;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (ticketListener != null) ticketListener.remove();
     }
 }
-
-

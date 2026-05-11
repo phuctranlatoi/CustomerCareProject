@@ -1,10 +1,12 @@
 package com.example.customercareproject.ui.admin;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import com.example.customercareproject.R;
 import com.example.customercareproject.model.DanhGia;
@@ -35,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AdminDanhGiaXauFragment extends Fragment {
 
     private RecyclerView rvDanhGiaXau;
-    private TextView tvEmptyDanhGiaXau;
+    private View layoutEmptyDanhGiaXau;
     private DanhGiaXauAdapter adapter;
     private List<DanhGia> danhGiaList = new ArrayList<>();
     private Map<String, Integer> soLanHoTroMap = new HashMap<>();
@@ -55,7 +59,7 @@ public class AdminDanhGiaXauFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvDanhGiaXau = view.findViewById(R.id.rvDanhGiaXau);
-        tvEmptyDanhGiaXau = view.findViewById(R.id.tvEmptyDanhGiaXau);
+        layoutEmptyDanhGiaXau = view.findViewById(R.id.tvEmptyDanhGiaXau);
 
         adapter = new DanhGiaXauAdapter(danhGiaList, soLanHoTroMap, danhGia -> hienThiDialogYeuCau(danhGia));
         rvDanhGiaXau.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -88,8 +92,10 @@ public class AdminDanhGiaXauFragment extends Fragment {
         Timestamp tuNgay = new Timestamp(cal.getTime());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        
+        // Chỉ filter theo taoLuc để tránh cần composite index
+        // Filter soSao <= 2 sẽ thực hiện trong code Java
         db.collection("DanhGia")
-                .whereLessThanOrEqualTo("soSao", 2)
                 .whereGreaterThan("taoLuc", tuNgay)
                 .orderBy("taoLuc", Query.Direction.DESCENDING)
                 .get()
@@ -100,7 +106,10 @@ public class AdminDanhGiaXauFragment extends Fragment {
                     for (QueryDocumentSnapshot doc : querySnapshot) {
                         DanhGia dg = doc.toObject(DanhGia.class);
                         dg.setId(doc.getId());
-                        tempList.add(dg);
+                        // Filter soSao <= 2 trong code
+                        if (dg.getSoSao() <= 2) {
+                            tempList.add(dg);
+                        }
                     }
 
                     if (tempList.isEmpty()) {
@@ -162,13 +171,14 @@ public class AdminDanhGiaXauFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     if (getContext() == null) return;
+                    android.util.Log.e("DanhGiaXau", "Lỗi tải đánh giá xấu: " + e.getMessage(), e);
                     hienThiEmptyState(true);
                 });
     }
 
     private void hienThiEmptyState(boolean show) {
-        if (tvEmptyDanhGiaXau == null) return;
-        tvEmptyDanhGiaXau.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (layoutEmptyDanhGiaXau == null) return;
+        layoutEmptyDanhGiaXau.setVisibility(show ? View.VISIBLE : View.GONE);
         rvDanhGiaXau.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
@@ -176,11 +186,7 @@ public class AdminDanhGiaXauFragment extends Fragment {
         if (getContext() == null) return;
         String uid = danhGia.getUid();
         if (uid == null || uid.isEmpty()) {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Yêu cầu hỗ trợ liên quan")
-                    .setMessage("Không có thông tin người dùng.")
-                    .setPositiveButton("Đóng", null)
-                    .show();
+            hienBottomSheetRong(danhGia);
             return;
         }
 
@@ -190,45 +196,97 @@ public class AdminDanhGiaXauFragment extends Fragment {
 
         FirebaseFirestore.getInstance().collection("YeuCauHoTro")
                 .whereEqualTo("uid", uid)
-                .whereGreaterThan("taoLuc", tuNgay30)
-                .orderBy("taoLuc", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(snap -> {
                     if (getContext() == null) return;
-                    if (snap.isEmpty()) {
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Yêu cầu hỗ trợ liên quan")
-                                .setMessage("Không có yêu cầu hỗ trợ nào trong 30 ngày qua.")
-                                .setPositiveButton("Đóng", null)
-                                .show();
-                        return;
-                    }
 
-                    StringBuilder sb = new StringBuilder();
+                    List<YeuCauHoTro> filtered = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : snap) {
                         YeuCauHoTro yc = doc.toObject(YeuCauHoTro.class);
-                        sb.append("• ").append(yc.getTieuDeLoi() != null ? yc.getTieuDeLoi() : "(Không tiêu đề)");
-                        sb.append("\n  Trạng thái: ").append(yc.getTrangThai() != null ? yc.getTrangThai() : "");
-                        sb.append("\n  KTV: ").append(yc.getKtvTen() != null ? yc.getKtvTen() : "Chưa phân công");
-                        if (yc.getTaoLuc() != null) {
-                            sb.append("\n  Thời gian: ").append(SDF_DIALOG.format(yc.getTaoLuc().toDate()));
+                        yc.setId(doc.getId());
+                        if (yc.getTaoLuc() != null && yc.getTaoLuc().compareTo(tuNgay30) > 0) {
+                            filtered.add(yc);
                         }
-                        sb.append("\n\n");
                     }
+                    filtered.sort((a, b) -> {
+                        if (a.getTaoLuc() == null || b.getTaoLuc() == null) return 0;
+                        return b.getTaoLuc().compareTo(a.getTaoLuc());
+                    });
 
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("Yêu cầu hỗ trợ liên quan (" + snap.size() + ")")
-                            .setMessage(sb.toString().trim())
-                            .setPositiveButton("Đóng", null)
-                            .show();
+                    hienBottomSheet(danhGia, filtered);
                 })
                 .addOnFailureListener(e -> {
-                    if (getContext() == null) return;
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("Lỗi")
-                            .setMessage("Không thể tải dữ liệu: " + e.getMessage())
-                            .setPositiveButton("Đóng", null)
-                            .show();
+                    android.util.Log.e("DanhGiaXau", "Lỗi tải YeuCauHoTro: " + e.getMessage(), e);
+                    if (getContext() != null) hienBottomSheetRong(danhGia);
                 });
+    }
+
+    private void hienBottomSheetRong(DanhGia danhGia) {
+        hienBottomSheet(danhGia, new ArrayList<>());
+    }
+
+    private void hienBottomSheet(DanhGia danhGia, List<YeuCauHoTro> tickets) {
+        if (getContext() == null) return;
+
+        BottomSheetDialog sheet = new BottomSheetDialog(getContext());
+        View sheetView = LayoutInflater.from(getContext())
+                .inflate(R.layout.bottom_sheet_danh_gia_xau, null);
+        sheet.setContentView(sheetView);
+
+        // Avatar initial
+        TextView tvInitial = sheetView.findViewById(R.id.tvAvatarInitial);
+        String ten = danhGia.getHoTen();
+        tvInitial.setText(ten != null && !ten.isEmpty() ? String.valueOf(ten.charAt(0)).toUpperCase() : "K");
+
+        // Tên khách hàng
+        TextView tvTen = sheetView.findViewById(R.id.tvTenKhachHang);
+        tvTen.setText(ten != null ? ten : "Khách hàng");
+
+        // Sản phẩm
+        TextView tvSP = sheetView.findViewById(R.id.tvSanPhamDanhGia);
+        String spText = "";
+        if (danhGia.getSanPham() != null) spText += danhGia.getSanPham();
+        if (danhGia.getTenCongTy() != null && !danhGia.getTenCongTy().isEmpty())
+            spText += " • " + danhGia.getTenCongTy();
+        tvSP.setText(spText);
+
+        // Số sao
+        TextView tvSao = sheetView.findViewById(R.id.tvSoSaoDialog);
+        StringBuilder stars = new StringBuilder();
+        int so = danhGia.getSoSao();
+        for (int i = 0; i < so; i++) stars.append("★");
+        for (int i = so; i < 5; i++) stars.append("☆");
+        tvSao.setText(stars.toString() + " " + so + "/5");
+
+        // Nội dung
+        android.view.View cardNoiDung = sheetView.findViewById(R.id.cardNoiDung);
+        TextView tvNoiDung = sheetView.findViewById(R.id.tvNoiDungDanhGia);
+        String nd = danhGia.getNoiDung();
+        if (nd != null && !nd.isEmpty()) {
+            tvNoiDung.setText("\"“" + nd + "”\"");
+            cardNoiDung.setVisibility(android.view.View.VISIBLE);
+        } else {
+            cardNoiDung.setVisibility(android.view.View.GONE);
+        }
+
+        // Số lượng ticket
+        TextView tvSoLuong = sheetView.findViewById(R.id.tvSoLuongTicket);
+        tvSoLuong.setText(tickets.isEmpty() ? "" : tickets.size() + " yêu cầu");
+
+        // Danh sách ticket
+        RecyclerView rv = sheetView.findViewById(R.id.rvTicketLienQuan);
+        android.view.View llEmpty = sheetView.findViewById(R.id.llEmptyTicket);
+
+        if (tickets.isEmpty()) {
+            rv.setVisibility(android.view.View.GONE);
+            llEmpty.setVisibility(android.view.View.VISIBLE);
+        } else {
+            rv.setVisibility(android.view.View.VISIBLE);
+            llEmpty.setVisibility(android.view.View.GONE);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+            rv.setAdapter(new TicketLienQuanAdapter(tickets));
+        }
+
+        sheet.show();
     }
 }

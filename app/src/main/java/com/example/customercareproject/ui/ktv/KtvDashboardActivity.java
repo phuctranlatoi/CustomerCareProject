@@ -136,9 +136,9 @@ public class KtvDashboardActivity extends AppCompatActivity {
         db.collection("NguoiDung").document(user.getUid()).update("trangThai", trangThai);
         capNhatBadge(trangThai);
 
-        // Khi KTV vừa chuyển sang Rảnh → ChatKhachHangActivity của khách tự detect và assign
+        // Khi KTV vừa chuyển sang Rảnh → quét ticket HangCho chưa có KTV và tự nhận
         if (NguoiDung.TRANG_THAI_RAN.equals(trangThai)) {
-            // Không cần làm gì thêm — phía khách đang lắng nghe realtime
+            quetVaNhanTicketHangCho();
         }
 
         if (statusRef == null) return;
@@ -286,6 +286,64 @@ public class KtvDashboardActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_HIGH).setAutoCancel(true);
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (nm != null) nm.notify((int) System.currentTimeMillis(), b.build());
+    }
+
+    /**
+     * Quét ticket "HangCho" chưa có KTV và tự assign cho KTV hiện tại.
+     * Được gọi khi KTV chuyển sang trạng thái "Rảnh".
+     * Dùng transaction để tránh race condition khi nhiều KTV cùng online lúc.
+     */
+    private void quetVaNhanTicketHangCho() {
+        db.collection("YeuCauHoTro")
+            .whereEqualTo("trangThai", "HangCho")
+            .orderBy("taoLuc", com.google.firebase.firestore.Query.Direction.ASCENDING) // ưu tiên ticket cũ nhất
+            .limit(1)
+            .get()
+            .addOnSuccessListener(snap -> {
+                if (snap.isEmpty()) return;
+                
+                com.google.firebase.firestore.DocumentSnapshot ticketDoc = snap.getDocuments().get(0);
+                String ticketDocId = ticketDoc.getId();
+                String currentKtv = ticketDoc.getString("ktvUid");
+                
+                // Đã có KTV rồi thì bỏ qua
+                if (currentKtv != null && !currentKtv.isEmpty()) return;
+                
+                // Lấy tên KTV hiện tại
+                db.collection("NguoiDung").document(user.getUid()).get()
+                    .addOnSuccessListener(ktvDoc -> {
+                        String tenKtv = ktvDoc.getString("hoTen");
+                        
+                        // Dùng transaction để assign an toàn
+                        db.runTransaction(tx -> {
+                            com.google.firebase.firestore.DocumentSnapshot freshTicket = 
+                                tx.get(db.collection("YeuCauHoTro").document(ticketDocId));
+                            
+                            // Double-check: ticket vẫn ở HangCho và chưa có KTV
+                            String ts = freshTicket.getString("trangThai");
+                            String ktvId = freshTicket.getString("ktvUid");
+                            if (!"HangCho".equals(ts) || (ktvId != null && !ktvId.isEmpty())) {
+                                return null; // đã bị KTV khác nhận rồi
+                            }
+                            
+                            tx.update(db.collection("YeuCauHoTro").document(ticketDocId),
+                                "ktvUid", user.getUid(),
+                                "ktvTen", tenKtv != null ? tenKtv : "",
+                                "trangThai", "ChoXuLy",
+                                "capNhatLuc", com.google.firebase.Timestamp.now());
+                            
+                            tx.update(db.collection("NguoiDung").document(user.getUid()),
+                                "soTicketDangXuLy", com.google.firebase.firestore.FieldValue.increment(1));
+                            
+                            return null;
+                        }).addOnSuccessListener(v -> {
+                            android.util.Log.d("KtvDashboard", "✅ Đã tự nhận ticket HangCho: " + ticketDocId);
+                            guiThongBao("Ticket mới!", "Bạn vừa được assign ticket từ hàng chờ");
+                        }).addOnFailureListener(ex -> {
+                            android.util.Log.e("KtvDashboard", "❌ Lỗi assign ticket HangCho: " + ex.getMessage());
+                        });
+                    });
+            });
     }
 
     @Override

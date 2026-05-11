@@ -287,6 +287,20 @@
                         android:padding="24dp"
                         android:visibility="gone" />
 
+                    <!-- Nút xem lịch sử note toàn bộ của KH trên sản phẩm này -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnXemLichSuNote"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📋 Xem lịch sử Note trên sản phẩm này"
+                        android:textSize="13sp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp"
+                        app:cornerRadius="10dp"
+                        app:icon="@drawable/ic_nav_tickets"
+                        app:iconGravity="textStart" />
+
                     <!-- Form nhập ghi chú mới (ẩn khi DaXuLy) -->
                     <LinearLayout
                         android:id="@+id/layoutNhapGhiChu"

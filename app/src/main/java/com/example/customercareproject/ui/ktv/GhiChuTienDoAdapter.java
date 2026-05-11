@@ -19,7 +19,7 @@ import java.util.Locale;
 public class GhiChuTienDoAdapter extends RecyclerView.Adapter<GhiChuTienDoAdapter.ViewHolder> {
 
     private final List<GhiChuTienDo> danhSach;
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
     public GhiChuTienDoAdapter(List<GhiChuTienDo> danhSach) {
         this.danhSach = danhSach;

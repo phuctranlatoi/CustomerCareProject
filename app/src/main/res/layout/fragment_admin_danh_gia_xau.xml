@@ -7,30 +7,31 @@
     android:orientation="vertical"
     android:background="?attr/colorSurface">
 
-    <!-- Header -->
+    <!-- Header chuẩn Aura -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="?attr/colorSurfaceContainer"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"
         android:elevation="2dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đánh giá xấu"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold"
+            android:letterSpacing="0.01"
             android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Danh sách đánh giá ≤ 2 sao"
-            android:textSize="12sp"
+            android:text="Danh sách đánh giá 1–2 sao từ khách hàng"
+            android:textSize="13sp"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:layout_marginTop="2dp" />
 
@@ -39,7 +40,7 @@
             android:id="@+id/chipGroupFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             app:singleSelection="true"
             app:selectionRequired="true">
 
@@ -64,16 +65,41 @@
     </LinearLayout>
 
     <!-- Empty state -->
-    <TextView
+    <LinearLayout
         android:id="@+id/tvEmptyDanhGiaXau"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Không có đánh giá xấu trong khoảng thời gian này"
-        android:textSize="14sp"
-        android:textColor="?attr/colorOnSurfaceVariant"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center"
-        android:padding="32dp"
-        android:visibility="gone" />
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_check_circle"
+            android:alpha="0.35"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không có đánh giá xấu"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Không có đánh giá nào dưới 2 sao\ntrong khoảng thời gian đã chọn"
+            android:textSize="13sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center"
+            android:layout_marginTop="6dp" />
+
+    </LinearLayout>
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -83,7 +109,7 @@
         android:layout_weight="1"
         android:paddingHorizontal="12dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:clipToPadding="false" />
 
 </LinearLayout>
