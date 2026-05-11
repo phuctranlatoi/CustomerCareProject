@@ -24,6 +24,7 @@ import com.example.customercareproject.ui.components.Material3Button;
 import com.example.customercareproject.utils.AnimationHelper;
 import com.example.customercareproject.utils.NlpHelper;
 import com.example.customercareproject.utils.BadRatingHandler;
+import com.example.customercareproject.utils.LeadHandler;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -357,6 +358,10 @@ public class DanhGiaFormFragment extends Fragment {
                                                     BadRatingHandler.handleRatingSubmitted(
                                                         getContext(), danhGia, ref.getId());
                                                     
+                                                    // Xử lý lưu Lead kinh doanh nếu là đánh giá tốt từ gói Dùng thử
+                                                    LeadHandler.handleGoodRatingForTrial(
+                                                        getContext(), danhGia, ref.getId());
+                                                    
                                                     showSuccessAnimation();
                                                 });
                                             })
@@ -404,6 +409,11 @@ public class DanhGiaFormFragment extends Fragment {
                                                     // Vẫn xử lý đánh giá xấu
                                                     BadRatingHandler.handleRatingSubmitted(
                                                         getContext(), danhGia, ref.getId());
+                                                        
+                                                    // Vẫn lưu Lead kinh doanh nếu đánh giá tốt (fallback)
+                                                    LeadHandler.handleGoodRatingForTrial(
+                                                        getContext(), danhGia, ref.getId());
+                                                        
                                                     showSuccessAnimation();
                                                 });
                                             })

@@ -9,19 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.customercareproject.R;
+import com.example.customercareproject.model.DanhGia;
+import com.example.customercareproject.model.YeuCauHoTro;
+import com.example.customercareproject.utils.NlpHelper;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -35,19 +39,29 @@ import java.util.Map;
 
 public class AdminDanhGiaAnalyticsFragment extends Fragment {
 
-    private TextView tvTongDanhGiaXau, tvTangGiam, tvXuHuong7Ngay, tvXuHuong30Ngay;
+    // Views
+    private TextView tvKpiTongYeuCau, tvKpiTongDanhGia, tvKpiDiemKtv, tvKpiDanhGiaXau;
     private ViewPager2 viewPagerChart;
     private LinearLayout llIndicator;
     private TextView tvChartTitle;
+    private TextView tvAiInsight;
+    private MaterialButton btnTaoInsight;
+    private LinearLayout llCumDeContainer;
+    private RecyclerView rvThongKeKtv;
     
     private FirebaseFirestore db;
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM", Locale.getDefault());
+    private static final SimpleDateFormat SDF_DAY = new SimpleDateFormat("dd/MM", Locale.getDefault());
     
-    // Dữ liệu cache để vẽ biểu đồ
-    private Map<String, Integer> sanPhamCountData = new LinkedHashMap<>();
-    private Map<String, Integer> camXucCountData = new LinkedHashMap<>();
-    private List<Map<String, Object>> danhGiaXauData = new ArrayList<>();
-    private String topSanPham = "...", topCongTy = "...", topTag = "...";
+    // Dữ liệu cache
+    private List<YeuCauHoTro> listYc30 = new ArrayList<>();
+    private List<DanhGia> listDg30 = new ArrayList<>();
+    private Map<String, List<Double>> ktvScores = new HashMap<>();
+    private int totalKtvRatings = 0;
+    private double sumKtvScore = 0;
+    
+    // Label cache cho các biểu đồ
+    private String topSpXau = "...", topTag = "...", topCongTy = "...";
+    private String topKhachHang = "...", topYeuCauNhieu = "...";
 
     @Nullable
     @Override
@@ -63,17 +77,28 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         initViews(view);
         setupViewPager();
-        taiDuLieuAnalytics();
+        
+        btnTaoInsight.setOnClickListener(v -> taoAiInsight());
+        
+        taiDuLieuToanCuc();
     }
 
     private void initViews(View view) {
-        tvTongDanhGiaXau = view.findViewById(R.id.tvTongDanhGiaXau);
-        tvTangGiam = view.findViewById(R.id.tvTangGiam);
-        tvXuHuong7Ngay = view.findViewById(R.id.tvXuHuong7Ngay);
-        tvXuHuong30Ngay = view.findViewById(R.id.tvXuHuong30Ngay);
+        tvKpiTongYeuCau = view.findViewById(R.id.tvKpiTongYeuCau);
+        tvKpiTongDanhGia = view.findViewById(R.id.tvKpiTongDanhGia);
+        tvKpiDiemKtv = view.findViewById(R.id.tvKpiDiemKtv);
+        tvKpiDanhGiaXau = view.findViewById(R.id.tvKpiDanhGiaXau);
+        
         viewPagerChart = view.findViewById(R.id.viewPagerChart);
         llIndicator = view.findViewById(R.id.llIndicator);
         tvChartTitle = view.findViewById(R.id.tvChartTitle);
+        
+        tvAiInsight = view.findViewById(R.id.tvAiInsight);
+        btnTaoInsight = view.findViewById(R.id.btnTaoInsight);
+        llCumDeContainer = view.findViewById(R.id.llCumDeContainer);
+        
+        rvThongKeKtv = view.findViewById(R.id.rvThongKeKtv);
+        rvThongKeKtv.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void setupViewPager() {
@@ -82,28 +107,25 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
             public void onPageSelected(int position) {
                 updateIndicators(position);
                 String[] titles = {
-                    "XU HƯỚNG 7 NGÀY QUA",
-                    "PHÂN BỐ CẢM XÚC",
-                    "ĐÁNH GIÁ XẤU THEO SẢN PHẨM"
+                    "XU HƯỚNG YÊU CẦU 7 NGÀY",
+                    "PHÂN BỐ CẢM XÚC (30 NGÀY)",
+                    "SẢN PHẨM BỊ ĐÁNH GIÁ XẤU"
                 };
                 tvChartTitle.setText(titles[position]);
             }
         });
 
-        // Khắc phục lỗi vuốt ViewPager2 con bị ViewPager2 cha (chuyển tab) bắt sự kiện
+        // Chống xung đột vuốt với Tab Layout bên ngoài
         View child = viewPagerChart.getChildAt(0);
         if (child instanceof RecyclerView) {
-            child.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, android.view.MotionEvent event) {
-                    int action = event.getAction();
-                    if (action == android.view.MotionEvent.ACTION_DOWN || action == android.view.MotionEvent.ACTION_MOVE) {
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                    } else if (action == android.view.MotionEvent.ACTION_UP || action == android.view.MotionEvent.ACTION_CANCEL) {
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                    }
-                    return false;
+            child.setOnTouchListener((v, event) -> {
+                int action = event.getAction();
+                if (action == android.view.MotionEvent.ACTION_DOWN || action == android.view.MotionEvent.ACTION_MOVE) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                } else if (action == android.view.MotionEvent.ACTION_UP || action == android.view.MotionEvent.ACTION_CANCEL) {
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
                 }
+                return false;
             });
         }
     }
@@ -135,187 +157,115 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
         }
     }
 
-    private void taiDuLieuAnalytics() {
+    private void taiDuLieuToanCuc() {
         Calendar cal30 = Calendar.getInstance();
         cal30.add(Calendar.DAY_OF_YEAR, -30);
         Timestamp tuNgay30 = new Timestamp(cal30.getTime());
 
-        db.collection("DanhGia")
-                .whereGreaterThan("taoLuc", tuNgay30)
-                .orderBy("taoLuc", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (getContext() == null) return;
-                    
-                    List<Map<String, Object>> danhGiaXau = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : querySnapshot) {
-                        Map<String, Object> data = doc.getData();
-                        Object soSaoObj = data.get("soSao");
-                        if (soSaoObj instanceof Number && ((Number) soSaoObj).intValue() <= 2) {
-                            danhGiaXau.add(data);
-                        }
+        // 1. Tải YeuCauHoTro
+        db.collection("YeuCauHoTro").whereGreaterThan("taoLuc", tuNgay30).get()
+            .addOnSuccessListener(snap -> {
+                listYc30.clear();
+                for (QueryDocumentSnapshot doc : snap) {
+                    listYc30.add(doc.toObject(YeuCauHoTro.class));
+                }
+                kiemTraHoanThanhTaiData();
+            });
+
+        // 2. Tải DanhGia
+        db.collection("DanhGia").whereGreaterThan("taoLuc", tuNgay30).get()
+            .addOnSuccessListener(snap -> {
+                listDg30.clear();
+                for (QueryDocumentSnapshot doc : snap) {
+                    listDg30.add(doc.toObject(DanhGia.class));
+                }
+                kiemTraHoanThanhTaiData();
+            });
+
+        // 3. Tải DanhGiaKTV
+        db.collection("DanhGiaKTV").whereGreaterThan("taoLuc", tuNgay30).get()
+            .addOnSuccessListener(snap -> {
+                totalKtvRatings = snap.size();
+                sumKtvScore = 0;
+                ktvScores.clear();
+                for (QueryDocumentSnapshot doc : snap) {
+                    Object s = doc.get("soSao");
+                    String ktvTen = doc.getString("ktvTen");
+                    if (s instanceof Number && ktvTen != null) {
+                        double score = ((Number) s).doubleValue();
+                        sumKtvScore += score;
+                        if (!ktvScores.containsKey(ktvTen)) ktvScores.put(ktvTen, new ArrayList<>());
+                        ktvScores.get(ktvTen).add(score);
                     }
-                    
-                    tinhToanThongKe(danhGiaXau);
-                })
-                .addOnFailureListener(e -> {
-                    if (getContext() == null) return;
-                    android.util.Log.e("Analytics", "Lỗi tải analytics: " + e.getMessage(), e);
-                    if (tvTongDanhGiaXau != null) tvTongDanhGiaXau.setText("Lỗi");
-                    if (tvTangGiam != null) tvTangGiam.setText("Lỗi dữ liệu");
-                });
+                }
+                kiemTraHoanThanhTaiData();
+            });
+            
+        // Load AI Insight cũ
+        taiCumTuFirestore();
+    }
+    
+    // Đếm số lượng callback để cập nhật giao diện
+    private int dataLoadedCount = 0;
+    private void kiemTraHoanThanhTaiData() {
+        dataLoadedCount++;
+        if (dataLoadedCount >= 3) {
+            capNhatGiaoDien();
+        }
     }
 
-    private void tinhToanThongKe(List<Map<String, Object>> danhGiaXau) {
-        this.danhGiaXauData = danhGiaXau;
-        int tongSo = danhGiaXau.size();
-        tvTongDanhGiaXau.setText(String.valueOf(tongSo));
-
-        tinhXuHuongTangGiam(danhGiaXau);
-
-        // Sản phẩm
-        sanPhamCountData.clear();
-        // Cảm xúc
-        camXucCountData.clear();
-        camXucCountData.put("KhongHaiLong", 0);
-        camXucCountData.put("TrungBinh", 0);
-        camXucCountData.put("HaiLong", 0);
-        camXucCountData.put("Khac", 0);
+    private void capNhatGiaoDien() {
+        // Cập nhật KPIs
+        tvKpiTongYeuCau.setText(String.valueOf(listYc30.size()));
+        tvKpiTongDanhGia.setText(String.valueOf(listDg30.size()));
         
-        for (Map<String, Object> dg : danhGiaXau) {
-            String sanPham = (String) dg.get("sanPham");
-            if (sanPham != null) {
-                sanPhamCountData.put(sanPham, sanPhamCountData.getOrDefault(sanPham, 0) + 1);
-            }
-            String camXuc = (String) dg.get("camXuc");
-            if ("KhongHaiLong".equals(camXuc)) {
-                camXucCountData.put("KhongHaiLong", camXucCountData.get("KhongHaiLong") + 1);
-            } else if ("TrungBinh".equals(camXuc)) {
-                camXucCountData.put("TrungBinh", camXucCountData.get("TrungBinh") + 1);
-            } else if ("HaiLong".equals(camXuc)) {
-                camXucCountData.put("HaiLong", camXucCountData.get("HaiLong") + 1);
-            } else {
-                camXucCountData.put("Khac", camXucCountData.get("Khac") + 1);
-            }
-        }
+        double diemTB = totalKtvRatings > 0 ? sumKtvScore / totalKtvRatings : 0;
+        tvKpiDiemKtv.setText(String.format("%.1f", diemTB));
         
-        topSanPham = timMaxKey(sanPhamCountData);
-
-        // Công ty
-        Map<String, Integer> congTyCount = new HashMap<>();
-        for (Map<String, Object> dg : danhGiaXau) {
-            String congTy = (String) dg.get("tenCongTy");
-            if (congTy != null && !congTy.isEmpty()) {
-                congTyCount.put(congTy, congTyCount.getOrDefault(congTy, 0) + 1);
-            }
+        int danhGiaXau = 0;
+        for (DanhGia dg : listDg30) {
+            if (dg.getSoSao() <= 2) danhGiaXau++;
         }
-        topCongTy = timMaxKey(congTyCount);
+        tvKpiDanhGiaXau.setText(String.valueOf(danhGiaXau));
 
-        // Tag
-        Map<String, Integer> tagCount = new HashMap<>();
-        for (Map<String, Object> dg : danhGiaXau) {
-            @SuppressWarnings("unchecked")
-            List<String> tags = (List<String>) dg.get("tags");
-            if (tags != null) {
-                for (String tag : tags) {
-                    tagCount.put(tag, tagCount.getOrDefault(tag, 0) + 1);
-                }
-            }
-        }
-        topTag = timMaxKey(tagCount);
-
-        // KPI
-        tinhXuHuongTheoKhoang(danhGiaXau);
+        // Phân tích dữ liệu tìm các Label nổi bật
+        phanTichLabels();
         
-        // Cập nhật ViewPager
+        // Vẽ lại ViewPager2
         ChartAdapter adapter = new ChartAdapter();
         viewPagerChart.setAdapter(adapter);
         setupIndicators(3);
-    }
-
-    private void tinhXuHuongTangGiam(List<Map<String, Object>> danhGiaXau) {
-        Calendar cal60 = Calendar.getInstance();
-        cal60.add(Calendar.DAY_OF_YEAR, -60);
-        Timestamp tuNgay60 = new Timestamp(cal60.getTime());
-
-        Calendar cal30 = Calendar.getInstance();
-        cal30.add(Calendar.DAY_OF_YEAR, -30);
-        Timestamp tuNgay30 = new Timestamp(cal30.getTime());
-
-        db.collection("DanhGia")
-                .whereGreaterThan("taoLuc", tuNgay60)
-                .orderBy("taoLuc", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (getContext() == null) return;
-                    
-                    int soLuong30NgayTruoc = 0;
-                    for (QueryDocumentSnapshot doc : querySnapshot) {
-                        Object soSaoObj = doc.get("soSao");
-                        Object taoLucObj = doc.get("taoLuc");
-                        if (soSaoObj instanceof Number && ((Number) soSaoObj).intValue() <= 2
-                                && taoLucObj instanceof Timestamp) {
-                            Timestamp taoLuc = (Timestamp) taoLucObj;
-                            if (taoLuc.compareTo(tuNgay30) <= 0) {
-                                soLuong30NgayTruoc++;
-                            }
-                        }
-                    }
-                    
-                    int soLuong30NgayGanNhat = danhGiaXau.size();
-                    
-                    if (soLuong30NgayTruoc == 0) {
-                        if (soLuong30NgayGanNhat > 0) {
-                            tvTangGiam.setText("Mới phát sinh (" + soLuong30NgayGanNhat + ")");
-                            tvTangGiam.setTextColor(Color.parseColor("#FF9800"));
-                        } else {
-                            tvTangGiam.setText("Chưa có DG xấu");
-                            tvTangGiam.setTextColor(Color.parseColor("#4CAF50"));
-                        }
-                        return;
-                    }
-                    
-                    double phanTramThayDoi = ((soLuong30NgayGanNhat - soLuong30NgayTruoc) * 100.0) / soLuong30NgayTruoc;
-                    
-                    if (phanTramThayDoi > 0) {
-                        tvTangGiam.setText("Tăng " + String.format("%.1f%%", phanTramThayDoi));
-                        tvTangGiam.setTextColor(Color.parseColor("#EF5350"));
-                    } else if (phanTramThayDoi < 0) {
-                        tvTangGiam.setText("Giảm " + String.format("%.1f%%", Math.abs(phanTramThayDoi)));
-                        tvTangGiam.setTextColor(Color.parseColor("#4CAF50"));
-                    } else {
-                        tvTangGiam.setText("Không đổi");
-                        tvTangGiam.setTextColor(Color.parseColor("#9E9E9E"));
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    if (tvTangGiam != null) tvTangGiam.setText("Lỗi");
-                });
-    }
-
-    private void tinhXuHuongTheoKhoang(List<Map<String, Object>> danhGiaXau) {
-        Calendar cal7 = Calendar.getInstance();
-        cal7.add(Calendar.DAY_OF_YEAR, -7);
-        Timestamp tuNgay7 = new Timestamp(cal7.getTime());
         
-        int dem7Ngay = 0;
-        for (Map<String, Object> dg : danhGiaXau) {
-            Timestamp taoLuc = (Timestamp) dg.get("taoLuc");
-            if (taoLuc != null && taoLuc.compareTo(tuNgay7) > 0) {
-                dem7Ngay++;
+        // Cập nhật KTV Adapter
+        capNhatDanhSachKtv();
+    }
+    
+    private void phanTichLabels() {
+        // Cho đánh giá xấu
+        Map<String, Integer> spXauCount = new HashMap<>();
+        Map<String, Integer> tagCount = new HashMap<>();
+        Map<String, Integer> congTyCount = new HashMap<>();
+        
+        for (DanhGia dg : listDg30) {
+            if (dg.getSoSao() <= 2) {
+                if (dg.getSanPham() != null) spXauCount.put(dg.getSanPham(), spXauCount.getOrDefault(dg.getSanPham(), 0) + 1);
+                if (dg.getTenCongTy() != null) congTyCount.put(dg.getTenCongTy(), congTyCount.getOrDefault(dg.getTenCongTy(), 0) + 1);
+                if (dg.getTags() != null) {
+                    for (String t : dg.getTags()) tagCount.put(t, tagCount.getOrDefault(t, 0) + 1);
+                }
             }
         }
+        topSpXau = timMaxKey(spXauCount);
+        topTag = timMaxKey(tagCount);
+        topCongTy = timMaxKey(congTyCount);
         
-        tvXuHuong7Ngay.setText(String.valueOf(dem7Ngay));
-        tvXuHuong30Ngay.setText(String.valueOf(danhGiaXau.size()));
-        
-        if (dem7Ngay > 10) {
-            tvXuHuong7Ngay.setTextColor(Color.parseColor("#EF5350"));
-        } else if (dem7Ngay > 5) {
-            tvXuHuong7Ngay.setTextColor(Color.parseColor("#FF9800"));
-        } else {
-            tvXuHuong7Ngay.setTextColor(Color.parseColor("#4CAF50"));
+        // Cho toàn bộ (người yêu cầu nhiều)
+        Map<String, Integer> hoTenCount = new HashMap<>();
+        for (YeuCauHoTro yc : listYc30) {
+            String ten = yc.getHoTen();
+            if (ten != null && !ten.isEmpty()) hoTenCount.put(ten, hoTenCount.getOrDefault(ten, 0) + 1);
         }
+        topKhachHang = timMaxKey(hoTenCount);
     }
 
     private String timMaxKey(Map<String, Integer> map) {
@@ -343,19 +293,58 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull VH h, int position) {
-            // Set thông tin top chung
-            h.tvSanPhamXauNhat.setText(topSanPham);
-            h.tvTagPhoBien.setText(topTag);
-            h.tvCongTyXauNhat.setText(topCongTy);
-
             h.llChartArea.removeAllViews();
 
             if (position == 0) {
-                veBieuDoXuHuong7Ngay(h.llChartArea);
+                // Biểu đồ Ticket 7 ngày
+                h.tvLabel1.setText("Đang chờ xử lý");
+                h.tvLabel2.setText("Đang xử lý");
+                h.tvLabel3.setText("KH Yêu cầu nhiều");
+                
+                int cho = 0, dang = 0;
+                for(YeuCauHoTro yc : listYc30) {
+                    if ("ChoXuLy".equals(yc.getTrangThai()) || "HangCho".equals(yc.getTrangThai())) cho++;
+                    else if ("DangXuLy".equals(yc.getTrangThai())) dang++;
+                }
+                
+                h.tvSanPhamXauNhat.setText(String.valueOf(cho));
+                h.tvSanPhamXauNhat.setTextColor(Color.parseColor("#FF9800"));
+                h.tvTagPhoBien.setText(String.valueOf(dang));
+                h.tvTagPhoBien.setTextColor(Color.parseColor("#2196F3"));
+                h.tvCongTyXauNhat.setText(topKhachHang);
+                
+                veBieuDoCotYeuCau(h.llChartArea);
+                
             } else if (position == 1) {
-                veBieuDoCamXuc(h.llChartArea);
+                // Biểu đồ Cảm xúc 30 ngày (Bar chart ngang)
+                h.tvLabel1.setText("Đánh giá tích cực");
+                h.tvLabel2.setText("Vấn đề phổ biến");
+                h.tvLabel3.setText("Sản phẩm bị chê");
+                
+                int tot = 0;
+                for(DanhGia dg : listDg30) {
+                    if ("HaiLong".equals(dg.getCamXuc())) tot++;
+                }
+                int phanTram = listDg30.size() > 0 ? (tot * 100 / listDg30.size()) : 0;
+                h.tvSanPhamXauNhat.setText(phanTram + "%");
+                h.tvSanPhamXauNhat.setTextColor(Color.parseColor("#4CAF50"));
+                h.tvTagPhoBien.setText(topTag);
+                h.tvCongTyXauNhat.setText(topSpXau);
+                
+                veBieuDoCamXucBar(h.llChartArea);
+                
             } else {
-                veBieuDoSanPham(h.llChartArea);
+                // Biểu đồ SP xấu nhất
+                h.tvLabel1.setText("SP xấu nhất");
+                h.tvLabel2.setText("Vấn đề phổ biến");
+                h.tvLabel3.setText("Công ty yêu cầu nhiều nhất");
+                
+                h.tvSanPhamXauNhat.setText(topSpXau);
+                h.tvSanPhamXauNhat.setTextColor(Color.parseColor("#EF5350"));
+                h.tvTagPhoBien.setText(topTag);
+                h.tvCongTyXauNhat.setText(topCongTy);
+                
+                veBieuDoSanPhamXau(h.llChartArea);
             }
         }
 
@@ -367,104 +356,37 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
         class VH extends RecyclerView.ViewHolder {
             LinearLayout llChartArea;
             TextView tvSanPhamXauNhat, tvTagPhoBien, tvCongTyXauNhat;
+            TextView tvLabel1, tvLabel2, tvLabel3;
             VH(@NonNull View itemView) {
                 super(itemView);
                 llChartArea = itemView.findViewById(R.id.llChartArea);
                 tvSanPhamXauNhat = itemView.findViewById(R.id.tvSanPhamXauNhat);
                 tvTagPhoBien = itemView.findViewById(R.id.tvTagPhoBien);
                 tvCongTyXauNhat = itemView.findViewById(R.id.tvCongTyXauNhat);
+                tvLabel1 = itemView.findViewById(R.id.tvLabel1);
+                tvLabel2 = itemView.findViewById(R.id.tvLabel2);
+                tvLabel3 = itemView.findViewById(R.id.tvLabel3);
             }
         }
     }
 
-    // ===== BIỂU ĐỒ THANH NGANG: SẢN PHẨM =====
-    private void veBieuDoSanPham(LinearLayout container) {
+    // ===== VẼ BIỂU ĐỒ 1: YÊU CẦU 7 NGÀY =====
+    private void veBieuDoCotYeuCau(LinearLayout container) {
         if (getContext() == null) return;
-        
-        if (sanPhamCountData.isEmpty()) {
-            TextView tv = new TextView(getContext());
-            tv.setText("Chưa có dữ liệu sản phẩm");
-            tv.setTextColor(getResColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-            container.addView(tv);
-            return;
-        }
-        
-        int maxVal = sanPhamCountData.values().stream().mapToInt(Integer::intValue).max().orElse(1);
-        int[] barColors = {
-            Color.parseColor("#EF5350"), Color.parseColor("#FF7043"), Color.parseColor("#FFA726"),
-            Color.parseColor("#FFCA28"), Color.parseColor("#66BB6A"), Color.parseColor("#42A5F5"),
-        };
-        
-        int colorIdx = 0;
-        for (Map.Entry<String, Integer> entry : sanPhamCountData.entrySet()) {
-            LinearLayout row = new LinearLayout(getContext());
-            row.setOrientation(LinearLayout.HORIZONTAL);
-            row.setGravity(Gravity.CENTER_VERTICAL);
-            row.setPadding(0, dpToPx(6), 0, dpToPx(6));
-            
-            // Label
-            TextView tvLabel = new TextView(getContext());
-            tvLabel.setText(entry.getKey());
-            tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-            tvLabel.setTextColor(getResColor(com.google.android.material.R.attr.colorOnSurface));
-            LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
-                dpToPx(70), ViewGroup.LayoutParams.WRAP_CONTENT);
-            tvLabel.setLayoutParams(labelParams);
-            tvLabel.setMaxLines(2);
-            tvLabel.setEllipsize(android.text.TextUtils.TruncateAt.END);
-            row.addView(tvLabel);
-            
-            // Bar
-            View bar = new View(getContext());
-            GradientDrawable barBg = new GradientDrawable();
-            barBg.setCornerRadius(dpToPx(4));
-            barBg.setColor(barColors[colorIdx % barColors.length]);
-            bar.setBackground(barBg);
-            int barWidth = maxVal > 0 ? (int)(((float)entry.getValue() / maxVal) * dpToPx(130)) : dpToPx(4);
-            barWidth = Math.max(barWidth, dpToPx(4));
-            LinearLayout.LayoutParams barParams = new LinearLayout.LayoutParams(barWidth, dpToPx(16));
-            barParams.setMarginStart(dpToPx(8));
-            bar.setLayoutParams(barParams);
-            row.addView(bar);
-            
-            // Count
-            TextView tvCount = new TextView(getContext());
-            tvCount.setText(String.valueOf(entry.getValue()));
-            tvCount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-            tvCount.setTextColor(getResColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-            tvCount.setTypeface(null, android.graphics.Typeface.BOLD);
-            LinearLayout.LayoutParams countParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            countParams.setMarginStart(dpToPx(8));
-            tvCount.setLayoutParams(countParams);
-            row.addView(tvCount);
-            
-            container.addView(row);
-            colorIdx++;
-        }
-    }
-
-    // ===== BIỂU ĐỒ CỘT: XU HƯỚNG 7 NGÀY =====
-    private void veBieuDoXuHuong7Ngay(LinearLayout container) {
-        if (getContext() == null) return;
-        
         container.setOrientation(LinearLayout.HORIZONTAL);
         container.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         
         LinkedHashMap<String, Integer> ngayCount = new LinkedHashMap<>();
-        SimpleDateFormat sdfKey = new SimpleDateFormat("dd/MM", Locale.getDefault());
-        
         Calendar cal = Calendar.getInstance();
         for (int i = 6; i >= 0; i--) {
             Calendar c = Calendar.getInstance();
             c.add(Calendar.DAY_OF_YEAR, -i);
-            ngayCount.put(sdfKey.format(c.getTime()), 0);
+            ngayCount.put(SDF_DAY.format(c.getTime()), 0);
         }
         
-        for (Map<String, Object> dg : danhGiaXauData) {
-            Object taoLucObj = dg.get("taoLuc");
-            if (taoLucObj instanceof Timestamp) {
-                String key = sdfKey.format(((Timestamp) taoLucObj).toDate());
+        for (YeuCauHoTro yc : listYc30) {
+            if (yc.getTaoLuc() != null) {
+                String key = SDF_DAY.format(yc.getTaoLuc().toDate());
                 if (ngayCount.containsKey(key)) {
                     ngayCount.put(key, ngayCount.get(key) + 1);
                 }
@@ -479,8 +401,7 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
             LinearLayout col = new LinearLayout(getContext());
             col.setOrientation(LinearLayout.VERTICAL);
             col.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-            LinearLayout.LayoutParams colParams = new LinearLayout.LayoutParams(
-                0, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+            LinearLayout.LayoutParams colParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
             colParams.setMarginStart(dpToPx(2));
             colParams.setMarginEnd(dpToPx(2));
             col.setLayoutParams(colParams);
@@ -498,15 +419,10 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
             barHeight = Math.max(barHeight, dpToPx(4));
             GradientDrawable barBg = new GradientDrawable();
             barBg.setCornerRadii(new float[]{dpToPx(6), dpToPx(6), dpToPx(6), dpToPx(6), 0, 0, 0, 0});
-            
-            float ratio = maxVal > 0 ? (float) entry.getValue() / maxVal : 0;
-            if (ratio > 0.7f) barBg.setColor(Color.parseColor("#EF5350"));
-            else if (ratio > 0.3f) barBg.setColor(Color.parseColor("#FFA726"));
-            else barBg.setColor(Color.parseColor("#66BB6A"));
+            barBg.setColor(getResColor(androidx.appcompat.R.attr.colorPrimary));
             
             bar.setBackground(barBg);
-            LinearLayout.LayoutParams barParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, barHeight);
+            LinearLayout.LayoutParams barParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, barHeight);
             barParams.topMargin = dpToPx(4);
             bar.setLayoutParams(barParams);
             col.addView(bar);
@@ -523,73 +439,327 @@ public class AdminDanhGiaAnalyticsFragment extends Fragment {
         }
     }
 
-    // ===== BIỂU ĐỒ TIẾN ĐỘ: CẢM XÚC =====
-    private void veBieuDoCamXuc(LinearLayout container) {
+    // ===== VẼ BIỂU ĐỒ 2: CẢM XÚC BAR CHART NGANG =====
+    private void veBieuDoCamXucBar(LinearLayout container) {
         if (getContext() == null) return;
         
-        int tongSo = danhGiaXauData.size();
-        Map<String, String> labelMap = new LinkedHashMap<>();
-        labelMap.put("KhongHaiLong", "Không hài lòng");
-        labelMap.put("TrungBinh", "Trung bình");
-        labelMap.put("HaiLong", "Hài lòng");
-        labelMap.put("Khac", "Không rõ");
+        Map<String, Integer> cxCount = new LinkedHashMap<>();
+        cxCount.put("Hài lòng", 0);
+        cxCount.put("Trung bình", 0);
+        cxCount.put("Không hài lòng", 0);
+        cxCount.put("Không rõ", 0);
         
-        Map<String, Integer> colorMap = new HashMap<>();
-        colorMap.put("KhongHaiLong", Color.parseColor("#EF5350"));
-        colorMap.put("TrungBinh", Color.parseColor("#FFA726"));
-        colorMap.put("HaiLong", Color.parseColor("#66BB6A"));
-        colorMap.put("Khac", Color.parseColor("#9E9E9E"));
+        for (DanhGia dg : listDg30) {
+            String cx = dg.getCamXuc();
+            if ("HaiLong".equals(cx)) cxCount.put("Hài lòng", cxCount.get("Hài lòng") + 1);
+            else if ("TrungBinh".equals(cx)) cxCount.put("Trung bình", cxCount.get("Trung bình") + 1);
+            else if ("KhongHaiLong".equals(cx)) cxCount.put("Không hài lòng", cxCount.get("Không hài lòng") + 1);
+            else cxCount.put("Không rõ", cxCount.get("Không rõ") + 1);
+        }
         
-        for (Map.Entry<String, String> entry : labelMap.entrySet()) {
-            String key = entry.getKey();
-            int count = camXucCountData.getOrDefault(key, 0);
-            if (count == 0) continue;
-            
-            double phanTram = tongSo > 0 ? (count * 100.0 / tongSo) : 0;
+        int[] barColors = { Color.parseColor("#4CAF50"), Color.parseColor("#FF9800"), Color.parseColor("#EF5350"), Color.parseColor("#9E9E9E") };
+        veBieuDoNgangChung(container, cxCount, barColors);
+    }
+
+    // ===== VẼ BIỂU ĐỒ 3: SẢN PHẨM XẤU =====
+    private void veBieuDoSanPhamXau(LinearLayout container) {
+        if (getContext() == null) return;
+        
+        Map<String, Integer> spXauCount = new LinkedHashMap<>();
+        for (DanhGia dg : listDg30) {
+            if (dg.getSoSao() <= 2 && dg.getSanPham() != null) {
+                spXauCount.put(dg.getSanPham(), spXauCount.getOrDefault(dg.getSanPham(), 0) + 1);
+            }
+        }
+        
+        int[] barColors = { Color.parseColor("#EF5350"), Color.parseColor("#FF7043"), Color.parseColor("#FFA726"), Color.parseColor("#FFCA28"), Color.parseColor("#66BB6A") };
+        veBieuDoNgangChung(container, spXauCount, barColors);
+    }
+
+    // Hàm chung vẽ biểu đồ ngang
+    private void veBieuDoNgangChung(LinearLayout container, Map<String, Integer> dataMap, int[] colors) {
+        int maxVal = dataMap.values().stream().mapToInt(Integer::intValue).max().orElse(1);
+        int colorIdx = 0;
+        
+        for (Map.Entry<String, Integer> entry : dataMap.entrySet()) {
+            // Chỉ hiển thị các mục có dữ liệu để tiết kiệm không gian
+            if (entry.getValue() == 0 && dataMap.size() > 4) continue;
             
             LinearLayout row = new LinearLayout(getContext());
-            row.setOrientation(LinearLayout.VERTICAL);
-            row.setPadding(0, dpToPx(8), 0, dpToPx(8));
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(Gravity.CENTER_VERTICAL);
+            row.setPadding(0, dpToPx(6), 0, dpToPx(6));
             
-            LinearLayout labelRow = new LinearLayout(getContext());
-            labelRow.setOrientation(LinearLayout.HORIZONTAL);
-            
+            // Label
             TextView tvLabel = new TextView(getContext());
-            tvLabel.setText(entry.getValue());
-            tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+            tvLabel.setText(entry.getKey());
+            tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             tvLabel.setTextColor(getResColor(com.google.android.material.R.attr.colorOnSurface));
-            tvLabel.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-            labelRow.addView(tvLabel);
+            LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(dpToPx(85), ViewGroup.LayoutParams.WRAP_CONTENT);
+            tvLabel.setLayoutParams(labelParams);
+            tvLabel.setMaxLines(2);
+            tvLabel.setEllipsize(android.text.TextUtils.TruncateAt.END);
+            row.addView(tvLabel);
             
-            TextView tvPercent = new TextView(getContext());
-            tvPercent.setText(count + " (" + String.format("%.0f%%", phanTram) + ")");
-            tvPercent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-            tvPercent.setTypeface(null, android.graphics.Typeface.BOLD);
-            tvPercent.setTextColor(colorMap.getOrDefault(key, Color.GRAY));
-            labelRow.addView(tvPercent);
+            // Bar
+            View bar = new View(getContext());
+            GradientDrawable barBg = new GradientDrawable();
+            barBg.setCornerRadius(dpToPx(4));
+            barBg.setColor(colors[colorIdx % colors.length]);
+            bar.setBackground(barBg);
+            int barWidth = maxVal > 0 ? (int)(((float)entry.getValue() / maxVal) * dpToPx(130)) : dpToPx(4);
+            barWidth = Math.max(barWidth, dpToPx(4));
+            LinearLayout.LayoutParams barParams = new LinearLayout.LayoutParams(barWidth, dpToPx(16));
+            barParams.setMarginStart(dpToPx(8));
+            bar.setLayoutParams(barParams);
+            row.addView(bar);
             
-            row.addView(labelRow);
-            
-            ProgressBar pb = new ProgressBar(getContext(), null, android.R.attr.progressBarStyleHorizontal);
-            pb.setMax(100);
-            pb.setProgress((int) phanTram);
-            pb.setScaleY(2f);
-            LinearLayout.LayoutParams pbParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(8));
-            pbParams.topMargin = dpToPx(6);
-            pb.setLayoutParams(pbParams);
-            pb.getProgressDrawable().setColorFilter(
-                colorMap.getOrDefault(key, Color.GRAY), android.graphics.PorterDuff.Mode.SRC_IN);
-            row.addView(pb);
+            // Count
+            TextView tvCount = new TextView(getContext());
+            tvCount.setText(String.valueOf(entry.getValue()));
+            tvCount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            tvCount.setTextColor(getResColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+            tvCount.setTypeface(null, android.graphics.Typeface.BOLD);
+            LinearLayout.LayoutParams countParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            countParams.setMarginStart(dpToPx(8));
+            tvCount.setLayoutParams(countParams);
+            row.addView(tvCount);
             
             container.addView(row);
+            colorIdx++;
+        }
+        
+        if (container.getChildCount() == 0) {
+            TextView tv = new TextView(getContext());
+            tv.setText("Không có dữ liệu phù hợp");
+            tv.setGravity(Gravity.CENTER);
+            container.addView(tv);
+        }
+    }
+    
+    // === CẬP NHẬT KTV LIST ===
+    private void capNhatDanhSachKtv() {
+        if (getContext() == null) return;
+        Map<String, ThongKeKtvAdapter.KtvItem> ktvMap = new HashMap<>();
+        
+        // Cập nhật từ Ticket
+        for (YeuCauHoTro yc : listYc30) {
+            String ten = yc.getKtvTen();
+            if (ten == null || ten.isEmpty()) continue;
+            
+            if (!ktvMap.containsKey(ten)) {
+                ktvMap.put(ten, new ThongKeKtvAdapter.KtvItem(ten, "Hoạt động", 0, 0, 0, 0));
+            }
+            ThongKeKtvAdapter.KtvItem item = ktvMap.get(ten);
+            item.tongTicket++;
+            if ("DangXuLy".equals(yc.getTrangThai())) item.soTicketDang++;
+        }
+        
+        // Cập nhật từ Đánh giá KTV
+        for (String ten : ktvScores.keySet()) {
+            if (!ktvMap.containsKey(ten)) {
+                ktvMap.put(ten, new ThongKeKtvAdapter.KtvItem(ten, "Hoạt động", 0, 0, 0, 0));
+            }
+        }
+        
+        // Tính điểm trung bình cho từng KTV
+        for (ThongKeKtvAdapter.KtvItem item : ktvMap.values()) {
+            if (ktvScores.containsKey(item.ten)) {
+                List<Double> scores = ktvScores.get(item.ten);
+                item.soLuotDanhGia = scores.size();
+                double sum = 0;
+                for (double s : scores) sum += s;
+                item.diemDanhGia = sum / item.soLuotDanhGia;
+            }
+        }
+        
+        List<ThongKeKtvAdapter.KtvItem> listKtv = new ArrayList<>(ktvMap.values());
+        listKtv.sort((a, b) -> Integer.compare(b.tongTicket, a.tongTicket));
+        if (listKtv.size() > 5) listKtv = listKtv.subList(0, 5); // Chỉ lấy Top 5
+        
+        rvThongKeKtv.setAdapter(new ThongKeKtvAdapter(listKtv));
+    }
+
+    // === XỬ LÝ AI INSIGHTS ===
+    private void taiCumTuFirestore() {
+        db.collection("InsightCumDe").get()
+            .addOnSuccessListener(snap -> {
+                if (getContext() == null || snap.isEmpty()) return;
+                List<Map<String, Object>> cumList = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : snap) cumList.add(doc.getData());
+                hienThiCumCards(cumList);
+            });
+    }
+
+    private void taoAiInsight() {
+        if (getContext() == null) return;
+        btnTaoInsight.setEnabled(false);
+        tvAiInsight.setText("AI đang phân tích và gom cụm dữ liệu...");
+        llCumDeContainer.removeAllViews();
+
+        NlpHelper.phanTichTongHop(new NlpHelper.InsightCallback() {
+            @Override
+            public void onResult(String insight, List<Map<String, Object>> cumDe) {
+                if (getActivity() == null) return;
+                getActivity().runOnUiThread(() -> {
+                    tvAiInsight.setText(insight.isEmpty() ? "Không có đủ dữ liệu để phân tích." : insight);
+                    hienThiCumCards(cumDe);
+                    btnTaoInsight.setEnabled(true);
+                });
+            }
+            @Override
+            public void onError(String error) {
+                if (getActivity() == null) return;
+                getActivity().runOnUiThread(() -> {
+                    tvAiInsight.setText("Lỗi: " + error);
+                    btnTaoInsight.setEnabled(true);
+                });
+            }
+        });
+    }
+
+    @SuppressWarnings("unchecked")
+    private void hienThiCumCards(List<Map<String, Object>> cumList) {
+        if (getContext() == null) return;
+        llCumDeContainer.removeAllViews();
+
+        for (Map<String, Object> cum : cumList) {
+            String chuDe = (String) cum.getOrDefault("chuDe", "Chủ đề");
+            Object soLuong = cum.get("soLuong");
+            String uuTien = (String) cum.getOrDefault("uuTien", "TrungBinh");
+            List<String> danhGia = (List<String>) cum.get("danhGia");
+            String nguyenNhan = (String) cum.get("nguyenNhan");
+            String goiY = (String) cum.get("goiY");
+
+            int colorBg, colorText;
+            String badgeText;
+            switch (uuTien) {
+                case "Cao":
+                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.error_container);
+                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.error);
+                    badgeText = "Ưu tiên cao";
+                    break;
+                case "Thap":
+                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.success_container);
+                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.success);
+                    badgeText = "Thấp";
+                    break;
+                default:
+                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.warning_container);
+                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.warning);
+                    badgeText = "Trung bình";
+            }
+
+            CardView card = new CardView(getContext());
+            LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            cardLp.setMargins(0, 0, 0, dpToPx(10));
+            card.setLayoutParams(cardLp);
+            card.setRadius(dpToPx(14));
+            card.setCardElevation(dpToPx(2));
+            card.setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.surface));
+
+            LinearLayout inner = new LinearLayout(getContext());
+            inner.setOrientation(LinearLayout.VERTICAL);
+            int p = dpToPx(16);
+            inner.setPadding(p, p, p, p);
+
+            // Header
+            LinearLayout header = new LinearLayout(getContext());
+            header.setOrientation(LinearLayout.HORIZONTAL);
+            header.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            TextView tvTen = new TextView(getContext());
+            tvTen.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+            tvTen.setText(chuDe);
+            tvTen.setTextSize(15);
+            tvTen.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.on_surface));
+            tvTen.setTypeface(null, android.graphics.Typeface.BOLD);
+
+            TextView tvBadge = new TextView(getContext());
+            tvBadge.setText(badgeText);
+            tvBadge.setTextSize(11);
+            tvBadge.setTextColor(colorText);
+            tvBadge.setTypeface(null, android.graphics.Typeface.BOLD);
+            tvBadge.setPadding(dpToPx(8), dpToPx(3), dpToPx(8), dpToPx(3));
+            GradientDrawable badgeBg = new GradientDrawable();
+            badgeBg.setColor(colorBg);
+            badgeBg.setCornerRadius(dpToPx(20));
+            tvBadge.setBackground(badgeBg);
+
+            header.addView(tvTen);
+            header.addView(tvBadge);
+            inner.addView(header);
+
+            // Số lượng
+            TextView tvCount = new TextView(getContext());
+            tvCount.setText((soLuong != null ? soLuong : 0) + " trường hợp");
+            tvCount.setTextSize(12);
+            tvCount.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.text_secondary));
+            LinearLayout.LayoutParams countLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            countLp.setMargins(0, dpToPx(4), 0, dpToPx(10));
+            tvCount.setLayoutParams(countLp);
+            inner.addView(tvCount);
+
+            // Nguyên nhân
+            if (nguyenNhan != null && !nguyenNhan.isEmpty()) {
+                TextView tvNN = new TextView(getContext());
+                tvNN.setText("Nguyên nhân: " + nguyenNhan);
+                tvNN.setTextSize(13);
+                tvNN.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.on_surface_variant));
+                tvNN.setLineSpacing(0, 1.2f);
+                LinearLayout.LayoutParams nnLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                nnLp.setMargins(0, 0, 0, dpToPx(6));
+                tvNN.setLayoutParams(nnLp);
+                inner.addView(tvNN);
+            }
+
+            // Gợi ý
+            if (goiY != null && !goiY.isEmpty()) {
+                TextView tvGY = new TextView(getContext());
+                tvGY.setText("Đề xuất: " + goiY);
+                tvGY.setTextSize(13);
+                tvGY.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.primary));
+                tvGY.setLineSpacing(0, 1.2f);
+                tvGY.setTypeface(null, android.graphics.Typeface.BOLD);
+                LinearLayout.LayoutParams gyLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                gyLp.setMargins(0, 0, 0, dpToPx(10));
+                tvGY.setLayoutParams(gyLp);
+                inner.addView(tvGY);
+            }
+
+            // Divider
+            View div = new View(getContext());
+            LinearLayout.LayoutParams divLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(1));
+            divLp.setMargins(0, 0, 0, dpToPx(8));
+            div.setLayoutParams(divLp);
+            div.setBackgroundColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.divider));
+            inner.addView(div);
+
+            // Phản hồi gốc (chỉ hiện 2 cái)
+            if (danhGia != null && !danhGia.isEmpty()) {
+                int show = Math.min(danhGia.size(), 2);
+                for (int i = 0; i < show; i++) {
+                    TextView tvItem = new TextView(getContext());
+                    tvItem.setText("• " + danhGia.get(i));
+                    tvItem.setTextSize(12);
+                    tvItem.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.text_primary));
+                    tvItem.setLineSpacing(0, 1.3f);
+                    LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    itemLp.setMargins(0, 0, 0, dpToPx(4));
+                    tvItem.setLayoutParams(itemLp);
+                    inner.addView(tvItem);
+                }
+            }
+
+            card.addView(inner);
+            llCumDeContainer.addView(card);
         }
     }
 
     // === HELPERS ===
     private int dpToPx(int dp) {
-        return (int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
     
     private int getResColor(int attrResId) {

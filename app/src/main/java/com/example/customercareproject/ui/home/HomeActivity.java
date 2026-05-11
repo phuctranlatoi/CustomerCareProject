@@ -58,6 +58,8 @@ public class HomeActivity extends AppCompatActivity {
     private Handler daChoHandler;
     private Runnable daChoRunnable;
 
+    private com.google.firebase.firestore.ListenerRegistration ticketListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
                     activeHoTen = hoTen;
                     maSoThueUser = doc.getString("maSoThue");
                     if (avatarProfile != null) avatarProfile.setName(hoTen != null ? hoTen : "?");
-                    
+
                     // Load sản phẩm theo gói đăng ký
                     taiSanPhamTheoCongTy(rvSanPham);
                 });
@@ -149,13 +151,13 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 String[] tenSanPham = danhSachSanPhamHienTai.toArray(new String[0]);
                 new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Chọn sản phẩm cần hỗ trợ")
-                    .setItems(tenSanPham, (dialog, which) -> {
-                        Intent intent = new Intent(this, com.example.customercareproject.ui.loi.YeuCauHoTroActivity.class);
-                        intent.putExtra("sanPham", tenSanPham[which]);
-                        startActivity(intent);
-                    })
-                    .show();
+                        .setTitle("Chọn sản phẩm cần hỗ trợ")
+                        .setItems(tenSanPham, (dialog, which) -> {
+                            Intent intent = new Intent(this, com.example.customercareproject.ui.loi.YeuCauHoTroActivity.class);
+                            intent.putExtra("sanPham", tenSanPham[which]);
+                            startActivity(intent);
+                        })
+                        .show();
             });
         }
 
@@ -171,41 +173,64 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
 
-        // Load ticket active + kiểm tra đánh giá chờ
-        db.collection("YeuCauHoTro")
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        batDauLangNgheTicket();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (ticketListener != null) {
+            ticketListener.remove();
+            ticketListener = null;
+        }
+    }
+
+    private void batDauLangNgheTicket() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        ticketListener = FirebaseFirestore.getInstance().collection("YeuCauHoTro")
                 .whereEqualTo("uid", user.getUid())
                 .orderBy("taoLuc", Query.Direction.DESCENDING)
-                .limit(10)
+                .limit(5) // Chỉ cần kiểm tra các ticket gần đây nhất
                 .addSnapshotListener((snap, e) -> {
-                    if (snap == null) return;
-                    activeTicketId = null;
+                    if (e != null || snap == null) return;
+
+                    boolean foundActive = false;
+                    long now = System.currentTimeMillis();
+                    long durationLimit = 24L * 60 * 60 * 1000; // 24h
+
                     for (QueryDocumentSnapshot doc : snap) {
                         String ts = doc.getString("trangThai");
+                        Timestamp taoLuc = doc.getTimestamp("taoLuc");
 
-                        // Ticket đang xử lý → hiện card
-                        if (activeTicketId == null &&
-                                ("ChoXuLy".equals(ts) || "DangXuLy".equals(ts) || "HangCho".equals(ts))) {
-                            activeTicketId = doc.getId();
-                            String tieuDe = doc.getString("tieuDeLoi");
-                            String ktvTen = doc.getString("ktvTen");
-                            tvTicketActiveTieuDe.setText(tieuDe != null ? tieuDe : "Đang xử lý...");
+                        // 1. Logic cho Ticket đang hoạt động (Popup chat ở header)
+                        if (!foundActive && taoLuc != null && (now - taoLuc.toDate().getTime() < durationLimit)) {
+                            if ("ChoXuLy".equals(ts) || "DangXuLy".equals(ts) || "HangCho".equals(ts)) {
+                                foundActive = true;
+                                activeTicketId = doc.getId();
 
-                            if ("DangXuLy".equals(ts)) {
-                                // KTV đang xử lý → ẩn tvDaCho, hiện "KTV đang xử lý"
-                                tvTicketActiveKtv.setText("KTV đang xử lý");
-                                anDaChoVaHuyHandler();
-                            } else {
-                                // HangCho hoặc ChoXuLy → hiện thời gian đã chờ
-                                tvTicketActiveKtv.setText(ktvTen != null ? "KTV: " + ktvTen : "Đang tìm KTV...");
-                                Timestamp taoLuc = doc.getTimestamp("taoLuc");
-                                if (taoLuc != null) {
+                                String tieuDe = doc.getString("tieuDeLoi");
+                                String ktvTen = doc.getString("ktvTen");
+                                tvTicketActiveTieuDe.setText(tieuDe != null ? tieuDe : "Đang hỗ trợ...");
+
+                                if ("DangXuLy".equals(ts)) {
+                                    tvTicketActiveKtv.setText("KTV đang xử lý");
+                                    anDaChoVaHuyHandler();
+                                } else {
+                                    tvTicketActiveKtv.setText(ktvTen != null ? "KTV: " + ktvTen : "Đang tìm KTV...");
                                     capNhatDaCho(taoLuc);
                                 }
+                                cardTicketActive.setVisibility(View.VISIBLE);
                             }
-                            cardTicketActive.setVisibility(View.VISIBLE);
                         }
 
-                        // Ticket DaXuLy chưa đánh giá → popup như Grab
+                        // 2. Logic cho Ticket đã xử lý xong -> Hiện popup đánh giá (Chỉ hiện 1 lần)
                         if (!daDanhGiaPopup && "DaXuLy".equals(ts)) {
                             Boolean daDG = doc.getBoolean("daDanhGiaKtv");
                             String ktvUid = doc.getString("ktvUid");
@@ -220,20 +245,18 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    if (activeTicketId == null) {
+
+                    // Nếu sau khi duyệt hết list mà không thấy ticket nào active thì mới ẩn
+                    if (!foundActive) {
+                        activeTicketId = null;
                         cardTicketActive.setVisibility(View.GONE);
                         anDaChoVaHuyHandler();
                     }
                 });
     }
 
-    /**
-     * Load sản phẩm theo gói đăng ký của công ty
-     * Nếu chưa có gói → hiện tất cả sản phẩm (hoặc thông báo chưa đăng ký)
-     */
     private void taiSanPhamTheoCongTy(RecyclerView rvSanPham) {
         if (maSoThueUser == null || maSoThueUser.isEmpty()) {
-            // Fallback: hiện tất cả nếu chưa có mã số thuế
             hienThiSanPham(rvSanPham, Arrays.asList(SanPham.DANH_SACH));
             return;
         }
@@ -245,7 +268,6 @@ public class HomeActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(snap -> {
                     if (snap.isEmpty()) {
-                        // Chưa có gói đăng ký → hiện tất cả (hoặc thông báo)
                         hienThiSanPham(rvSanPham, Arrays.asList(SanPham.DANH_SACH));
                         return;
                     }
@@ -256,28 +278,20 @@ public class HomeActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // Kiểm tra trạng thái gói
                     if (!GoiDangKy.TRANG_THAI_HOAT_DONG.equals(goi.getTrangThai())) {
-                        String msg;
-                        if ("HetHan".equals(goi.getTrangThai())) {
-                            msg = "⚠️ Gói đăng ký đã hết hạn. Vui lòng liên hệ để gia hạn.";
-                        } else {
-                            msg = "⚠️ Gói đăng ký đang tạm dừng. Vui lòng liên hệ để được hỗ trợ.";
-                        }
+                        String msg = "HetHan".equals(goi.getTrangThai())
+                                ? "⚠️ Gói đăng ký đã hết hạn. Vui lòng liên hệ để gia hạn."
+                                : "⚠️ Gói đăng ký đang tạm dừng. Vui lòng liên hệ để được hỗ trợ.";
                         tvGoiHetHanMsg.setText(msg);
                         cardGoiHetHan.setVisibility(View.VISIBLE);
                         hienThiSanPham(rvSanPham, java.util.Collections.emptyList());
                         return;
                     }
 
-                    // Hiện sản phẩm đã đăng ký
                     cardGoiHetHan.setVisibility(View.GONE);
                     hienThiSanPham(rvSanPham, goi.getSanPhamDangKy());
                 })
-                .addOnFailureListener(e -> {
-                    // Lỗi → fallback hiện tất cả
-                    hienThiSanPham(rvSanPham, Arrays.asList(SanPham.DANH_SACH));
-                });
+                .addOnFailureListener(e -> hienThiSanPham(rvSanPham, Arrays.asList(SanPham.DANH_SACH)));
     }
 
     private void hienThiSanPham(RecyclerView rvSanPham, java.util.List<String> danhSachSanPham) {
@@ -288,25 +302,19 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Use ResponsiveLayoutHelper to determine grid column count (2 columns for compact screens)
-        int columnCount = ResponsiveLayoutHelper.getGridColumnCount(this);
-        // For home screen, we want 2 columns regardless of screen size for consistency
-        columnCount = 2;
-        
+        int columnCount = 2;
         GridLayoutManager layoutManager = new GridLayoutManager(this, columnCount);
         rvSanPham.setLayoutManager(layoutManager);
         rvSanPham.setAdapter(adapter);
     }
 
-    /**
-     * Tính và hiển thị thời gian đã chờ, cập nhật mỗi 60 giây.
-     */
     private void capNhatDaCho(Timestamp taoLuc) {
         anDaChoVaHuyHandler();
         daChoHandler = new Handler(Looper.getMainLooper());
         daChoRunnable = new Runnable() {
             @Override
             public void run() {
+                if (taoLuc == null) return;
                 long elapsed = (System.currentTimeMillis() - taoLuc.toDate().getTime()) / 60000;
                 tvDaCho.setText("Đã chờ: " + elapsed + "m");
                 tvDaCho.setVisibility(View.VISIBLE);
@@ -316,9 +324,6 @@ public class HomeActivity extends AppCompatActivity {
         daChoHandler.post(daChoRunnable);
     }
 
-    /**
-     * Ẩn tvDaCho và hủy Handler cập nhật thời gian chờ.
-     */
     private void anDaChoVaHuyHandler() {
         if (daChoHandler != null && daChoRunnable != null) {
             daChoHandler.removeCallbacks(daChoRunnable);

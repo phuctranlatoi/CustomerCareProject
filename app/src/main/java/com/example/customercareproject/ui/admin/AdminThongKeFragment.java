@@ -43,9 +43,7 @@ public class AdminThongKeFragment extends Fragment {
     private TextView tvHaiLong, tvTrungBinh, tvKhongHaiLong;
     private ProgressBar pbHaiLong, pbTrungBinh, pbKhongHaiLong;
     private RecyclerView rvThongKeSanPham, rvThongKeKtv;
-    private TextView tvAiInsight;
-    private MaterialButton btnTaoInsight;
-    private LinearLayout llCumDeContainer;
+
 
     @Nullable
     @Override
@@ -77,11 +75,7 @@ public class AdminThongKeFragment extends Fragment {
         rvThongKeSanPham.setLayoutManager(new LinearLayoutManager(getContext()));
         rvThongKeKtv     = view.findViewById(R.id.rvThongKeKtv);
         rvThongKeKtv.setLayoutManager(new LinearLayoutManager(getContext()));
-        tvAiInsight      = view.findViewById(R.id.tvAiInsight);
-        btnTaoInsight    = view.findViewById(R.id.btnTaoInsight);
-        llCumDeContainer = view.findViewById(R.id.llCumDeContainer);
 
-        btnTaoInsight.setOnClickListener(v -> taoAiInsight());
         btnTuan.setOnClickListener(v -> setFilter(false));
         btnThang.setOnClickListener(v -> setFilter(true));
 
@@ -175,198 +169,10 @@ public class AdminThongKeFragment extends Fragment {
                     }
                 });
 
-        // Load cụm đã lưu từ lần phân tích trước
-        taiCumTuFirestore();
+
     }
 
-    private void taiCumTuFirestore() {
-        FirebaseFirestore.getInstance().collection("InsightCumDe").get()
-                .addOnSuccessListener(snap -> {
-                    if (getContext() == null || snap.isEmpty()) return;
-                    List<Map<String, Object>> cumList = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : snap) cumList.add(doc.getData());
-                    hienThiCumCards(cumList);
-                });
-    }
 
-    private void taoAiInsight() {
-        if (getContext() == null) return;
-        btnTaoInsight.setEnabled(false);
-        tvAiInsight.setText("🔄 AI đang phân tích và gom cụm dữ liệu...");
-        llCumDeContainer.removeAllViews();
-
-        NlpHelper.phanTichTongHop(new NlpHelper.InsightCallback() {
-            @Override
-            public void onResult(String insight, List<Map<String, Object>> cumDe) {
-                if (getActivity() == null) return;
-                getActivity().runOnUiThread(() -> {
-                    tvAiInsight.setText(insight.isEmpty() ? "Không có đủ dữ liệu để phân tích." : insight);
-                    hienThiCumCards(cumDe);
-                    btnTaoInsight.setEnabled(true);
-                });
-            }
-            @Override
-            public void onError(String error) {
-                if (getActivity() == null) return;
-                getActivity().runOnUiThread(() -> {
-                    tvAiInsight.setText("Lỗi: " + error);
-                    btnTaoInsight.setEnabled(true);
-                });
-            }
-        });
-    }
-
-    /** Render từng cụm thành card riêng trong llCumDeContainer */
-    @SuppressWarnings("unchecked")
-    private void hienThiCumCards(List<Map<String, Object>> cumList) {
-        if (getContext() == null) return;
-        llCumDeContainer.removeAllViews();
-
-        for (Map<String, Object> cum : cumList) {
-            String chuDe     = (String) cum.getOrDefault("chuDe", "Chủ đề");
-            Object soLuong   = cum.get("soLuong");
-            String uuTien    = (String) cum.getOrDefault("uuTien", "TrungBinh");
-            List<String> danhGia = (List<String>) cum.get("danhGia");
-
-            // Màu theo ưu tiên
-            int colorBg, colorText;
-            String badgeText;
-            switch (uuTien) {
-                case "Cao":
-                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.error_container);
-                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.error);
-                    badgeText = "🔴 Ưu tiên cao";
-                    break;
-                case "Thap":
-                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.success_container);
-                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.success);
-                    badgeText = "🟢 Thấp";
-                    break;
-                default:
-                    colorBg = androidx.core.content.ContextCompat.getColor(getContext(), R.color.warning_container);
-                    colorText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.warning);
-                    badgeText = "🟡 Trung bình";
-            }
-
-            // Card
-            CardView card = new CardView(getContext());
-            LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            cardLp.setMargins(0, 0, 0, dpToPx(10));
-            card.setLayoutParams(cardLp);
-            card.setRadius(dpToPx(14));
-            card.setCardElevation(0);
-            card.setCardBackgroundColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.surface));
-
-            LinearLayout inner = new LinearLayout(getContext());
-            inner.setOrientation(LinearLayout.VERTICAL);
-            int p = dpToPx(16);
-            inner.setPadding(p, p, p, p);
-
-            // Header row: tên + badge
-            LinearLayout header = new LinearLayout(getContext());
-            header.setOrientation(LinearLayout.HORIZONTAL);
-            header.setGravity(android.view.Gravity.CENTER_VERTICAL);
-            LinearLayout.LayoutParams headerLp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            headerLp.setMargins(0, 0, 0, dpToPx(6));
-            header.setLayoutParams(headerLp);
-
-            TextView tvTen = new TextView(getContext());
-            tvTen.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-            tvTen.setText(chuDe);
-            tvTen.setTextSize(14);
-            tvTen.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.on_surface));
-            tvTen.setTypeface(null, android.graphics.Typeface.BOLD);
-
-            TextView tvBadge = new TextView(getContext());
-            tvBadge.setText(badgeText);
-            tvBadge.setTextSize(11);
-            tvBadge.setTextColor(colorText);
-            tvBadge.setTypeface(null, android.graphics.Typeface.BOLD);
-            tvBadge.setPadding(dpToPx(8), dpToPx(3), dpToPx(8), dpToPx(3));
-            android.graphics.drawable.GradientDrawable badgeBg = new android.graphics.drawable.GradientDrawable();
-            badgeBg.setColor(colorBg);
-            badgeBg.setCornerRadius(dpToPx(20));
-            tvBadge.setBackground(badgeBg);
-
-            header.addView(tvTen);
-            header.addView(tvBadge);
-            inner.addView(header);
-
-            // Số phản hồi
-            TextView tvCount = new TextView(getContext());
-            tvCount.setText((soLuong != null ? soLuong : 0) + " phản hồi liên quan");
-            tvCount.setTextSize(12);
-            tvCount.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.text_secondary));
-            LinearLayout.LayoutParams countLp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            countLp.setMargins(0, 0, 0, dpToPx(10));
-            tvCount.setLayoutParams(countLp);
-            inner.addView(tvCount);
-
-            // Divider
-            View div = new View(getContext());
-            LinearLayout.LayoutParams divLp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, dpToPx(1));
-            divLp.setMargins(0, 0, 0, dpToPx(10));
-            div.setLayoutParams(divLp);
-            div.setBackgroundColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.divider));
-            inner.addView(div);
-
-            // Các câu đánh giá gốc (tối đa 3)
-            if (danhGia != null && !danhGia.isEmpty()) {
-                int show = Math.min(danhGia.size(), 3);
-                for (int i = 0; i < show; i++) {
-                    TextView tvItem = new TextView(getContext());
-                    tvItem.setText("• " + danhGia.get(i));
-                    tvItem.setTextSize(12);
-                    tvItem.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.text_primary));
-                    tvItem.setLineSpacing(0, 1.4f);
-                    LinearLayout.LayoutParams itemLp = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    itemLp.setMargins(0, 0, 0, dpToPx(4));
-                    tvItem.setLayoutParams(itemLp);
-                    inner.addView(tvItem);
-                }
-                if (danhGia.size() > 3) {
-                    TextView tvMore = new TextView(getContext());
-                    tvMore.setText("Xem thêm " + (danhGia.size() - 3) + " phản hồi...");
-                    tvMore.setTextSize(12);
-                    tvMore.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.primary));
-                    tvMore.setClickable(true);
-                    tvMore.setFocusable(true);
-                    tvMore.setOnClickListener(v -> hienThiDanhGiaCum(chuDe, danhGia));
-                    LinearLayout.LayoutParams moreLp = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    moreLp.setMargins(0, dpToPx(4), 0, 0);
-                    tvMore.setLayoutParams(moreLp);
-                    inner.addView(tvMore);
-                }
-            }
-
-            card.addView(inner);
-            llCumDeContainer.addView(card);
-        }
-    }
-
-    private void hienThiDanhGiaCum(String chuDe, List<String> danhGia) {
-        if (getContext() == null) return;
-        if (danhGia == null || danhGia.isEmpty()) {
-            new AlertDialog.Builder(getContext())
-                    .setTitle(chuDe)
-                    .setMessage("Chưa có phản hồi nào trong chủ đề này.")
-                    .setPositiveButton("Đóng", null).show();
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < danhGia.size(); i++)
-            sb.append(i + 1).append(". ").append(danhGia.get(i)).append("\n\n");
-        new AlertDialog.Builder(getContext())
-                .setTitle(chuDe + " (" + danhGia.size() + " phản hồi)")
-                .setMessage(sb.toString().trim())
-                .setPositiveButton("Đóng", null).show();
-    }
 
     private int dpToPx(int dp) {
         return Math.round(dp * getResources().getDisplayMetrics().density);

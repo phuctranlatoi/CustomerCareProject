@@ -113,24 +113,24 @@ public class BadRatingHandler {
                         ticket.setEmail(nguoiDungDoc.getString("email"));
                         ticket.setSoDienThoai(nguoiDungDoc.getString("soDienThoai"));
                     }
-                    // Tìm KTV rảnh và lưu ticket
-                    timKtvVaLuuTicket(context, db, ticket, danhGia.getSanPham());
+                    // Lưu ticket nhanh
+                    luuTicketVaoFirestoreNhanh(context, db, ticket, danhGia.getSanPham());
                 })
                 .addOnFailureListener(e -> {
-                    // Lỗi lấy thông tin KH → vẫn tạo ticket
-                    timKtvVaLuuTicket(context, db, ticket, danhGia.getSanPham());
+                    // Lỗi lấy thông tin KH → vẫn lưu ticket
+                    luuTicketVaoFirestoreNhanh(context, db, ticket, danhGia.getSanPham());
                 });
         } else {
-            timKtvVaLuuTicket(context, db, ticket, danhGia.getSanPham());
+            luuTicketVaoFirestoreNhanh(context, db, ticket, danhGia.getSanPham());
         }
     }
     
     /**
-     * Tìm KTV rảnh qua SmartRouter, gán vào ticket rồi lưu.
-     * Nếu không tìm thấy KTV → set trangThai = "HangCho" để hệ thống quét lại sau.
+     * Tìm KTV rảnh qua SmartRouter, cập nhật vào ticket đã lưu.
      */
-    private static void timKtvVaLuuTicket(Context context, FirebaseFirestore db, 
-                                           YeuCauHoTro ticket, String sanPham) {
+    private static void timKtvVaCapNhatTicket(Context context, FirebaseFirestore db, 
+                                           YeuCauHoTro ticket, String sanPham, String ticketIdToUpdate) {
+        // Tìm KTV rảnh và cập nhật ticket
         SmartRouter.timKtvRanh(sanPham,
             // Tìm thấy KTV rảnh → gán ngay
             (ktvUid, ktvTen) -> {
@@ -138,46 +138,44 @@ public class BadRatingHandler {
                 ticket.setKtvTen(ktvTen);
                 ticket.setTrangThai("ChoXuLy");
                 Log.d(TAG, "🎯 Tìm thấy KTV rảnh: " + ktvTen + " (" + ktvUid + ")");
-                luuTicketVaoFirestore(context, db, ticket, ktvUid);
+                
+                // Update Firestore
+                db.collection("YeuCauHoTro").document(ticketIdToUpdate)
+                    .update("ktvUid", ktvUid, "ktvTen", ktvTen, "trangThai", "ChoXuLy")
+                    .addOnSuccessListener(v -> {
+                        SmartRouter.tangTicketKtv(ktvUid);
+                        if (context != null) {
+                            Toast.makeText(context, "KTV " + ktvTen + " sẽ liên hệ bạn sớm.", Toast.LENGTH_LONG).show();
+                        }
+                    });
             },
-            // Không có KTV nào rảnh → đưa vào hàng chờ
+            // Không có KTV nào rảnh → giữ nguyên hàng chờ
             () -> {
-                ticket.setTrangThai("HangCho");
-                Log.d(TAG, "⏳ Không có KTV rảnh, ticket vào hàng chờ");
-                luuTicketVaoFirestore(context, db, ticket, null);
+                Log.d(TAG, "⏳ Không có KTV rảnh, ticket giữ nguyên hàng chờ");
             }
         );
     }
     
     /**
-     * Lưu ticket vào Firestore, tăng counter KTV nếu đã gán.
+     * Lưu ticket vào Firestore ngay lập tức để UI cập nhật liền.
      */
-    private static void luuTicketVaoFirestore(Context context, FirebaseFirestore db, 
-                                               YeuCauHoTro ticket, String ktvUid) {
+    private static void luuTicketVaoFirestoreNhanh(Context context, FirebaseFirestore db, 
+                                                YeuCauHoTro ticket, String sanPham) {
+        ticket.setTrangThai("HangCho");
         db.collection("YeuCauHoTro")
             .add(ticket)
             .addOnSuccessListener(docRef -> {
-                Log.d(TAG, "✅ Đã tạo ticket follow-up: " + docRef.getId());
+                Log.d(TAG, "✅ Đã tạo ticket follow-up nhanh: " + docRef.getId());
                 
-                if (ktvUid != null) {
-                    // Đã gán KTV → tăng counter ticket
-                    SmartRouter.tangTicketKtv(ktvUid);
-                    Log.d(TAG, "📊 Đã tăng counter ticket cho KTV: " + ktvUid);
-                } else {
-                    // Đánh dấu thời điểm vào hàng chờ
-                    docRef.update("thoiGianChoXuLy", 
-                        com.google.firebase.firestore.FieldValue.serverTimestamp());
-                }
-                
-                if (context != null) {
-                    String msg = ktvUid != null
-                        ? "Cảm ơn phản hồi! KTV " + ticket.getKtvTen() + " sẽ liên hệ bạn sớm."
-                        : "Cảm ơn phản hồi! Đang tìm kỹ thuật viên, bạn sẽ được hỗ trợ sớm.";
-                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                }
+                // Đánh dấu thời điểm vào hàng chờ
+                docRef.update("thoiGianChoXuLy", 
+                    com.google.firebase.firestore.FieldValue.serverTimestamp());
                 
                 // Gửi thông báo cho Admin/KTV
                 sendNotificationToAdmins(db, ticket, docRef.getId());
+                
+                // Sau khi lưu xong, tìm KTV để update
+                timKtvVaCapNhatTicket(context, db, ticket, sanPham, docRef.getId());
             })
             .addOnFailureListener(e -> {
                 Log.e(TAG, "❌ Lỗi tạo ticket follow-up: " + e.getMessage(), e);

@@ -44,20 +44,9 @@ public class SmartRouter {
 
                     String bestUid = null, bestTen = null;
                     int minTicket = Integer.MAX_VALUE;
-                    long currentTime = System.currentTimeMillis();
-                    long twoMinutesAgo = currentTime - (2 * 60 * 1000); // 2 phút
-
-                    // Ưu tiên KTV có chuyên môn phù hợp VÀ đang online
+                    // Ưu tiên KTV có chuyên môn phù hợp
                     for (QueryDocumentSnapshot doc : snapshot) {
                         NguoiDung ktv = doc.toObject(NguoiDung.class);
-                        
-                        // Kiểm tra lastSeen để đảm bảo KTV thực sự online
-                        Long lastSeen = doc.getLong("lastSeen");
-                        boolean isOnline = lastSeen != null && lastSeen > twoMinutesAgo;
-                        
-                        if (!isOnline) {
-                            continue; // Bỏ qua KTV không active
-                        }
                         
                         boolean coChuyenMon = ktv.getChuyenMon() != null
                                 && ktv.getChuyenMon().contains(sanPham);
@@ -68,19 +57,11 @@ public class SmartRouter {
                         }
                     }
 
-                    // Fallback: KTV rảnh bất kỳ ít ticket nhất VÀ đang online
+                    // Fallback: KTV rảnh bất kỳ ít ticket nhất
                     if (bestUid == null) {
                         minTicket = Integer.MAX_VALUE;
                         for (QueryDocumentSnapshot doc : snapshot) {
                             NguoiDung ktv = doc.toObject(NguoiDung.class);
-                            
-                            // Kiểm tra lastSeen
-                            Long lastSeen = doc.getLong("lastSeen");
-                            boolean isOnline = lastSeen != null && lastSeen > twoMinutesAgo;
-                            
-                            if (!isOnline) {
-                                continue; // Bỏ qua KTV không active
-                            }
                             
                             if (ktv.getSoTicketDangXuLy() < minTicket) {
                                 minTicket = ktv.getSoTicketDangXuLy();

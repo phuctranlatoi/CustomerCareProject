@@ -143,26 +143,29 @@ public class NlpHelper {
 
         List<String> sample = allItems.size() > 50 ? allItems.subList(0, 50) : allItems;
 
-        String prompt = "Bạn là chuyên gia phân tích phần mềm. Dưới đây là phản hồi từ khách hàng:\n\n"
+        String prompt = "Bạn là Giám đốc Trải nghiệm Khách hàng (CXO). Dưới đây là dữ liệu phản hồi:\n\n"
                 + String.join("\n", sample) + "\n\n"
                 + "Nhiệm vụ:\n"
-                + "1. Nhận ra các vấn đề GIỐNG NHAU dù khách viết khác nhau, gom thành cụm chủ đề.\n"
-                + "2. Tự đặt tên chủ đề ngắn gọn, rõ ràng (ví dụ: 'Ứng dụng bị lag', 'Không đăng nhập được', 'Giao diện khó dùng').\n"
-                + "3. Với mỗi cụm, liệt kê các câu phản hồi gốc thuộc cụm đó.\n"
-                + "4. Viết phân tích tổng thể dành cho lập trình viên: vấn đề nào cần sửa trước, mức độ ưu tiên, gợi ý kỹ thuật cụ thể.\n\n"
-                + "Trả về JSON (chỉ JSON, không giải thích thêm):\n"
+                + "1. Nhóm các vấn đề GIỐNG NHAU thành cụm chủ đề.\n"
+                + "2. Phân loại mức độ ưu tiên (Cao/TrungBinh/Thap) dựa trên mức độ nghiêm trọng.\n"
+                + "3. Phân tích NGUYÊN NHÂN GỐC RỄ (Root cause) dự đoán.\n"
+                + "4. Đưa ra GỢI Ý HÀNH ĐỘNG (Actionable suggestions) rõ ràng, thực tiễn để Dev/KTV sửa.\n"
+                + "5. Viết một Tóm tắt chiến lược (Executive Summary) tổng quan toàn bộ tình hình.\n\n"
+                + "Trả về JSON (chỉ xuất JSON thuần, không giải thích, không dùng markdown code block):\n"
                 + "{\n"
                 + "  \"cumDe\": [\n"
                 + "    {\n"
-                + "      \"chuDe\": \"Tên chủ đề do AI đặt\",\n"
+                + "      \"chuDe\": \"Tên chủ đề\",\n"
                 + "      \"soLuong\": 5,\n"
                 + "      \"uuTien\": \"Cao\",\n"
-                + "      \"danhGia\": [\"câu phản hồi gốc 1\", \"câu phản hồi gốc 2\"]\n"
+                + "      \"danhGia\": [\"phản hồi gốc 1\", \"phản hồi gốc 2\"],\n"
+                + "      \"nguyenNhan\": \"Nguyên nhân có thể là...\",\n"
+                + "      \"goiY\": \"Đề xuất giải pháp sửa chữa...\"\n"
                 + "    }\n"
                 + "  ],\n"
-                + "  \"phanTich\": \"Báo cáo cho dev: [Cao] Vấn đề X → Gợi ý: ... | [TrungBinh] Vấn đề Y → Gợi ý: ...\"\n"
+                + "  \"phanTich\": \"Tóm tắt chiến lược: Vấn đề nóng nhất hiện tại...\"\n"
                 + "}\n"
-                + "uuTien: Cao | TrungBinh | Thap. Tối đa 6 cụm. phanTich tối đa 150 từ.";
+                + "Tối đa 6 cụm. phanTich tối đa 100 từ.";
 
         goiAI(prompt, text -> {
             try {
@@ -183,6 +186,8 @@ public class NlpHelper {
                             data.put("chuDe", cum.optString("chuDe", "Vấn đề " + (i + 1)));
                             data.put("soLuong", cum.optInt("soLuong", 1));
                             data.put("uuTien", cum.optString("uuTien", "TrungBinh"));
+                            data.put("nguyenNhan", cum.optString("nguyenNhan", ""));
+                            data.put("goiY", cum.optString("goiY", ""));
 
                             // Lấy danh sách câu đánh giá gốc
                             List<String> danhGiaList = new ArrayList<>();

@@ -77,6 +77,7 @@
                     android:ellipsize="end" />
 
                 <TextView
+                    android:id="@+id/tvLabel1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SP nhiều nhất"
@@ -110,6 +111,7 @@
                     android:ellipsize="end" />
 
                 <TextView
+                    android:id="@+id/tvLabel2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Vấn đề phổ biến"
@@ -143,6 +145,7 @@
                     android:ellipsize="end" />
 
                 <TextView
+                    android:id="@+id/tvLabel3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Khách hàng nhất"
