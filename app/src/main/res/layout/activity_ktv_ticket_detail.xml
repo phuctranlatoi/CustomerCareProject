@@ -37,7 +37,7 @@
             android:layout_marginStart="4dp" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -340,17 +340,17 @@
 
                         <com.example.customercareproject.ui.components.Material3TextField
                             android:id="@+id/edtGhiChu"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:hint="Nhập ghi chú tiến độ..."
                             android:inputType="textMultiLine"
                             android:minLines="2"
-                            android:layout_marginBottom="8dp"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            app:boxCornerRadiusTopStart="10dp"
-                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
-                            app:boxCornerRadiusBottomEnd="10dp" />
+                            app:boxCornerRadiusTopEnd="10dp"
+                            app:boxCornerRadiusTopStart="10dp" />
 
                         <com.example.customercareproject.ui.components.Material3Button
                             android:id="@+id/btnLuuGhiChu"
@@ -368,7 +368,7 @@
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Bottom actions -->
     <LinearLayout
@@ -382,7 +382,7 @@
         <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnNhanTin"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="65dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="Nhắn tin"
@@ -393,7 +393,7 @@
         <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnGoiDienDetail"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="65dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="Gọi điện"
@@ -404,7 +404,7 @@
         <com.example.customercareproject.ui.components.Material3Button
             android:id="@+id/btnDongTicket"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="65dp"
             android:layout_weight="1"
             android:text="Đóng ticket"
             android:textSize="14sp"

@@ -133,59 +133,69 @@
         android:clipToPadding="false" />
 
     <!-- Input bar -->
-    <LinearLayout
-        android:id="@+id/layoutInputBar"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="8dp"
-        android:background="?attr/colorSurface"
-        android:gravity="center_vertical"
-        android:elevation="6dp">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutlineVariant">
 
-        <FrameLayout
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp">
-            <!-- Gắn kèm đính kèm (ẩn tạm thời) -->
-        </FrameLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilTinNhan"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/layoutInputBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            app:boxCornerRadiusTopStart="24dp"
-            app:boxCornerRadiusTopEnd="24dp"
-            app:boxCornerRadiusBottomStart="24dp"
-            app:boxCornerRadiusBottomEnd="24dp"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_template"
-            app:endIconContentDescription="Mẫu tin nhắn">
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="6dp"
+            android:background="?attr/colorSurface"
+            android:gravity="center_vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtTinNhan"
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="4dp">
+                <!-- Gắn kèm đính kèm (ẩn tạm thời) -->
+            </FrameLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilTinNhan"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Nhập tin nhắn..."
-                android:inputType="textMultiLine|textCapSentences"
-                android:imeOptions="actionSend"
-                android:maxLines="4"
-                android:textAppearance="?attr/textAppearanceBodyLarge" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1"
+                app:boxBackgroundMode="none"
+                app:hintEnabled="false"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_template"
+                app:endIconContentDescription="Mẫu tin nhắn">
 
-        <ImageButton
-            android:id="@+id/btnGui"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_send_button"
-            android:src="@drawable/ic_send"
-            app:tint="?attr/colorOnPrimary"
-            android:contentDescription="Gửi"
-            android:padding="12dp" />
-    </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtTinNhan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập tin nhắn..."
+                    android:background="@null"
+                    android:paddingHorizontal="0dp"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:imeOptions="actionSend"
+                    android:maxLines="4"
+                    android:textAppearance="?attr/textAppearanceBodyLarge" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/btnGui"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_avatar_circle"
+                android:backgroundTint="?attr/colorPrimary"
+                android:src="@drawable/ic_send"
+                app:tint="?attr/colorOnPrimary"
+                android:contentDescription="Gửi"
+                android:padding="12dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

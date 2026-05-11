@@ -93,12 +93,10 @@
             </LinearLayout>
 
             <!-- Thông tin cá nhân -->
-            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
+            <com.example.customercareproject.ui.components.Material3Card app:cardCornerRadius="24dp" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                
-                
                 app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
                 <LinearLayout
@@ -181,12 +179,10 @@
             </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Thông tin công ty -->
-            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
+            <com.example.customercareproject.ui.components.Material3Card app:cardCornerRadius="24dp" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                
-                
                 app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
                 <LinearLayout
@@ -297,12 +293,10 @@
             </com.example.customercareproject.ui.components.Material3Card>
 
             <!-- Cài đặt -->
-            <com.example.customercareproject.ui.components.Material3Card app:cornerRadiusSize="medium" app:cardClickable="true" app:enableHoverEffect="true"
+            <com.example.customercareproject.ui.components.Material3Card app:cardCornerRadius="24dp" app:cardClickable="true" app:enableHoverEffect="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                
-                
                 app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
                 <LinearLayout
